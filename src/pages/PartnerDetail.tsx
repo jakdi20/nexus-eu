@@ -20,22 +20,18 @@ import {
 interface CompanyProfile {
   id: string;
   company_name: string;
-  description: string;
-  industry: string;
+  company_description: string;
+  industry: string[];
   country: string;
   city: string;
   company_size: string;
-  partnership_types: string[];
-  offers: string[];
-  seeks: string[];
+  cooperation_type: string[];
+  offers: string;
+  looking_for: string;
   website: string;
   verified: boolean;
   verification_status: string;
-  team_size: number;
-  founding_year: number;
-  certificates: string[];
-  portfolio_url: string;
-  annual_revenue_range: string;
+  founded_year: number;
 }
 
 const PartnerDetail = () => {
@@ -131,15 +127,27 @@ const PartnerDetail = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-6">
+            <CardContent className="space-y-6">
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Über das Unternehmen</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    {profile.description}
+                    {profile.company_description || "Keine Beschreibung verfügbar"}
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
+                    <Building2 className="h-5 w-5 text-primary" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Branche</p>
+                      <div className="flex flex-wrap gap-1">
+                        {profile.industry?.map((ind: string, idx: number) => (
+                          <Badge key={idx} variant="secondary" className="text-xs">{ind}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
                     <MapPin className="h-5 w-5 text-primary" />
                     <div>
@@ -149,65 +157,29 @@ const PartnerDetail = () => {
                   </div>
 
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
-                    <Building2 className="h-5 w-5 text-primary" />
+                    <Users className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">Unternehmensgröße</p>
-                      <p className="font-medium">{profile.company_size}</p>
+                      <p className="font-medium">{profile.company_size} Mitarbeiter</p>
                     </div>
                   </div>
 
-                  {profile.team_size && (
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
-                      <Users className="h-5 w-5 text-primary" />
-                      <div>
-                        <p className="text-sm text-muted-foreground">Team-Größe</p>
-                        <p className="font-medium">{profile.team_size} Mitarbeiter</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {profile.founding_year && (
+                  {profile.founded_year && (
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
                       <Calendar className="h-5 w-5 text-primary" />
                       <div>
                         <p className="text-sm text-muted-foreground">Gegründet</p>
-                        <p className="font-medium">{profile.founding_year}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {profile.annual_revenue_range && (
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
-                      <TrendingUp className="h-5 w-5 text-primary" />
-                      <div>
-                        <p className="text-sm text-muted-foreground">Umsatz</p>
-                        <p className="font-medium">{profile.annual_revenue_range}</p>
+                        <p className="font-medium">{profile.founded_year}</p>
                       </div>
                     </div>
                   )}
                 </div>
 
-                {profile.certificates && profile.certificates.length > 0 && (
+                {profile.cooperation_type && profile.cooperation_type.length > 0 && (
                   <div>
-                    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                      <Award className="h-5 w-5" />
-                      Zertifikate
-                    </h3>
+                    <h3 className="font-semibold text-lg mb-3">Kooperationsarten</h3>
                     <div className="flex flex-wrap gap-2">
-                      {profile.certificates.map((cert, index) => (
-                        <Badge key={index} variant="secondary" className="text-sm px-3 py-1">
-                          {cert}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {profile.partnership_types && profile.partnership_types.length > 0 && (
-                  <div>
-                    <h3 className="font-semibold text-lg mb-3">Partnerschaftstypen</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {profile.partnership_types.map((type, index) => (
+                      {profile.cooperation_type.map((type, index) => (
                         <Badge key={index} variant="outline" className="text-sm px-3 py-1">
                           {type}
                         </Badge>
@@ -216,29 +188,17 @@ const PartnerDetail = () => {
                   </div>
                 )}
 
-                {profile.offers && profile.offers.length > 0 && (
+                {profile.offers && (
                   <div>
                     <h3 className="font-semibold text-lg mb-3">Bietet an</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {profile.offers.map((offer, index) => (
-                        <Badge key={index} className="text-sm px-3 py-1">
-                          {offer}
-                        </Badge>
-                      ))}
-                    </div>
+                    <p className="text-muted-foreground">{profile.offers}</p>
                   </div>
                 )}
 
-                {profile.seeks && profile.seeks.length > 0 && (
+                {profile.looking_for && (
                   <div>
                     <h3 className="font-semibold text-lg mb-3">Sucht</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {profile.seeks.map((seek, index) => (
-                        <Badge key={index} variant="secondary" className="text-sm px-3 py-1">
-                          {seek}
-                        </Badge>
-                      ))}
-                    </div>
+                    <p className="text-muted-foreground">{profile.looking_for}</p>
                   </div>
                 )}
 
@@ -248,14 +208,6 @@ const PartnerDetail = () => {
                       <a href={profile.website} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="h-4 w-4 mr-2" />
                         Website besuchen
-                      </a>
-                    </Button>
-                  )}
-                  {profile.portfolio_url && (
-                    <Button variant="outline" asChild>
-                      <a href={profile.portfolio_url} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        Portfolio
                       </a>
                     </Button>
                   )}

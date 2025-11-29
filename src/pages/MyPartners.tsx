@@ -10,14 +10,17 @@ import { Heart, MessageCircle, Building2, MapPin, TrendingUp, CheckCircle2, Load
 interface PartnerProfile {
   id: string;
   company_name: string;
-  description: string;
-  industry: string;
+  company_description: string;
+  industry: string[];
   country: string;
   city: string;
   company_size: string;
-  partnership_types: string[];
-  offers: string[];
+  cooperation_type: string[];
+  offers: string;
+  looking_for: string;
+  website: string;
   verification_status: string;
+  founded_year: number;
   last_message_time?: string;
   message_count?: number;
 }
@@ -210,14 +213,14 @@ const MyPartners = () => {
                   </CardTitle>
                 </div>
                 <CardDescription className="line-clamp-2 min-h-[40px]">
-                  {partner.description || "Keine Beschreibung verfügbar"}
+                  {partner.company_description || "Keine Beschreibung verfügbar"}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Building2 className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{partner.industry}</span>
+                    <span className="truncate">{partner.industry?.join(", ")}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <MapPin className="h-4 w-4 flex-shrink-0" />
@@ -245,9 +248,9 @@ const MyPartners = () => {
                     </div>
                   )}
 
-                  {partner.partnership_types && partner.partnership_types.length > 0 && (
+                  {partner.cooperation_type && partner.cooperation_type.length > 0 && (
                     <div className="flex flex-wrap gap-2 pt-2">
-                      {partner.partnership_types.slice(0, 2).map((type, index) => (
+                      {partner.cooperation_type.slice(0, 2).map((type, index) => (
                         <Badge key={index} variant="secondary" className="text-xs">
                           {type}
                         </Badge>

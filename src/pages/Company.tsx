@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Edit, Loader2, MapPin, Building2, Users, Globe, Calendar, Award, DollarSign } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Edit, Loader2, MapPin, Building2, Users, Globe, Calendar } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -17,31 +17,45 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const companySizes = ["1-10", "11-50", "51-250", "251-1000", "1000+"] as const;
-const partnershipTypes = [
-  { id: "supplier", label: "Lieferant" },
-  { id: "buyer", label: "Abnehmer" },
-  { id: "cooperation", label: "Kooperationspartner" },
-  { id: "service_provider", label: "Dienstleister" },
-  { id: "service_seeker", label: "Dienstleistungssuchender" },
-] as const;
+const companySizes = ["1", "2-10", "11-50", "51-250", "250+"] as const;
+
+const industries = [
+  "Technologie & IT",
+  "Produktion & Fertigung",
+  "Handel & E-Commerce",
+  "Dienstleistungen",
+  "Gesundheit & Medizin",
+  "Bauwesen & Immobilien",
+  "Finanzen & Versicherungen",
+  "Bildung & Forschung",
+  "Logistik & Transport",
+  "Lebensmittel & Getränke",
+  "Energie & Umwelt",
+  "Medien & Marketing",
+  "Sonstiges",
+];
+
+const cooperationTypes = [
+  "Technology partner",
+  "Sales partner",
+  "Project partner",
+  "Supplier",
+  "Pilot customer",
+  "Investment partner",
+];
 
 const formSchema = z.object({
-  company_name: z.string().min(2).max(100),
-  description: z.string().max(1000).optional(),
-  website: z.string().url().optional().or(z.literal("")),
-  country: z.string().min(2),
-  city: z.string().min(2),
-  industry: z.string().min(2),
+  company_name: z.string().trim().min(2).max(100),
+  industry: z.array(z.string()).min(1),
   company_size: z.enum(companySizes),
-  offers: z.string().optional(),
-  seeks: z.string().optional(),
-  partnership_types: z.array(z.string()).min(1),
-  team_size: z.string().optional(),
-  founding_year: z.string().optional(),
-  portfolio_url: z.string().url().optional().or(z.literal("")),
-  certificates: z.string().optional(),
-  annual_revenue_range: z.string().optional(),
+  country: z.string().trim().min(2),
+  city: z.string().trim().min(2),
+  founded_year: z.string().regex(/^\d{4}$/).optional().or(z.literal("")),
+  website: z.string().trim().url().optional().or(z.literal("")),
+  company_description: z.string().trim().max(500).optional(),
+  offers: z.string().trim().optional(),
+  looking_for: z.string().trim().optional(),
+  cooperation_type: z.array(z.string()).min(1),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -59,20 +73,16 @@ const Company = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       company_name: "",
-      description: "",
-      website: "",
+      industry: [],
+      company_size: "11-50",
       country: "",
       city: "",
-      industry: "",
-      company_size: "11-50",
+      founded_year: "",
+      website: "",
+      company_description: "",
       offers: "",
-      seeks: "",
-      partnership_types: [],
-      team_size: "",
-      founding_year: "",
-      portfolio_url: "",
-      certificates: "",
-      annual_revenue_range: "",
+      looking_for: "",
+      cooperation_type: [],
     },
   });
 
@@ -106,20 +116,16 @@ const Company = () => {
       if (profileData) {
         form.reset({
           company_name: profileData.company_name || "",
-          description: profileData.description || "",
-          website: profileData.website || "",
+          industry: profileData.industry || [],
+          company_size: profileData.company_size || "11-50",
           country: profileData.country || "",
           city: profileData.city || "",
-          industry: profileData.industry || "",
-          company_size: profileData.company_size || "11-50",
-          offers: profileData.offers?.join(", ") || "",
-          seeks: profileData.seeks?.join(", ") || "",
-          partnership_types: profileData.partnership_types || [],
-          team_size: profileData.team_size?.toString() || "",
-          founding_year: profileData.founding_year?.toString() || "",
-          portfolio_url: profileData.portfolio_url || "",
-          certificates: profileData.certificates?.join(", ") || "",
-          annual_revenue_range: profileData.annual_revenue_range || "",
+          founded_year: profileData.founded_year?.toString() || "",
+          website: profileData.website || "",
+          company_description: profileData.company_description || "",
+          offers: profileData.offers || "",
+          looking_for: profileData.looking_for || "",
+          cooperation_type: profileData.cooperation_type || [],
         });
       }
     } catch (error: any) {
@@ -148,20 +154,16 @@ const Company = () => {
     try {
       const updateData = {
         company_name: values.company_name,
-        description: values.description || null,
-        website: values.website || null,
-        country: values.country,
-        city: values.city,
         industry: values.industry,
         company_size: values.company_size,
-        offers: values.offers ? values.offers.split(",").map(s => s.trim()).filter(Boolean) : [],
-        seeks: values.seeks ? values.seeks.split(",").map(s => s.trim()).filter(Boolean) : [],
-        partnership_types: values.partnership_types as ("supplier" | "buyer" | "cooperation" | "service_provider" | "service_seeker")[],
-        team_size: values.team_size ? parseInt(values.team_size) : null,
-        founding_year: values.founding_year ? parseInt(values.founding_year) : null,
-        portfolio_url: values.portfolio_url || null,
-        certificates: values.certificates ? values.certificates.split(",").map(s => s.trim()).filter(Boolean) : [],
-        annual_revenue_range: values.annual_revenue_range || null,
+        country: values.country,
+        city: values.city,
+        founded_year: values.founded_year ? parseInt(values.founded_year) : null,
+        website: values.website || null,
+        company_description: values.company_description || null,
+        offers: values.offers || null,
+        looking_for: values.looking_for || null,
+        cooperation_type: values.cooperation_type,
       };
 
       const { error } = await supabase
@@ -243,7 +245,11 @@ const Company = () => {
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{profile.industry}</div>
+            <div className="flex flex-wrap gap-2">
+              {profile.industry?.map((ind: string, idx: number) => (
+                <Badge key={idx} variant="secondary">{ind}</Badge>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
@@ -277,26 +283,17 @@ const Company = () => {
               <CardTitle>Über das Unternehmen</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {profile.description && (
-                <p className="text-foreground leading-relaxed">{profile.description}</p>
+              {profile.company_description && (
+                <p className="text-foreground leading-relaxed">{profile.company_description}</p>
               )}
               
               <div className="grid gap-4 md:grid-cols-2 pt-4 border-t">
-                {profile.founding_year && (
+                {profile.founded_year && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="text-sm text-muted-foreground">Gegründet</p>
-                      <p className="font-medium">{profile.founding_year}</p>
-                    </div>
-                  </div>
-                )}
-                {profile.team_size && (
-                  <div className="flex items-center gap-3">
-                    <Users className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Team</p>
-                      <p className="font-medium">{profile.team_size} Mitarbeiter</p>
+                      <p className="font-medium">{profile.founded_year}</p>
                     </div>
                   </div>
                 )}
@@ -311,86 +308,45 @@ const Company = () => {
                     </div>
                   </div>
                 )}
-                {profile.annual_revenue_range && (
-                  <div className="flex items-center gap-3">
-                    <DollarSign className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Umsatzbereich</p>
-                      <p className="font-medium">{profile.annual_revenue_range}</p>
-                    </div>
-                  </div>
-                )}
               </div>
             </CardContent>
           </Card>
 
-          {profile.offers && profile.offers.length > 0 && (
+          {profile.offers && (
             <Card>
               <CardHeader>
                 <CardTitle>Was wir anbieten</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {profile.offers.map((offer: string, idx: number) => (
-                    <Badge key={idx} variant="secondary">{offer}</Badge>
-                  ))}
-                </div>
+                <p className="text-foreground">{profile.offers}</p>
               </CardContent>
             </Card>
           )}
 
-          {profile.seeks && profile.seeks.length > 0 && (
+          {profile.looking_for && (
             <Card>
               <CardHeader>
                 <CardTitle>Was wir suchen</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {profile.seeks.map((seek: string, idx: number) => (
-                    <Badge key={idx} variant="outline">{seek}</Badge>
-                  ))}
-                </div>
+                <p className="text-foreground">{profile.looking_for}</p>
               </CardContent>
             </Card>
           )}
         </div>
 
         <div className="space-y-6">
-          {profile.partnership_types && profile.partnership_types.length > 0 && (
+          {profile.cooperation_type && profile.cooperation_type.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Partnerschaftsarten</CardTitle>
+                <CardTitle>Kooperationsarten</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {profile.partnership_types.map((type: string, idx: number) => {
-                    const typeLabel = partnershipTypes.find(pt => pt.id === type)?.label || type;
-                    return (
-                      <div key={idx} className="flex items-center gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary" />
-                        <span className="text-sm">{typeLabel}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {profile.certificates && profile.certificates.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="h-5 w-5" />
-                  Zertifikate
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {profile.certificates.map((cert: string, idx: number) => (
+                  {profile.cooperation_type.map((type: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2">
-                      <Award className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{cert}</span>
+                      <div className="h-2 w-2 rounded-full bg-primary" />
+                      <span className="text-sm">{type}</span>
                     </div>
                   ))}
                 </div>
@@ -427,33 +383,57 @@ const Company = () => {
 
               <FormField
                 control={form.control}
-                name="description"
+                name="industry"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Branche *</FormLabel>
+                    <div className="grid grid-cols-2 gap-3 mt-2">
+                      {industries.map((industry) => (
+                        <FormField
+                          key={industry}
+                          control={form.control}
+                          name="industry"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(industry)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([...field.value, industry])
+                                      : field.onChange(field.value?.filter((value) => value !== industry));
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="font-normal text-sm">{industry}</FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="company_description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Beschreibung</FormLabel>
                     <FormControl>
-                      <Textarea {...field} className="min-h-[100px]" />
+                      <Textarea {...field} className="min-h-[100px]" maxLength={500} />
                     </FormControl>
+                    <FormDescription>
+                      {field.value?.length || 0}/500 Zeichen
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
               <div className="grid gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="industry"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Branche *</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
                 <FormField
                   control={form.control}
                   name="company_size"
@@ -479,6 +459,22 @@ const Company = () => {
                   )}
                 />
 
+                <FormField
+                  control={form.control}
+                  name="founded_year"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Gründungsjahr</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
                   name="country"
@@ -510,34 +506,13 @@ const Company = () => {
 
               <FormField
                 control={form.control}
-                name="partnership_types"
-                render={() => (
+                name="website"
+                render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Partnerschaftsarten *</FormLabel>
-                    <div className="grid grid-cols-2 gap-3">
-                      {partnershipTypes.map((type) => (
-                        <FormField
-                          key={type.id}
-                          control={form.control}
-                          name="partnership_types"
-                          render={({ field }) => (
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(type.id)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...field.value, type.id])
-                                      : field.onChange(field.value?.filter((value) => value !== type.id));
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className="font-normal text-sm">{type.label}</FormLabel>
-                            </FormItem>
-                          )}
-                        />
-                      ))}
-                    </div>
+                    <FormLabel>Website</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -550,7 +525,7 @@ const Company = () => {
                   <FormItem>
                     <FormLabel>Angebote</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Durch Komma trennen" />
+                      <Input {...field} placeholder="Komma-getrennt" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -559,61 +534,52 @@ const Company = () => {
 
               <FormField
                 control={form.control}
-                name="seeks"
+                name="looking_for"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Gesucht</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Durch Komma trennen" />
+                      <Input {...field} placeholder="Komma-getrennt" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <div className="grid gap-4 md:grid-cols-3">
-                <FormField
-                  control={form.control}
-                  name="website"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Website</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="team_size"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Team-Größe</FormLabel>
-                      <FormControl>
-                        <Input type="number" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="founding_year"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Gründungsjahr</FormLabel>
-                      <FormControl>
-                        <Input type="number" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="cooperation_type"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Kooperationsart *</FormLabel>
+                    <div className="grid grid-cols-2 gap-3 mt-2">
+                      {cooperationTypes.map((type) => (
+                        <FormField
+                          key={type}
+                          control={form.control}
+                          name="cooperation_type"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(type)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([...field.value, type])
+                                      : field.onChange(field.value?.filter((value) => value !== type));
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="font-normal text-sm">{type}</FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <div className="flex justify-end gap-3 pt-4">
                 <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)}>
