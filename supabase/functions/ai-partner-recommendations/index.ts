@@ -80,23 +80,25 @@ Antworte NUR mit einem JSON-Array mit genau diesem Format:
 
     const userPrompt = `Mein Unternehmensprofil:
 Name: ${myProfile.company_name}
-Branche: ${myProfile.industry}
+Branche: ${myProfile.industry?.join(', ') || 'Keine'}
 Standort: ${myProfile.city}, ${myProfile.country}
 Größe: ${myProfile.company_size}
-Angebote: ${myProfile.offers?.join(', ') || 'Keine'}
-Sucht: ${myProfile.seeks?.join(', ') || 'Nichts'}
-Partnerschaftstypen: ${myProfile.partnership_types?.join(', ') || 'Keine'}
+Beschreibung: ${myProfile.company_description || 'Keine'}
+Angebote: ${myProfile.offers || 'Keine'}
+Sucht: ${myProfile.looking_for || 'Nichts'}
+Kooperationstypen: ${myProfile.cooperation_type?.join(', ') || 'Keine'}
 
 Verfügbare Partner:
 ${allProfiles.map(p => `
 ID: ${p.id}
 Name: ${p.company_name}
-Branche: ${p.industry}
+Branche: ${p.industry?.join(', ') || 'Keine'}
 Standort: ${p.city}, ${p.country}
 Größe: ${p.company_size}
-Angebote: ${p.offers?.join(', ') || 'Keine'}
-Sucht: ${p.seeks?.join(', ') || 'Nichts'}
-Partnerschaftstypen: ${p.partnership_types?.join(', ') || 'Keine'}
+Beschreibung: ${p.company_description || 'Keine'}
+Angebote: ${p.offers || 'Keine'}
+Sucht: ${p.looking_for || 'Nichts'}
+Kooperationstypen: ${p.cooperation_type?.join(', ') || 'Keine'}
 `).join('\n---\n')}
 
 Finde die 5 besten Matches.`;
@@ -170,7 +172,7 @@ Finde die 5 besten Matches.`;
         city: profile.city,
         country: profile.country,
         company_size: profile.company_size,
-        partnership_types: profile.partnership_types,
+        cooperation_type: profile.cooperation_type,
         verified: profile.verification_status === 'verified',
       };
     }).filter(Boolean);
