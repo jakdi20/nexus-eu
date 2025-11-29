@@ -25,7 +25,7 @@ const Index = () => {
             </h1>
             
             <p className="mb-10 text-lg text-white/90 md:text-xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-              Finden Sie die perfekten Geschäftspartner in Europa. Mit KI-gestütztem Matching verbinden wir Lieferanten, Abnehmer und Kooperationspartner für nachhaltiges Wachstum.
+              Beschreiben Sie einfach in natürlicher Sprache, was Sie suchen - unsere KI findet die perfekten Geschäftspartner in ganz Europa. Schnell, präzise und intelligent.
             </p>
             
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
@@ -79,9 +79,9 @@ const Index = () => {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                icon: <Search className="h-8 w-8" />,
-                title: "Intelligentes Matching",
-                description: "KI-gestützte Algorithmen finden die perfekten Partner basierend auf Ihren Anforderungen und Angeboten.",
+                icon: <Sparkles className="h-8 w-8" />,
+                title: "KI-Partnersuche",
+                description: "Beschreiben Sie in natürlicher Sprache, was Sie suchen. Unsere KI versteht Ihre Anfrage und findet die besten Matches.",
               },
               {
                 icon: <Building2 className="h-8 w-8" />,
@@ -104,9 +104,9 @@ const Index = () => {
                 description: "Erschließen Sie neue Märkte und stärken Sie Ihre Position im europäischen Binnenmarkt.",
               },
               {
-                icon: <Sparkles className="h-8 w-8" />,
-                title: "Einfach & Schnell",
-                description: "In wenigen Minuten Profil erstellen und sofort passende Partnervorschläge erhalten.",
+                icon: <Search className="h-8 w-8" />,
+                title: "Intelligente Suche",
+                description: "Stellen Sie Fragen wie 'Ich suche CNC-Fräser in Bayern' - die KI findet automatisch passende Partner.",
               },
             ].map((feature, i) => (
               <div
