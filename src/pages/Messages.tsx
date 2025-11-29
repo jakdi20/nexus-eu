@@ -53,6 +53,11 @@ export default function Messages() {
     isInitiator: boolean;
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     loadMyCompany();
@@ -68,6 +73,10 @@ export default function Messages() {
   }, [myCompanyId, selectedConversation]);
 
   useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
     if (!myCompanyId || !selectedConversation) return;
 
     const channel = supabase
@@ -75,12 +84,24 @@ export default function Messages() {
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'INSERT',
           schema: 'public',
           table: 'messages',
+          filter: `or(and(from_company_id=eq.${myCompanyId},to_company_id=eq.${selectedConversation}),and(from_company_id=eq.${selectedConversation},to_company_id=eq.${myCompanyId}))`,
         },
-        () => {
-          loadMessages(selectedConversation);
+        (payload) => {
+          console.log('New message received:', payload);
+          const newMsg = payload.new as Message;
+          
+          // Only add if message is not already in the list (avoid duplicates)
+          setMessages((prev) => {
+            if (prev.some(m => m.id === newMsg.id)) {
+              return prev;
+            }
+            return [...prev, newMsg];
+          });
+          
+          // Reload conversations to update last message
           loadConversations();
         }
       )
@@ -264,17 +285,42 @@ export default function Messages() {
       fileSize = selectedFile.size;
     }
 
-    const { error } = await supabase.from('messages').insert({
+    const messageContent = newMessage.trim() || (selectedFile ? `Datei gesendet: ${selectedFile.name}` : '');
+    
+    // Optimistic update: Add message immediately to UI
+    const tempId = `temp-${Date.now()}`;
+    const optimisticMessage: Message = {
+      id: tempId,
       from_company_id: myCompanyId,
       to_company_id: selectedConversation,
-      content: newMessage.trim() || (selectedFile ? `Datei gesendet: ${selectedFile.name}` : ''),
+      content: messageContent,
+      created_at: new Date().toISOString(),
+      file_url: fileUrl || undefined,
+      file_name: fileName || undefined,
+      file_type: fileType || undefined,
+      file_size: fileSize || undefined,
+    };
+
+    setMessages((prev) => [...prev, optimisticMessage]);
+    setNewMessage('');
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+
+    const { data, error } = await supabase.from('messages').insert({
+      from_company_id: myCompanyId,
+      to_company_id: selectedConversation,
+      content: messageContent,
       file_url: fileUrl,
       file_name: fileName,
       file_type: fileType,
       file_size: fileSize,
-    });
+    }).select().single();
 
     if (error) {
+      // Remove optimistic message on error
+      setMessages((prev) => prev.filter(m => m.id !== tempId));
       toast({
         title: 'Fehler',
         description: 'Nachricht konnte nicht gesendet werden',
@@ -285,11 +331,12 @@ export default function Messages() {
       return;
     }
 
-    setNewMessage('');
-    setSelectedFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    // Replace temp message with real one
+    setMessages((prev) => prev.map(m => m.id === tempId ? data : m));
+    
+    // Update conversations list
+    loadConversations();
+    
     setSending(false);
     setUploading(false);
   };
@@ -438,6 +485,7 @@ export default function Messages() {
                         </div>
                       </div>
                     ))}
+                    <div ref={messagesEndRef} />
                   </ScrollArea>
 
                   <div className="space-y-2 mt-4">
