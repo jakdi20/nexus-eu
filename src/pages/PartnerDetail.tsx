@@ -15,7 +15,8 @@ import {
   CheckCircle2, 
   Mail,
   TrendingUp,
-  Award
+  Award,
+  MessageCircle
 } from "lucide-react";
 
 interface CompanyProfile {
@@ -119,6 +120,11 @@ const PartnerDetail = () => {
     } finally {
       setSending(false);
     }
+  };
+
+  const startChat = () => {
+    if (!profile) return;
+    navigate(`/messages?partnerId=${profile.id}`);
   };
 
   if (loading) {
@@ -322,17 +328,36 @@ const PartnerDetail = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
+                  <Button 
+                    onClick={startChat} 
+                    className="w-full"
+                    size="lg"
+                  >
+                    <MessageCircle className="mr-2 h-5 w-5" />
+                    Chat starten
+                  </Button>
+                  
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-2 text-muted-foreground">oder</span>
+                    </div>
+                  </div>
+
                   <Textarea
                     placeholder="Ihre Nachricht..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    rows={5}
+                    rows={4}
                     className="resize-none"
                   />
                   <Button
                     onClick={sendConnectionRequest}
                     disabled={sending || !message.trim()}
                     className="w-full"
+                    variant="secondary"
                   >
                     {sending ? "Wird gesendet..." : "Anfrage senden"}
                   </Button>
