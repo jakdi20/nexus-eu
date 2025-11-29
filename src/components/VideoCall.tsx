@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Video, VideoOff, Mic, MicOff, PhoneOff, Phone } from 'lucide-react';
 import type { RealtimeChannel } from '@supabase/supabase-js';
@@ -386,82 +385,98 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader>
-        <CardTitle>Videoanruf</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Local Video */}
-            <div className="relative bg-black rounded-lg overflow-hidden aspect-video">
-              <video
-                ref={localVideoRef}
-                autoPlay
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-2 left-2 text-white text-sm bg-black/50 px-2 py-1 rounded">
-                Sie
-              </div>
-            </div>
+    <div className="w-full h-full flex flex-col bg-background">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b">
+        <div>
+          <h2 className="text-lg font-semibold">Videoanruf</h2>
+          {connectionState && connectionState !== 'new' && (
+            <p className="text-sm text-muted-foreground">
+              Status: {connectionState === 'connected' ? '✓ Verbunden' : connectionState}
+            </p>
+          )}
+        </div>
+        <Button onClick={endCall} variant="destructive" size="sm">
+          <PhoneOff className="h-4 w-4 mr-2" />
+          Beenden
+        </Button>
+      </div>
 
-            {/* Remote Video */}
-            <div className="relative bg-black rounded-lg overflow-hidden aspect-video">
-              <video
-                ref={remoteVideoRef}
-                autoPlay
-                playsInline
-                className="w-full h-full object-cover"
-              />
-              {!remoteStream && (
-                <div className="absolute inset-0 flex items-center justify-center text-white">
-                  {isConnected ? 'Verbindung wird hergestellt...' : 'Warte darauf, dass der Partner den Anruf annimmt...'}
-                </div>
-              )}
+      {/* Video Area */}
+      <div className="flex-1 relative bg-black">
+        {/* Remote Video (Main) */}
+        <video
+          ref={remoteVideoRef}
+          autoPlay
+          playsInline
+          className="w-full h-full object-contain"
+        />
+        
+        {!remoteStream && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-white gap-4">
+            <div className="h-20 w-20 rounded-full bg-white/10 flex items-center justify-center animate-pulse">
+              <Video className="h-10 w-10" />
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-medium">
+                {isConnected ? 'Verbindung wird hergestellt...' : 'Warte auf Partner...'}
+              </p>
+              <p className="text-sm text-white/70 mt-1">
+                {!isConnected && 'Der Partner muss den Anruf annehmen'}
+              </p>
             </div>
           </div>
+        )}
 
-            {/* Connection Status */}
-            {connectionState && connectionState !== 'new' && (
-              <div className="mb-4 p-2 text-center rounded bg-muted">
-                <p className="text-sm">
-                  Verbindungsstatus: <span className="font-semibold">{connectionState}</span>
-                  {isConnected && ' ✓'}
-                </p>
-              </div>
-            )}
-
-            {/* Controls */}
-            <div className="flex justify-center gap-4">
-              <Button onClick={startCall} size="lg" className="gap-2">
-                <Phone className="h-5 w-5" />
-                Anruf starten
-              </Button>
-              <Button
-                onClick={toggleVideo}
-                variant={isVideoEnabled ? 'default' : 'destructive'}
-                size="icon"
-                disabled={!localStream}
-              >
-                {isVideoEnabled ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5" />}
-              </Button>
-              <Button
-                onClick={toggleAudio}
-                variant={isAudioEnabled ? 'default' : 'destructive'}
-                size="icon"
-                disabled={!localStream}
-              >
-                {isAudioEnabled ? <Mic className="h-5 w-5" /> : <MicOff className="h-5 w-5" />}
-              </Button>
-              <Button onClick={endCall} variant="destructive" size="lg" className="gap-2">
-                <PhoneOff className="h-5 w-5" />
-                Auflegen
-              </Button>
-            </div>
+        {/* Local Video (Picture-in-Picture) */}
+        <div className="absolute bottom-4 right-4 w-48 aspect-video bg-black rounded-lg overflow-hidden shadow-2xl border-2 border-white/20">
+          <video
+            ref={localVideoRef}
+            autoPlay
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute bottom-1 left-1 text-white text-xs bg-black/50 px-2 py-0.5 rounded">
+            Sie
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      {/* Controls */}
+      <div className="p-4 border-t flex items-center justify-center gap-3">
+        {!isConnected && (
+          <Button 
+            onClick={startCall} 
+            size="lg" 
+            className="gap-2"
+            disabled={!localStream}
+          >
+            <Phone className="h-5 w-5" />
+            Verbinden
+          </Button>
+        )}
+        
+        <Button
+          onClick={toggleVideo}
+          variant={isVideoEnabled ? 'secondary' : 'destructive'}
+          size="lg"
+          disabled={!localStream}
+          className="rounded-full h-14 w-14"
+        >
+          {isVideoEnabled ? <Video className="h-6 w-6" /> : <VideoOff className="h-6 w-6" />}
+        </Button>
+        
+        <Button
+          onClick={toggleAudio}
+          variant={isAudioEnabled ? 'secondary' : 'destructive'}
+          size="lg"
+          disabled={!localStream}
+          className="rounded-full h-14 w-14"
+        >
+          {isAudioEnabled ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
+        </Button>
+      </div>
+    </div>
   );
 }
