@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Building2, Users, TrendingUp, Search, Sparkles, MessageCircle } from "lucide-react";
+import { LogOut, Building2, Users, TrendingUp, Search, Sparkles, MessageCircle, Edit } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { NotificationBell } from "@/components/NotificationBell";
@@ -215,10 +215,18 @@ const Dashboard = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Ihr Unternehmensprofil</CardTitle>
-                <CardDescription>
-                  Ihre Profilinformationen werden für das Matching verwendet
-                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Ihr Unternehmensprofil</CardTitle>
+                    <CardDescription>
+                      Ihre Profilinformationen werden für das Matching verwendet
+                    </CardDescription>
+                  </div>
+                  <Button variant="outline" size="sm" onClick={() => navigate("/profile")}>
+                    <Edit className="h-4 w-4 mr-2" />
+                    Bearbeiten
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 md:grid-cols-2">

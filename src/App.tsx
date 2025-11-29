@@ -10,6 +10,7 @@ import Partners from "./pages/Partners";
 import PartnerDetail from "./pages/PartnerDetail";
 import AISearch from "./pages/AISearch";
 import Messages from "./pages/Messages";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import GlobalVideoCallManager from "./components/GlobalVideoCallManager";
 
@@ -30,6 +31,7 @@ const App = () => (
         <Route path="/partner/:id" element={<PartnerDetail />} />
         <Route path="/ai-search" element={<AISearch />} />
         <Route path="/messages" element={<Messages />} />
+        <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
