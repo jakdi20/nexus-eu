@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon } from 'lucide-react';
 import VideoCall from '@/components/VideoCall';
 import IncomingCallNotification from '@/components/IncomingCallNotification';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 interface Message {
   id: string;
@@ -502,6 +502,10 @@ export default function Messages() {
         {activeCall && myCompanyId && (
           <Dialog open={!!activeCall} onOpenChange={() => setActiveCall(null)}>
             <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0">
+              <DialogTitle className="sr-only">Videoanruf</DialogTitle>
+              <DialogDescription className="sr-only">
+                Echtzeit-Videoanruf mit Ihrem Partnerunternehmen
+              </DialogDescription>
               <VideoCall
                 roomId={activeCall.roomId}
                 myCompanyId={myCompanyId}
