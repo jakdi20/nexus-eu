@@ -111,6 +111,38 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       localVideoRef.current.srcObject = localStream;
     }
   }, [localStream]);
+
+  // Monitor session status for call ending (database fallback)
+  useEffect(() => {
+    const channel = supabase
+      .channel(`video-session-status-${roomId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'video_call_sessions',
+          filter: `room_id=eq.${roomId}`,
+        },
+        (payload) => {
+          const session = payload.new as any;
+          if (session?.status === 'ended') {
+            console.log('Session ended via DB update');
+            toast({
+              title: 'Anruf beendet',
+              description: 'Der Anruf wurde beendet',
+            });
+            cleanup();
+            onClose();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [roomId, onClose, toast]);
   const setupSignaling = () => {
     console.log('Setting up signaling channel for room:', roomId);
     setSignalingReady(false);
@@ -155,6 +187,17 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         }
         offerRetryCount.current = 0;
         await startCall();
+      })
+      .on('broadcast', { event: 'call-ended' }, async ({ payload }) => {
+        console.log('Received call-ended from:', payload.from);
+        if (payload.from !== myCompanyId && payload.roomId === roomId) {
+          toast({
+            title: 'Anruf beendet',
+            description: 'Der Partner hat den Anruf beendet',
+          });
+          cleanup();
+          onClose();
+        }
       })
       .subscribe((status) => {
         console.log('Channel subscription status:', status);
@@ -472,6 +515,18 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
   };
 
   const endCall = async () => {
+    // Send broadcast event first for immediate notification
+    await channelRef.current?.send({
+      type: 'broadcast',
+      event: 'call-ended',
+      payload: { 
+        from: myCompanyId,
+        to: partnerCompanyId,
+        roomId 
+      },
+    });
+
+    // Update database
     await supabase
       .from('video_call_sessions')
       .update({ status: 'ended', ended_at: new Date().toISOString() })
