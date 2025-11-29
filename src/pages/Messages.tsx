@@ -6,10 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon } from 'lucide-react';
+import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon, Languages } from 'lucide-react';
 import VideoCall from '@/components/VideoCall';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { useUnreadMessages } from '@/hooks/use-unread-messages';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Message {
   id: string;
@@ -38,6 +39,7 @@ export default function Messages() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { markAsRead, refreshUnreadCount } = useUnreadMessages();
+  const { language, t } = useLanguage();
   
   const [myCompanyId, setMyCompanyId] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -48,6 +50,8 @@ export default function Messages() {
   const [sending, setSending] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [translatedMessages, setTranslatedMessages] = useState<Record<string, string>>({});
+  const [translatingMessageId, setTranslatingMessageId] = useState<string | null>(null);
   const [activeCall, setActiveCall] = useState<{
     roomId: string;
     partnerCompanyId: string;
@@ -382,10 +386,49 @@ export default function Messages() {
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   };
 
+  const translateMessage = async (messageId: string, text: string) => {
+    if (translatedMessages[messageId]) {
+      // Remove translation (show original)
+      const newTranslations = { ...translatedMessages };
+      delete newTranslations[messageId];
+      setTranslatedMessages(newTranslations);
+      return;
+    }
+
+    setTranslatingMessageId(messageId);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('translate-message', {
+        body: { 
+          text, 
+          targetLanguage: language 
+        }
+      });
+
+      if (error) throw error;
+
+      setTranslatedMessages(prev => ({
+        ...prev,
+        [messageId]: data.translatedText
+      }));
+    } catch (error) {
+      console.error('Translation error:', error);
+      toast({
+        title: language === 'de' ? 'Übersetzungsfehler' : 'Translation Error',
+        description: language === 'de' 
+          ? 'Die Nachricht konnte nicht übersetzt werden' 
+          : 'Could not translate the message',
+        variant: 'destructive',
+      });
+    } finally {
+      setTranslatingMessageId(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Laden...</p>
+        <p className="text-muted-foreground">{t("common.loading")}</p>
       </div>
     );
   }
@@ -397,19 +440,21 @@ export default function Messages() {
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className="text-3xl font-bold">Nachrichten</h1>
+          <h1 className="text-3xl font-bold">{t("messages.title")}</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-[calc(100vh-200px)]">
           {/* Conversations List */}
           <Card className="md:col-span-1">
             <CardHeader>
-              <CardTitle>Konversationen</CardTitle>
+              <CardTitle>{language === "de" ? "Konversationen" : "Conversations"}</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <ScrollArea className="h-[calc(100vh-300px)]">
                 {conversations.length === 0 ? (
-                  <p className="text-center text-muted-foreground p-4">Keine Konversationen</p>
+                  <p className="text-center text-muted-foreground p-4">
+                    {language === "de" ? "Keine Konversationen" : "No conversations"}
+                  </p>
                 ) : (
                   conversations.map((conv) => (
                     <div
@@ -438,52 +483,77 @@ export default function Messages() {
                   </CardTitle>
                   <Button onClick={startVideoCall} variant="outline" size="sm">
                     <Video className="h-4 w-4 mr-2" />
-                    Videoanruf
+                    {language === "de" ? "Videoanruf" : "Video Call"}
                   </Button>
                 </CardHeader>
                 <CardContent className="flex flex-col h-[calc(100vh-350px)]">
                   <ScrollArea className="flex-1 pr-4">
-                    {messages.map((msg) => (
-                      <div
-                        key={msg.id}
-                        className={`mb-4 flex ${
-                          msg.from_company_id === myCompanyId ? 'justify-end' : 'justify-start'
-                        }`}
-                      >
+                    {messages.map((msg) => {
+                      const isMyMessage = msg.from_company_id === myCompanyId;
+                      const showTranslateButton = language === 'en' && !isMyMessage;
+                      const displayText = translatedMessages[msg.id] || msg.content;
+                      const isTranslated = !!translatedMessages[msg.id];
+                      
+                      return (
                         <div
-                          className={`max-w-[70%] p-3 rounded-lg ${
-                            msg.from_company_id === myCompanyId
-                              ? 'bg-primary text-primary-foreground'
-                              : 'bg-muted'
+                          key={msg.id}
+                          className={`mb-4 flex ${
+                            isMyMessage ? 'justify-end' : 'justify-start'
                           }`}
                         >
-                          <p>{msg.content}</p>
-                          
-                          {msg.file_url && (
-                            <div className="mt-2 p-2 bg-background/10 rounded flex items-center gap-2">
-                              <FileIcon className="h-4 w-4" />
-                              <div className="flex-1 min-w-0">
-                                <p className="text-sm truncate">{msg.file_name}</p>
-                                {msg.file_size && (
-                                  <p className="text-xs opacity-70">{formatFileSize(msg.file_size)}</p>
-                                )}
-                              </div>
+                          <div
+                            className={`max-w-[70%] p-3 rounded-lg ${
+                              isMyMessage
+                                ? 'bg-primary text-primary-foreground'
+                                : 'bg-muted'
+                            }`}
+                          >
+                            <p className="whitespace-pre-wrap">{displayText}</p>
+                            
+                            {showTranslateButton && (
                               <Button
-                                size="sm"
                                 variant="ghost"
-                                onClick={() => window.open(msg.file_url, '_blank')}
+                                size="sm"
+                                className="mt-2 h-6 text-xs"
+                                onClick={() => translateMessage(msg.id, msg.content)}
+                                disabled={translatingMessageId === msg.id}
                               >
-                                <Download className="h-4 w-4" />
+                                <Languages className="h-3 w-3 mr-1" />
+                                {translatingMessageId === msg.id 
+                                  ? t("messages.translating")
+                                  : isTranslated 
+                                    ? t("messages.showOriginal")
+                                    : t("messages.showTranslation")
+                                }
                               </Button>
-                            </div>
-                          )}
-                          
-                          <p className="text-xs mt-1 opacity-70">
-                            {new Date(msg.created_at).toLocaleString('de-DE')}
-                          </p>
+                            )}
+                            
+                            {msg.file_url && (
+                              <div className="mt-2 p-2 bg-background/10 rounded flex items-center gap-2">
+                                <FileIcon className="h-4 w-4" />
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm truncate">{msg.file_name}</p>
+                                  {msg.file_size && (
+                                    <p className="text-xs opacity-70">{formatFileSize(msg.file_size)}</p>
+                                  )}
+                                </div>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => window.open(msg.file_url, '_blank')}
+                                >
+                                  <Download className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            )}
+                            
+                            <p className="text-xs mt-1 opacity-70">
+                              {new Date(msg.created_at).toLocaleString(language === 'de' ? 'de-DE' : 'en-US')}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                     <div ref={messagesEndRef} />
                   </ScrollArea>
 
@@ -521,7 +591,7 @@ export default function Messages() {
                         <Paperclip className="h-4 w-4" />
                       </Button>
                       <Input
-                        placeholder="Nachricht eingeben..."
+                        placeholder={t("messages.typeMessage")}
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
@@ -539,7 +609,7 @@ export default function Messages() {
               </>
             ) : (
               <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">Wähle eine Konversation</p>
+                <p className="text-muted-foreground">{t("messages.selectConversation")}</p>
               </div>
             )}
           </Card>
@@ -548,19 +618,22 @@ export default function Messages() {
         {/* Video Call Dialog */}
         {activeCall && myCompanyId && (
           <Dialog open={!!activeCall} onOpenChange={() => setActiveCall(null)}>
-            <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0">
-              <DialogTitle className="sr-only">Videoanruf</DialogTitle>
-              <DialogDescription className="sr-only">
-                Echtzeit-Videoanruf mit Ihrem Partnerunternehmen
-              </DialogDescription>
-              <VideoCall
-                roomId={activeCall.roomId}
-                myCompanyId={myCompanyId}
-                partnerCompanyId={activeCall.partnerCompanyId}
-                isInitiator={activeCall.isInitiator}
-                onClose={() => setActiveCall(null)}
-              />
-            </DialogContent>
+            <DialogTitle className="sr-only">
+              {language === "de" ? "Videoanruf" : "Video Call"}
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              {language === "de" 
+                ? "Echtzeit-Videoanruf mit Ihrem Partnerunternehmen"
+                : "Real-time video call with your partner company"
+              }
+            </DialogDescription>
+            <VideoCall
+              roomId={activeCall.roomId}
+              myCompanyId={myCompanyId}
+              partnerCompanyId={activeCall.partnerCompanyId}
+              isInitiator={activeCall.isInitiator}
+              onClose={() => setActiveCall(null)}
+            />
           </Dialog>
         )}
       </div>
