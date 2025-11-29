@@ -183,6 +183,10 @@ export type Database = {
         Row: {
           content: string
           created_at: string | null
+          file_name: string | null
+          file_size: number | null
+          file_type: string | null
+          file_url: string | null
           from_company_id: string
           id: string
           read: boolean | null
@@ -192,6 +196,10 @@ export type Database = {
         Insert: {
           content: string
           created_at?: string | null
+          file_name?: string | null
+          file_size?: number | null
+          file_type?: string | null
+          file_url?: string | null
           from_company_id: string
           id?: string
           read?: boolean | null
@@ -201,6 +209,10 @@ export type Database = {
         Update: {
           content?: string
           created_at?: string | null
+          file_name?: string | null
+          file_size?: number | null
+          file_type?: string | null
+          file_url?: string | null
           from_company_id?: string
           id?: string
           read?: boolean | null
@@ -256,6 +268,54 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      video_call_sessions: {
+        Row: {
+          company_id_1: string
+          company_id_2: string
+          created_at: string | null
+          ended_at: string | null
+          id: string
+          room_id: string
+          started_at: string | null
+          status: string
+        }
+        Insert: {
+          company_id_1: string
+          company_id_2: string
+          created_at?: string | null
+          ended_at?: string | null
+          id?: string
+          room_id: string
+          started_at?: string | null
+          status?: string
+        }
+        Update: {
+          company_id_1?: string
+          company_id_2?: string
+          created_at?: string | null
+          ended_at?: string | null
+          id?: string
+          room_id?: string
+          started_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_call_sessions_company_id_1_fkey"
+            columns: ["company_id_1"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "video_call_sessions_company_id_2_fkey"
+            columns: ["company_id_2"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
