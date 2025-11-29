@@ -269,6 +269,45 @@ export type Database = {
         }
         Relationships: []
       }
+      profile_visits: {
+        Row: {
+          company_id: string
+          id: string
+          visited_at: string
+          visitor_company_id: string | null
+          visitor_ip: string | null
+        }
+        Insert: {
+          company_id: string
+          id?: string
+          visited_at?: string
+          visitor_company_id?: string | null
+          visitor_ip?: string | null
+        }
+        Update: {
+          company_id?: string
+          id?: string
+          visited_at?: string
+          visitor_company_id?: string | null
+          visitor_ip?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_visits_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_visits_visitor_company_id_fkey"
+            columns: ["visitor_company_id"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           amount: number
