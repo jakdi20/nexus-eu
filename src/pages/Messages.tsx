@@ -6,11 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon, Languages } from 'lucide-react';
+import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon, Languages, Lock } from 'lucide-react';
 import VideoCall from '@/components/VideoCall';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { useUnreadMessages } from '@/hooks/use-unread-messages';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { usePremiumStatus } from '@/hooks/use-premium-status';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface Message {
   id: string;
@@ -40,6 +42,7 @@ function Messages() {
   const { toast } = useToast();
   const { markAsRead, refreshUnreadCount } = useUnreadMessages();
   const { language, t } = useLanguage();
+  const { isPremium } = usePremiumStatus();
   
   const [myCompanyId, setMyCompanyId] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -342,6 +345,15 @@ function Messages() {
   };
 
   const startVideoCall = async () => {
+    if (!isPremium) {
+      toast({
+        title: t('monetization.upgradeRequired'),
+        description: t('monetization.upgradeToUnlock'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (!myCompanyId || !selectedConversation) return;
 
     const roomId = `${myCompanyId}-${selectedConversation}-${Date.now()}`;
@@ -376,6 +388,15 @@ function Messages() {
   };
 
   const translateMessage = async (messageId: string, text: string) => {
+    if (!isPremium) {
+      toast({
+        title: t('monetization.upgradeRequired'),
+        description: t('monetization.upgradeToUnlock'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (translatedMessages[messageId]) {
       const newTranslations = { ...translatedMessages };
       delete newTranslations[messageId];
@@ -469,10 +490,28 @@ function Messages() {
                   <CardTitle>
                     {conversations.find((c) => c.company_id === selectedConversation)?.company_name}
                   </CardTitle>
-                  <Button onClick={startVideoCall} variant="outline" size="sm">
-                    <Video className="h-4 w-4 mr-2" />
-                    {language === "de" ? "Videoanruf" : "Video Call"}
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          onClick={startVideoCall} 
+                          variant="outline" 
+                          size="sm"
+                          disabled={!isPremium}
+                          className={!isPremium ? 'opacity-50 cursor-not-allowed' : ''}
+                        >
+                          {!isPremium && <Lock className="h-4 w-4 mr-2" />}
+                          <Video className="h-4 w-4 mr-2" />
+                          {language === "de" ? "Videoanruf" : "Video Call"}
+                        </Button>
+                      </TooltipTrigger>
+                      {!isPremium && (
+                        <TooltipContent>
+                          <p>{t('monetization.upgradeRequired')}</p>
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  </TooltipProvider>
                 </CardHeader>
                 <CardContent className="flex flex-col h-[calc(100vh-350px)]">
                   <ScrollArea className="flex-1 pr-4">
@@ -499,21 +538,33 @@ function Messages() {
                             <p className="whitespace-pre-wrap">{displayText}</p>
                             
                             {showTranslateButton && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="mt-2 h-6 text-xs"
-                                onClick={() => translateMessage(msg.id, msg.content)}
-                                disabled={translatingMessageId === msg.id}
-                              >
-                                <Languages className="h-3 w-3 mr-1" />
-                                {translatingMessageId === msg.id 
-                                  ? t("messages.translating")
-                                  : isTranslated 
-                                    ? t("messages.showOriginal")
-                                    : t("messages.showTranslation")
-                                }
-                              </Button>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className={`mt-2 h-6 text-xs ${!isPremium ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                      onClick={() => translateMessage(msg.id, msg.content)}
+                                      disabled={translatingMessageId === msg.id || !isPremium}
+                                    >
+                                      {!isPremium && <Lock className="h-3 w-3 mr-1" />}
+                                      <Languages className="h-3 w-3 mr-1" />
+                                      {translatingMessageId === msg.id 
+                                        ? t("messages.translating")
+                                        : isTranslated 
+                                          ? t("messages.showOriginal")
+                                          : t("messages.showTranslation")
+                                      }
+                                    </Button>
+                                  </TooltipTrigger>
+                                  {!isPremium && (
+                                    <TooltipContent>
+                                      <p>{t('monetization.upgradeRequired')}</p>
+                                    </TooltipContent>
+                                  )}
+                                </Tooltip>
+                              </TooltipProvider>
                             )}
                             
                             {msg.file_url && (

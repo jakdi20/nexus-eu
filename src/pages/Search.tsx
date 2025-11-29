@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { usePremiumStatus } from "@/hooks/use-premium-status";
+import { PremiumGate } from "@/components/PremiumGate";
 import { 
   Search as SearchIcon, 
   MapPin, 
@@ -58,6 +60,7 @@ const Search = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t, language } = useLanguage();
+  const { isPremium, loading: premiumLoading } = usePremiumStatus();
   const [profiles, setProfiles] = useState<CompanyProfile[]>([]);
   const [filteredProfiles, setFilteredProfiles] = useState<CompanyProfile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -142,6 +145,15 @@ const Search = () => {
   };
 
   const handleAISearch = async () => {
+    if (!isPremium) {
+      toast({
+        title: t("monetization.upgradeRequired"),
+        description: t("monetization.upgradeToUnlock"),
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!aiQuery.trim()) {
       toast({
         title: t("search.inputRequired"),
@@ -222,47 +234,53 @@ const Search = () => {
         </div>
       </div>
 
-      <Card className="mb-8 shadow-elevated border-2">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5" />
-            {t("search.aiSearch")}
-          </CardTitle>
-          <CardDescription>
-            {t("search.aiPlaceholder")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-3">
-            <Input
-              placeholder={t("search.placeholder")}
-              value={aiQuery}
-              onChange={(e) => setAiQuery(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && !aiSearching && handleAISearch()}
-              disabled={aiSearching}
-              className="flex-1 text-lg h-14"
-            />
-            <Button
-              onClick={handleAISearch}
-              disabled={aiSearching || !aiQuery.trim()}
-              size="lg"
-              className="px-8"
-            >
-              {aiSearching ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  {t("search.searching")}
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  {t("common.search")}
-                </>
-              )}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <PremiumGate 
+        isPremium={isPremium} 
+        feature={t("monetization.premiumFeature1")}
+        className="mb-8"
+      >
+        <Card className="border-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5" />
+              {t("search.aiSearch")}
+            </CardTitle>
+            <CardDescription>
+              {t("search.aiPlaceholder")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-3">
+              <Input
+                placeholder={t("search.placeholder")}
+                value={aiQuery}
+                onChange={(e) => setAiQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && !aiSearching && handleAISearch()}
+                disabled={aiSearching || !isPremium}
+                className="flex-1 text-lg h-14"
+              />
+              <Button
+                onClick={handleAISearch}
+                disabled={aiSearching || !aiQuery.trim() || !isPremium}
+                size="lg"
+                className="px-8"
+              >
+                {aiSearching ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    {t("search.searching")}
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="mr-2 h-5 w-5" />
+                    {t("common.search")}
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </PremiumGate>
 
       {/* AI Results */}
       {hasSearched && aiResults.length > 0 && (
@@ -320,7 +338,15 @@ const Search = () => {
       )}
 
       {/* AI Recommendations (only if no search) */}
-      {!hasSearched && <AIRecommendations />}
+      {!hasSearched && (
+        <PremiumGate 
+          isPremium={isPremium} 
+          feature={t("monetization.premiumFeature2")}
+          className="mb-8"
+        >
+          <AIRecommendations />
+        </PremiumGate>
+      )}
 
       {/* Filter Section */}
       <Card className="mb-8 shadow-elevated">
