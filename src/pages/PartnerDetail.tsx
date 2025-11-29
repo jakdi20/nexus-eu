@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { 
   MapPin, 
@@ -12,8 +11,7 @@ import {
   Users, 
   Calendar, 
   ExternalLink, 
-  CheckCircle2, 
-  Mail,
+  CheckCircle2,
   TrendingUp,
   Award,
   MessageCircle
@@ -46,26 +44,10 @@ const PartnerDetail = () => {
   const { toast } = useToast();
   const [profile, setProfile] = useState<CompanyProfile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  const [sending, setSending] = useState(false);
-  const [myCompanyId, setMyCompanyId] = useState<string | null>(null);
 
   useEffect(() => {
     loadProfile();
-    loadMyCompany();
   }, [id]);
-
-  const loadMyCompany = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data } = await supabase
-        .from("company_profiles")
-        .select("id")
-        .eq("user_id", user.id)
-        .single();
-      if (data) setMyCompanyId(data.id);
-    }
-  };
 
   const loadProfile = async () => {
     try {
@@ -86,39 +68,6 @@ const PartnerDetail = () => {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const sendConnectionRequest = async () => {
-    if (!myCompanyId || !profile) return;
-
-    setSending(true);
-    try {
-      const { error } = await supabase
-        .from("connection_requests")
-        .insert({
-          from_company_id: myCompanyId,
-          to_company_id: profile.id,
-          message: message,
-          status: "pending",
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Erfolgreich",
-        description: "Kontaktanfrage wurde gesendet",
-      });
-      setMessage("");
-    } catch (error) {
-      console.error("Error sending request:", error);
-      toast({
-        title: "Fehler",
-        description: "Anfrage konnte nicht gesendet werden",
-        variant: "destructive",
-      });
-    } finally {
-      setSending(false);
     }
   };
 
@@ -319,49 +268,22 @@ const PartnerDetail = () => {
             <Card className="shadow-lg sticky top-6">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Mail className="h-5 w-5" />
+                  <MessageCircle className="h-5 w-5" />
                   Kontakt aufnehmen
                 </CardTitle>
                 <CardDescription>
-                  Senden Sie eine Kontaktanfrage an {profile.company_name}
+                  Starten Sie einen Chat mit {profile.company_name}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <Button 
-                    onClick={startChat} 
-                    className="w-full"
-                    size="lg"
-                  >
-                    <MessageCircle className="mr-2 h-5 w-5" />
-                    Chat starten
-                  </Button>
-                  
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <span className="w-full border-t" />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-card px-2 text-muted-foreground">oder</span>
-                    </div>
-                  </div>
-
-                  <Textarea
-                    placeholder="Ihre Nachricht..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    rows={4}
-                    className="resize-none"
-                  />
-                  <Button
-                    onClick={sendConnectionRequest}
-                    disabled={sending || !message.trim()}
-                    className="w-full"
-                    variant="secondary"
-                  >
-                    {sending ? "Wird gesendet..." : "Anfrage senden"}
-                  </Button>
-                </div>
+                <Button 
+                  onClick={startChat} 
+                  className="w-full"
+                  size="lg"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Chat starten
+                </Button>
               </CardContent>
             </Card>
           </div>

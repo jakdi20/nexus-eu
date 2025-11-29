@@ -396,7 +396,7 @@ export default function Messages() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-4 max-w-6xl">
         <div className="flex items-center gap-4 mb-6">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1 className="text-3xl font-bold">Nachrichten</h1>
