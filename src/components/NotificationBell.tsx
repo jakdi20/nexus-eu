@@ -27,6 +27,7 @@ interface Notification {
 export const NotificationBell = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [incomingCallsCount, setIncomingCallsCount] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const { toast } = useToast();
 
@@ -36,7 +37,9 @@ export const NotificationBell = () => {
       if (user) {
         setIsReady(true);
         await loadNotifications();
+        await loadIncomingCalls();
         subscribeToNotifications();
+        subscribeToVideoCalls();
       }
     };
     
@@ -68,6 +71,35 @@ export const NotificationBell = () => {
     }
   };
 
+  const loadIncomingCalls = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Get user's company ID
+      const { data: profile } = await supabase
+        .from("company_profiles")
+        .select("id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (!profile) return;
+
+      // Count incoming calls with status 'pending' or 'calling'
+      const { data, error } = await supabase
+        .from("video_call_sessions")
+        .select("id")
+        .eq("company_id_2", profile.id)
+        .in("status", ["pending", "calling"]);
+
+      if (error) throw error;
+
+      setIncomingCallsCount(data?.length || 0);
+    } catch (error) {
+      console.error("Error loading incoming calls:", error);
+    }
+  };
+
   const subscribeToNotifications = () => {
     const channel = supabase
       .channel("notifications")
@@ -87,6 +119,28 @@ export const NotificationBell = () => {
             title: newNotification.title,
             description: newNotification.content,
           });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  };
+
+  const subscribeToVideoCalls = () => {
+    const channel = supabase
+      .channel("video_call_updates")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "video_call_sessions",
+        },
+        () => {
+          // Reload incoming calls count on any video call change
+          loadIncomingCalls();
         }
       )
       .subscribe();
@@ -138,17 +192,19 @@ export const NotificationBell = () => {
     return null;
   }
 
+  const totalUnread = unreadCount + incomingCallsCount;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="relative">
           <Bell className="h-5 w-5" />
-          {unreadCount > 0 && (
+          {totalUnread > 0 && (
             <Badge
               variant="destructive"
               className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
             >
-              {unreadCount}
+              {totalUnread}
             </Badge>
           )}
         </Button>
