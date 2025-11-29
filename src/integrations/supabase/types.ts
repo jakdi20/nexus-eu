@@ -16,23 +16,19 @@ export type Database = {
     Tables: {
       company_profiles: {
         Row: {
-          annual_revenue_range: string | null
-          certificates: string[] | null
           city: string
+          company_description: string | null
           company_name: string
           company_size: Database["public"]["Enums"]["company_size"]
+          cooperation_type: string[] | null
           country: string
           created_at: string | null
-          description: string | null
-          founding_year: number | null
+          founded_year: number | null
           id: string
-          industry: string
+          industry: string[]
           logo_url: string | null
-          offers: string[] | null
-          partnership_types: Database["public"]["Enums"]["partnership_type"][]
-          portfolio_url: string | null
-          seeks: string[] | null
-          team_size: number | null
+          looking_for: string | null
+          offers: string | null
           updated_at: string | null
           user_id: string
           verification_badge_url: string | null
@@ -41,23 +37,19 @@ export type Database = {
           website: string | null
         }
         Insert: {
-          annual_revenue_range?: string | null
-          certificates?: string[] | null
           city: string
+          company_description?: string | null
           company_name: string
           company_size: Database["public"]["Enums"]["company_size"]
+          cooperation_type?: string[] | null
           country: string
           created_at?: string | null
-          description?: string | null
-          founding_year?: number | null
+          founded_year?: number | null
           id?: string
-          industry: string
+          industry: string[]
           logo_url?: string | null
-          offers?: string[] | null
-          partnership_types?: Database["public"]["Enums"]["partnership_type"][]
-          portfolio_url?: string | null
-          seeks?: string[] | null
-          team_size?: number | null
+          looking_for?: string | null
+          offers?: string | null
           updated_at?: string | null
           user_id: string
           verification_badge_url?: string | null
@@ -66,23 +58,19 @@ export type Database = {
           website?: string | null
         }
         Update: {
-          annual_revenue_range?: string | null
-          certificates?: string[] | null
           city?: string
+          company_description?: string | null
           company_name?: string
           company_size?: Database["public"]["Enums"]["company_size"]
+          cooperation_type?: string[] | null
           country?: string
           created_at?: string | null
-          description?: string | null
-          founding_year?: number | null
+          founded_year?: number | null
           id?: string
-          industry?: string
+          industry?: string[]
           logo_url?: string | null
-          offers?: string[] | null
-          partnership_types?: Database["public"]["Enums"]["partnership_type"][]
-          portfolio_url?: string | null
-          seeks?: string[] | null
-          team_size?: number | null
+          looking_for?: string | null
+          offers?: string | null
           updated_at?: string | null
           user_id?: string
           verification_badge_url?: string | null

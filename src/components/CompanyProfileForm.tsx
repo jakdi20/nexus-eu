@@ -12,31 +12,45 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 
-const companySizes = ["1-10", "11-50", "51-250", "251-1000", "1000+"] as const;
-const partnershipTypes = [
-  { id: "supplier", label: "Lieferant" },
-  { id: "buyer", label: "Abnehmer" },
-  { id: "cooperation", label: "Kooperationspartner" },
-  { id: "service_provider", label: "Dienstleister" },
-  { id: "service_seeker", label: "Dienstleistungssuchender" },
-] as const;
+const companySizes = ["1", "2-10", "11-50", "51-250", "250+"] as const;
+
+const industries = [
+  "Technologie & IT",
+  "Produktion & Fertigung",
+  "Handel & E-Commerce",
+  "Dienstleistungen",
+  "Gesundheit & Medizin",
+  "Bauwesen & Immobilien",
+  "Finanzen & Versicherungen",
+  "Bildung & Forschung",
+  "Logistik & Transport",
+  "Lebensmittel & Getränke",
+  "Energie & Umwelt",
+  "Medien & Marketing",
+  "Sonstiges",
+];
+
+const cooperationTypes = [
+  "Technology partner",
+  "Sales partner",
+  "Project partner",
+  "Supplier",
+  "Pilot customer",
+  "Investment partner",
+];
 
 const formSchema = z.object({
-  company_name: z.string().min(2, "Name muss mindestens 2 Zeichen haben").max(100),
-  description: z.string().max(1000).optional(),
-  website: z.string().url("Bitte geben Sie eine gültige URL ein").optional().or(z.literal("")),
-  country: z.string().min(2, "Bitte Land auswählen"),
-  city: z.string().min(2, "Stadt ist erforderlich"),
-  industry: z.string().min(2, "Branche ist erforderlich"),
-  company_size: z.enum(companySizes),
-  offers: z.string().optional(),
-  seeks: z.string().optional(),
-  partnership_types: z.array(z.string()).min(1, "Mindestens eine Art auswählen"),
-  team_size: z.string().optional(),
-  founding_year: z.string().optional(),
-  portfolio_url: z.string().url("Bitte geben Sie eine gültige URL ein").optional().or(z.literal("")),
-  certificates: z.string().optional(),
-  annual_revenue_range: z.string().optional(),
+  company_name: z.string().trim().min(2, "Name muss mindestens 2 Zeichen haben").max(100),
+  industry: z.array(z.string()).min(1, "Mindestens eine Branche auswählen"),
+  company_size: z.enum(companySizes, { required_error: "Bitte Größe auswählen" }),
+  country: z.string().trim().min(2, "Land ist erforderlich"),
+  city: z.string().trim().min(2, "Stadt ist erforderlich"),
+  founded_year: z.string().regex(/^\d{4}$/, "Bitte gültiges Jahr eingeben").optional().or(z.literal("")),
+  website: z.string().trim().url("Bitte gültige URL eingeben").optional().or(z.literal("")),
+  company_description: z.string().trim().max(500, "Maximal 500 Zeichen").optional(),
+  offers: z.string().trim().optional(),
+  looking_for: z.string().trim().optional(),
+  cooperation_type: z.array(z.string()).min(1, "Mindestens eine Art auswählen"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -54,20 +68,16 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
     resolver: zodResolver(formSchema),
     defaultValues: {
       company_name: "",
-      description: "",
-      website: "",
+      industry: [],
+      company_size: "11-50",
       country: "",
       city: "",
-      industry: "",
-      company_size: "11-50",
+      founded_year: "",
+      website: "",
+      company_description: "",
       offers: "",
-      seeks: "",
-      partnership_types: [],
-      team_size: "",
-      founding_year: "",
-      portfolio_url: "",
-      certificates: "",
-      annual_revenue_range: "",
+      looking_for: "",
+      cooperation_type: [],
     },
   });
 
@@ -78,20 +88,16 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
       const profileData = {
         user_id: userId,
         company_name: values.company_name,
-        description: values.description || null,
-        website: values.website || null,
-        country: values.country,
-        city: values.city,
         industry: values.industry,
         company_size: values.company_size,
-        offers: values.offers ? values.offers.split(",").map(s => s.trim()).filter(Boolean) : [],
-        seeks: values.seeks ? values.seeks.split(",").map(s => s.trim()).filter(Boolean) : [],
-        partnership_types: values.partnership_types as ("supplier" | "buyer" | "cooperation" | "service_provider" | "service_seeker")[],
-        team_size: values.team_size ? parseInt(values.team_size) : null,
-        founding_year: values.founding_year ? parseInt(values.founding_year) : null,
-        portfolio_url: values.portfolio_url || null,
-        certificates: values.certificates ? values.certificates.split(",").map(s => s.trim()).filter(Boolean) : [],
-        annual_revenue_range: values.annual_revenue_range || null,
+        country: values.country,
+        city: values.city,
+        founded_year: values.founded_year ? parseInt(values.founded_year) : null,
+        website: values.website || null,
+        company_description: values.company_description || null,
+        offers: values.offers || null,
+        looking_for: values.looking_for || null,
+        cooperation_type: values.cooperation_type,
       };
 
       const { data, error } = await supabase
@@ -120,7 +126,7 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
       <CardHeader>
         <CardTitle>Unternehmensprofil erstellen</CardTitle>
         <CardDescription>
-          Füllen Sie alle Felder aus, um mit dem Matching zu starten
+          Füllen Sie die Felder aus, um passende Partner zu finden
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -133,7 +139,7 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
                 <FormItem>
                   <FormLabel>Firmenname *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Beispiel GmbH" {...field} />
+                    <Input placeholder="z.B. Mustermann GmbH" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -142,81 +148,43 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
 
             <FormField
               control={form.control}
-              name="description"
-              render={({ field }) => (
+              name="industry"
+              render={() => (
                 <FormItem>
-                  <FormLabel>Unternehmensbeschreibung</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Beschreiben Sie Ihr Unternehmen und Ihre Aktivitäten..."
-                      className="min-h-[100px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="website"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Website</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://www.beispiel.de" {...field} />
-                  </FormControl>
+                  <FormLabel>Branche *</FormLabel>
+                  <FormDescription>
+                    Wählen Sie alle zutreffenden Branchen
+                  </FormDescription>
+                  <div className="grid grid-cols-2 gap-3 mt-2">
+                    {industries.map((industry) => (
+                      <FormField
+                        key={industry}
+                        control={form.control}
+                        name="industry"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(industry)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, industry])
+                                    : field.onChange(field.value?.filter((value) => value !== industry));
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal text-sm">{industry}</FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             <div className="grid gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Land *</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Deutschland" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Stadt *</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Berlin" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="industry"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Branche *</FormLabel>
-                    <FormControl>
-                      <Input placeholder="z.B. Maschinenbau" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               <FormField
                 control={form.control}
                 name="company_size"
@@ -241,96 +209,10 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
                   </FormItem>
                 )}
               />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="partnership_types"
-              render={() => (
-                <FormItem>
-                  <div className="mb-4">
-                    <FormLabel>Art der Partnerschaft *</FormLabel>
-                    <FormDescription>
-                      Wählen Sie alle zutreffenden Optionen
-                    </FormDescription>
-                  </div>
-                  <div className="space-y-3">
-                    {partnershipTypes.map((type) => (
-                      <FormField
-                        key={type.id}
-                        control={form.control}
-                        name="partnership_types"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(type.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, type.id])
-                                    : field.onChange(field.value?.filter((value) => value !== type.id));
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal">{type.label}</FormLabel>
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="offers"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Was bieten Sie an?</FormLabel>
-                  <FormControl>
-                    <Input placeholder="z.B. CNC-Fräsen, Logistik, Beratung (durch Komma trennen)" {...field} />
-                  </FormControl>
-                  <FormDescription>Trennen Sie mehrere Angebote durch Kommas</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="seeks"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Was suchen Sie?</FormLabel>
-                  <FormControl>
-                    <Input placeholder="z.B. Rohmaterialien, Vertriebspartner (durch Komma trennen)" {...field} />
-                  </FormControl>
-                  <FormDescription>Trennen Sie mehrere Anforderungen durch Kommas</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="team_size"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Team-Größe</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="z.B. 25" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
               <FormField
                 control={form.control}
-                name="founding_year"
+                name="founded_year"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Gründungsjahr</FormLabel>
@@ -343,56 +225,135 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
               />
             </div>
 
-            <FormField
-              control={form.control}
-              name="portfolio_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Portfolio URL</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://www.beispiel.de/portfolio" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="certificates"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Zertifikate</FormLabel>
-                  <FormControl>
-                    <Input placeholder="z.B. ISO 9001, DIN EN, CE (durch Komma trennen)" {...field} />
-                  </FormControl>
-                  <FormDescription>Trennen Sie mehrere Zertifikate durch Kommas</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="annual_revenue_range"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Jährlicher Umsatz</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Land *</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Umsatzbereich wählen" />
-                      </SelectTrigger>
+                      <Input placeholder="z.B. Deutschland" {...field} />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="0-100k">0 - 100.000 €</SelectItem>
-                      <SelectItem value="100k-500k">100.000 - 500.000 €</SelectItem>
-                      <SelectItem value="500k-1m">500.000 - 1 Mio. €</SelectItem>
-                      <SelectItem value="1m-5m">1 Mio. - 5 Mio. €</SelectItem>
-                      <SelectItem value="5m-10m">5 Mio. - 10 Mio. €</SelectItem>
-                      <SelectItem value="10m+">10 Mio. € +</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Stadt *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="z.B. Berlin" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="website"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Website</FormLabel>
+                  <FormControl>
+                    <Input placeholder="https://www.beispiel.de" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="company_description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unternehmensbeschreibung</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Beschreiben Sie Ihr Unternehmen (max. 500 Zeichen)..."
+                      className="min-h-[100px]"
+                      maxLength={500}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {field.value?.length || 0}/500 Zeichen
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="offers"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Was bieten Sie an?</FormLabel>
+                  <FormControl>
+                    <Input placeholder="z.B. CNC-Bearbeitung, Beratung, Software-Entwicklung" {...field} />
+                  </FormControl>
+                  <FormDescription>Komma-getrennte Tags</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="looking_for"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Was suchen Sie?</FormLabel>
+                  <FormControl>
+                    <Input placeholder="z.B. Lieferanten, Vertriebspartner, Technologie-Partner" {...field} />
+                  </FormControl>
+                  <FormDescription>Komma-getrennte Tags</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="cooperation_type"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Art der Kooperation *</FormLabel>
+                  <FormDescription>
+                    Wählen Sie alle zutreffenden Optionen
+                  </FormDescription>
+                  <div className="grid grid-cols-2 gap-3 mt-2">
+                    {cooperationTypes.map((type) => (
+                      <FormField
+                        key={type}
+                        control={form.control}
+                        name="cooperation_type"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(type)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, type])
+                                    : field.onChange(field.value?.filter((value) => value !== type));
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal text-sm">{type}</FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
