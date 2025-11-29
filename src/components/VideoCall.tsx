@@ -417,7 +417,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
               />
               {!remoteStream && (
                 <div className="absolute inset-0 flex items-center justify-center text-white">
-                  {isConnected ? 'Verbindung wird hergestellt...' : 'Warte auf Partner...'}
+                  {isConnected ? 'Verbindung wird hergestellt...' : 'Warte darauf, dass der Partner den Anruf annimmt...'}
                 </div>
               )}
             </div>
