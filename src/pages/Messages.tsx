@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
-import { Send, ArrowLeft } from 'lucide-react';
+import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon } from 'lucide-react';
+import VideoCall from '@/components/VideoCall';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 interface Message {
   id: string;
@@ -14,6 +16,10 @@ interface Message {
   to_company_id: string;
   content: string;
   created_at: string;
+  file_url?: string;
+  file_name?: string;
+  file_type?: string;
+  file_size?: number;
   from_company?: { company_name: string };
   to_company?: { company_name: string };
 }
@@ -38,6 +44,11 @@ export default function Messages() {
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showVideoCall, setShowVideoCall] = useState(false);
+  const [videoRoomId, setVideoRoomId] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadMyCompany();
@@ -180,14 +191,74 @@ export default function Messages() {
       .eq('read', false);
   };
 
+  const uploadFile = async (file: File): Promise<string | null> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${myCompanyId}/${selectedConversation}/${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('chat-files')
+      .upload(fileName, file);
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError);
+      return null;
+    }
+
+    const { data } = supabase.storage.from('chat-files').getPublicUrl(fileName);
+    return data.publicUrl;
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 20 * 1024 * 1024) {
+        toast({
+          title: 'Fehler',
+          description: 'Datei ist zu groß (max. 20MB)',
+          variant: 'destructive',
+        });
+        return;
+      }
+      setSelectedFile(file);
+    }
+  };
+
   const sendMessage = async () => {
-    if (!newMessage.trim() || !myCompanyId || !selectedConversation) return;
+    if ((!newMessage.trim() && !selectedFile) || !myCompanyId || !selectedConversation) return;
 
     setSending(true);
+    setUploading(!!selectedFile);
+
+    let fileUrl = null;
+    let fileName = null;
+    let fileType = null;
+    let fileSize = null;
+
+    if (selectedFile) {
+      fileUrl = await uploadFile(selectedFile);
+      if (!fileUrl) {
+        toast({
+          title: 'Fehler',
+          description: 'Datei konnte nicht hochgeladen werden',
+          variant: 'destructive',
+        });
+        setSending(false);
+        setUploading(false);
+        return;
+      }
+      fileName = selectedFile.name;
+      fileType = selectedFile.type;
+      fileSize = selectedFile.size;
+    }
+
     const { error } = await supabase.from('messages').insert({
       from_company_id: myCompanyId,
       to_company_id: selectedConversation,
-      content: newMessage.trim(),
+      content: newMessage.trim() || (selectedFile ? `Datei gesendet: ${selectedFile.name}` : ''),
+      file_url: fileUrl,
+      file_name: fileName,
+      file_type: fileType,
+      file_size: fileSize,
     });
 
     if (error) {
@@ -197,11 +268,48 @@ export default function Messages() {
         variant: 'destructive',
       });
       setSending(false);
+      setUploading(false);
       return;
     }
 
     setNewMessage('');
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
     setSending(false);
+    setUploading(false);
+  };
+
+  const startVideoCall = async () => {
+    if (!myCompanyId || !selectedConversation) return;
+
+    const roomId = `${myCompanyId}-${selectedConversation}-${Date.now()}`;
+
+    const { error } = await supabase.from('video_call_sessions').insert({
+      room_id: roomId,
+      company_id_1: myCompanyId,
+      company_id_2: selectedConversation,
+      status: 'pending',
+    });
+
+    if (error) {
+      toast({
+        title: 'Fehler',
+        description: 'Videoanruf konnte nicht gestartet werden',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setVideoRoomId(roomId);
+    setShowVideoCall(true);
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   };
 
   if (loading) {
@@ -254,10 +362,14 @@ export default function Messages() {
           <Card className="md:col-span-2">
             {selectedConversation ? (
               <>
-                <CardHeader>
+                <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>
                     {conversations.find((c) => c.company_id === selectedConversation)?.company_name}
                   </CardTitle>
+                  <Button onClick={startVideoCall} variant="outline" size="sm">
+                    <Video className="h-4 w-4 mr-2" />
+                    Videoanruf
+                  </Button>
                 </CardHeader>
                 <CardContent className="flex flex-col h-[calc(100vh-350px)]">
                   <ScrollArea className="flex-1 pr-4">
@@ -276,6 +388,26 @@ export default function Messages() {
                           }`}
                         >
                           <p>{msg.content}</p>
+                          
+                          {msg.file_url && (
+                            <div className="mt-2 p-2 bg-background/10 rounded flex items-center gap-2">
+                              <FileIcon className="h-4 w-4" />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm truncate">{msg.file_name}</p>
+                                {msg.file_size && (
+                                  <p className="text-xs opacity-70">{formatFileSize(msg.file_size)}</p>
+                                )}
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => window.open(msg.file_url, '_blank')}
+                              >
+                                <Download className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          )}
+                          
                           <p className="text-xs mt-1 opacity-70">
                             {new Date(msg.created_at).toLocaleString('de-DE')}
                           </p>
@@ -284,16 +416,53 @@ export default function Messages() {
                     ))}
                   </ScrollArea>
 
-                  <div className="flex gap-2 mt-4">
-                    <Input
-                      placeholder="Nachricht eingeben..."
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                    />
-                    <Button onClick={sendMessage} disabled={sending || !newMessage.trim()}>
-                      <Send className="h-4 w-4" />
-                    </Button>
+                  <div className="space-y-2 mt-4">
+                    {selectedFile && (
+                      <div className="flex items-center gap-2 p-2 bg-muted rounded">
+                        <FileIcon className="h-4 w-4" />
+                        <span className="text-sm flex-1 truncate">{selectedFile.name}</span>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            setSelectedFile(null);
+                            if (fileInputRef.current) fileInputRef.current.value = '';
+                          }}
+                        >
+                          ✕
+                        </Button>
+                      </div>
+                    )}
+                    
+                    <div className="flex gap-2">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        className="hidden"
+                        onChange={handleFileSelect}
+                      />
+                      <Button
+                        onClick={() => fileInputRef.current?.click()}
+                        variant="outline"
+                        size="icon"
+                        disabled={uploading}
+                      >
+                        <Paperclip className="h-4 w-4" />
+                      </Button>
+                      <Input
+                        placeholder="Nachricht eingeben..."
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+                        disabled={uploading}
+                      />
+                      <Button 
+                        onClick={sendMessage} 
+                        disabled={sending || uploading || (!newMessage.trim() && !selectedFile)}
+                      >
+                        {uploading ? '...' : <Send className="h-4 w-4" />}
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </>
@@ -304,6 +473,20 @@ export default function Messages() {
             )}
           </Card>
         </div>
+
+        {/* Video Call Dialog */}
+        {showVideoCall && videoRoomId && myCompanyId && selectedConversation && (
+          <Dialog open={showVideoCall} onOpenChange={setShowVideoCall}>
+            <DialogContent className="max-w-5xl">
+              <VideoCall
+                roomId={videoRoomId}
+                myCompanyId={myCompanyId}
+                partnerCompanyId={selectedConversation}
+                onClose={() => setShowVideoCall(false)}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </div>
   );
