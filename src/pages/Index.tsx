@@ -50,9 +50,11 @@ const Index = () => {
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20">
-                Mehr erfahren
-              </Button>
+              <Link to="/features">
+                <Button size="lg" variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20">
+                  Mehr erfahren
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
