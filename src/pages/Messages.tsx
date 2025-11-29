@@ -89,17 +89,30 @@ export default function Messages() {
           table: 'messages',
           filter: `or(and(from_company_id=eq.${myCompanyId},to_company_id=eq.${selectedConversation}),and(from_company_id=eq.${selectedConversation},to_company_id=eq.${myCompanyId}))`,
         },
-        (payload) => {
+        async (payload) => {
           console.log('New message received:', payload);
-          const newMsg = payload.new as Message;
+          const messageId = (payload.new as any).id;
           
-          // Only add if message is not already in the list (avoid duplicates)
-          setMessages((prev) => {
-            if (prev.some(m => m.id === newMsg.id)) {
-              return prev;
-            }
-            return [...prev, newMsg];
-          });
+          // Load complete message with all joins
+          const { data: fullMessage } = await supabase
+            .from('messages')
+            .select(`
+              *,
+              from_company:company_profiles!messages_from_company_id_fkey(company_name),
+              to_company:company_profiles!messages_to_company_id_fkey(company_name)
+            `)
+            .eq('id', messageId)
+            .single();
+
+          if (fullMessage) {
+            setMessages((prev) => {
+              // Only add if not already in list
+              if (prev.some(m => m.id === fullMessage.id)) {
+                return prev;
+              }
+              return [...prev, fullMessage];
+            });
+          }
           
           // Reload conversations to update last message
           loadConversations();
