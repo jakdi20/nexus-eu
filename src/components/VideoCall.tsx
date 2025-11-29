@@ -5,21 +5,30 @@ import { useToast } from '@/hooks/use-toast';
 import { Video, VideoOff, Mic, MicOff, PhoneOff, Phone } from 'lucide-react';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 
+type CallState = 
+  | 'initializing'
+  | 'calling'
+  | 'ringing'
+  | 'connecting'
+  | 'connected'
+  | 'failed'
+  | 'ended';
+
 interface VideoCallProps {
   roomId: string;
   myCompanyId: string;
   partnerCompanyId: string;
+  isInitiator: boolean;
   onClose: () => void;
 }
 
-export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClose }: VideoCallProps) {
+export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isInitiator, onClose }: VideoCallProps) {
   const { toast } = useToast();
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [isVideoEnabled, setIsVideoEnabled] = useState(true);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
-  const [isConnected, setIsConnected] = useState(false);
-  const [connectionState, setConnectionState] = useState<string>('new');
+  const [callState, setCallState] = useState<CallState>('initializing');
   
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
@@ -44,6 +53,26 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
       cleanup();
     };
   }, [roomId]);
+
+  // Automatic connection effect
+  useEffect(() => {
+    if (!localStream || !channelRef.current) return;
+
+    const autoConnect = async () => {
+      if (isInitiator) {
+        console.log('Initiator: Auto-starting call...');
+        setCallState('calling');
+        await startCall();
+      } else {
+        console.log('Callee: Waiting for offer...');
+        setCallState('ringing');
+      }
+    };
+
+    // Small delay to ensure everything is ready
+    const timer = setTimeout(autoConnect, 500);
+    return () => clearTimeout(timer);
+  }, [localStream, isInitiator]);
 
   const initializeMedia = async () => {
     try {
@@ -145,15 +174,17 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
 
     pc.oniceconnectionstatechange = () => {
       console.log('ICE connection state:', pc.iceConnectionState);
-      setConnectionState(pc.iceConnectionState);
       
       if (pc.iceConnectionState === 'connected' || pc.iceConnectionState === 'completed') {
-        setIsConnected(true);
+        setCallState('connected');
         toast({
-          title: 'Verbunden',
-          description: 'Videoanruf wurde erfolgreich verbunden',
+          title: 'Verbunden ✓',
+          description: 'Videoanruf aktiv',
         });
-      } else if (pc.iceConnectionState === 'failed') {
+      } else if (pc.iceConnectionState === 'checking') {
+        setCallState('connecting');
+      } else if (pc.iceConnectionState === 'failed' || pc.iceConnectionState === 'disconnected') {
+        setCallState('failed');
         toast({
           title: 'Verbindung fehlgeschlagen',
           description: 'Die Verbindung konnte nicht hergestellt werden',
@@ -240,6 +271,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
 
   const handleOffer = async (offer: RTCSessionDescriptionInit, from: string) => {
     console.log('Handling offer from:', from);
+    setCallState('connecting');
     
     const pc = createPeerConnection();
 
@@ -275,6 +307,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
       console.log('Answer sent successfully');
     } catch (error) {
       console.error('Error handling offer:', error);
+      setCallState('failed');
       toast({
         title: 'Fehler',
         description: 'Fehler beim Verarbeiten des Angebots',
@@ -384,98 +417,129 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
     }
   };
 
+  const getStatusText = () => {
+    switch (callState) {
+      case 'initializing':
+        return 'Wird initialisiert...';
+      case 'calling':
+        return 'Anruf läuft...';
+      case 'ringing':
+        return 'Eingehender Anruf';
+      case 'connecting':
+        return 'Verbindung wird hergestellt...';
+      case 'connected':
+        return '✓ Verbunden';
+      case 'failed':
+        return '✗ Verbindung fehlgeschlagen';
+      case 'ended':
+        return 'Beendet';
+      default:
+        return '';
+    }
+  };
+
   return (
-    <div className="w-full h-full flex flex-col bg-background">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
-        <div>
-          <h2 className="text-lg font-semibold">Videoanruf</h2>
-          {connectionState && connectionState !== 'new' && (
-            <p className="text-sm text-muted-foreground">
-              Status: {connectionState === 'connected' ? '✓ Verbunden' : connectionState}
-            </p>
-          )}
+    <div className="w-full h-full flex flex-col bg-black">
+      {/* Header - Fixed at top */}
+      <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/80 to-transparent p-6">
+        <div className="flex items-center justify-between">
+          <div className="text-white">
+            <h2 className="text-xl font-semibold">Videoanruf</h2>
+            <p className="text-sm text-white/70 mt-1">{getStatusText()}</p>
+          </div>
+          <Button 
+            onClick={endCall} 
+            size="lg"
+            className="bg-red-600 hover:bg-red-700 text-white rounded-full h-12 px-6"
+          >
+            <PhoneOff className="h-5 w-5 mr-2" />
+            Auflegen
+          </Button>
         </div>
-        <Button onClick={endCall} variant="destructive" size="sm">
-          <PhoneOff className="h-4 w-4 mr-2" />
-          Beenden
-        </Button>
       </div>
 
-      {/* Video Area */}
-      <div className="flex-1 relative bg-black">
-        {/* Remote Video (Main) */}
+      {/* Video Area - Full Screen */}
+      <div className="relative w-full h-full">
+        {/* Remote Video (Full Screen) */}
         <video
           ref={remoteVideoRef}
           autoPlay
           playsInline
-          className="w-full h-full object-contain"
+          className="w-full h-full object-cover"
         />
         
+        {/* Placeholder when no remote stream */}
         {!remoteStream && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white gap-4">
-            <div className="h-20 w-20 rounded-full bg-white/10 flex items-center justify-center animate-pulse">
-              <Video className="h-10 w-10" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+            <div className="h-32 w-32 rounded-full bg-white/10 flex items-center justify-center animate-pulse mb-6">
+              <Video className="h-16 w-16 text-white" />
             </div>
-            <div className="text-center">
-              <p className="text-lg font-medium">
-                {isConnected ? 'Verbindung wird hergestellt...' : 'Warte auf Partner...'}
+            <div className="text-center px-4">
+              <p className="text-2xl font-semibold text-white mb-2">
+                {callState === 'calling' && 'Warte auf Antwort...'}
+                {callState === 'ringing' && 'Eingehender Anruf'}
+                {callState === 'connecting' && 'Verbindung wird hergestellt...'}
+                {callState === 'initializing' && 'Wird initialisiert...'}
               </p>
-              <p className="text-sm text-white/70 mt-1">
-                {!isConnected && 'Der Partner muss den Anruf annehmen'}
+              <p className="text-sm text-white/60">
+                {callState === 'calling' && 'Der Partner wurde benachrichtigt'}
+                {callState === 'connecting' && 'Bitte warten...'}
               </p>
             </div>
           </div>
         )}
 
         {/* Local Video (Picture-in-Picture) */}
-        <div className="absolute bottom-4 right-4 w-48 aspect-video bg-black rounded-lg overflow-hidden shadow-2xl border-2 border-white/20">
-          <video
-            ref={localVideoRef}
-            autoPlay
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute bottom-1 left-1 text-white text-xs bg-black/50 px-2 py-0.5 rounded">
-            Sie
+        {localStream && (
+          <div className="absolute top-24 right-6 w-64 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30">
+            <video
+              ref={localVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-2 left-2 text-white text-sm font-medium bg-black/70 px-3 py-1 rounded-full">
+              Sie
+            </div>
+            {!isVideoEnabled && (
+              <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+                <VideoOff className="h-12 w-12 text-white/50" />
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Controls */}
-      <div className="p-4 border-t flex items-center justify-center gap-3">
-        {!isConnected && (
-          <Button 
-            onClick={startCall} 
-            size="lg" 
-            className="gap-2"
-            disabled={!localStream}
+      {/* Controls - Fixed at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/90 to-transparent p-8">
+        <div className="flex items-center justify-center gap-4">
+          <Button
+            onClick={toggleAudio}
+            variant="secondary"
+            size="lg"
+            className={`rounded-full h-16 w-16 ${!isAudioEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'}`}
           >
-            <Phone className="h-5 w-5" />
-            Verbinden
+            {isAudioEnabled ? (
+              <Mic className="h-7 w-7 text-white" />
+            ) : (
+              <MicOff className="h-7 w-7 text-white" />
+            )}
           </Button>
-        )}
-        
-        <Button
-          onClick={toggleVideo}
-          variant={isVideoEnabled ? 'secondary' : 'destructive'}
-          size="lg"
-          disabled={!localStream}
-          className="rounded-full h-14 w-14"
-        >
-          {isVideoEnabled ? <Video className="h-6 w-6" /> : <VideoOff className="h-6 w-6" />}
-        </Button>
-        
-        <Button
-          onClick={toggleAudio}
-          variant={isAudioEnabled ? 'secondary' : 'destructive'}
-          size="lg"
-          disabled={!localStream}
-          className="rounded-full h-14 w-14"
-        >
-          {isAudioEnabled ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
-        </Button>
+          
+          <Button
+            onClick={toggleVideo}
+            variant="secondary"
+            size="lg"
+            className={`rounded-full h-16 w-16 ${!isVideoEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'}`}
+          >
+            {isVideoEnabled ? (
+              <Video className="h-7 w-7 text-white" />
+            ) : (
+              <VideoOff className="h-7 w-7 text-white" />
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );

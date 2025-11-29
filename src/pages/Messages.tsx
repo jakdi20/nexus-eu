@@ -47,8 +47,11 @@ export default function Messages() {
   const [sending, setSending] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [showVideoCall, setShowVideoCall] = useState(false);
-  const [videoRoomId, setVideoRoomId] = useState<string | null>(null);
+  const [activeCall, setActiveCall] = useState<{
+    roomId: string;
+    partnerCompanyId: string;
+    isInitiator: boolean;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -90,8 +93,11 @@ export default function Messages() {
 
   const handleAcceptCall = (roomId: string, fromCompanyId: string) => {
     setSelectedConversation(fromCompanyId);
-    setVideoRoomId(roomId);
-    setShowVideoCall(true);
+    setActiveCall({
+      roomId,
+      partnerCompanyId: fromCompanyId,
+      isInitiator: false,
+    });
   };
 
   const loadMyCompany = async () => {
@@ -309,8 +315,11 @@ export default function Messages() {
       return;
     }
 
-    setVideoRoomId(roomId);
-    setShowVideoCall(true);
+    setActiveCall({
+      roomId,
+      partnerCompanyId: selectedConversation,
+      isInitiator: true,
+    });
   };
 
   const formatFileSize = (bytes: number): string => {
@@ -490,14 +499,15 @@ export default function Messages() {
         </div>
 
         {/* Video Call Dialog */}
-        {showVideoCall && videoRoomId && myCompanyId && selectedConversation && (
-          <Dialog open={showVideoCall} onOpenChange={setShowVideoCall}>
-            <DialogContent className="max-w-6xl h-[90vh] p-0">
+        {activeCall && myCompanyId && (
+          <Dialog open={!!activeCall} onOpenChange={() => setActiveCall(null)}>
+            <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0">
               <VideoCall
-                roomId={videoRoomId}
+                roomId={activeCall.roomId}
                 myCompanyId={myCompanyId}
-                partnerCompanyId={selectedConversation}
-                onClose={() => setShowVideoCall(false)}
+                partnerCompanyId={activeCall.partnerCompanyId}
+                isInitiator={activeCall.isInitiator}
+                onClose={() => setActiveCall(null)}
               />
             </DialogContent>
           </Dialog>
