@@ -287,17 +287,17 @@ const Company = () => {
           </div>
           <div className="flex gap-3">
             <Button 
-              onClick={() => setPremiumDialogOpen(true)} 
+              onClick={() => setEditDialogOpen(true)} 
               size="lg" 
               variant="outline"
               className="gap-2"
             >
-              <Sparkles className="h-5 w-5" />
-              Premium
-            </Button>
-            <Button onClick={() => setEditDialogOpen(true)} size="lg" className="gap-2">
               <Edit className="h-5 w-5" />
               Bearbeiten
+            </Button>
+            <Button onClick={() => setPremiumDialogOpen(true)} size="lg" className="gap-2">
+              <Sparkles className="h-5 w-5" />
+              Premium
             </Button>
           </div>
         </div>
