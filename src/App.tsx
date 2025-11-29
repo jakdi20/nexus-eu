@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Partners from "./pages/Partners";
 import PartnerDetail from "./pages/PartnerDetail";
 import AISearch from "./pages/AISearch";
+import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,9 +24,10 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/partner/:id" element={<PartnerDetail />} />
-          <Route path="/ai-search" element={<AISearch />} />
+        <Route path="/partners" element={<Partners />} />
+        <Route path="/partner/:id" element={<PartnerDetail />} />
+        <Route path="/ai-search" element={<AISearch />} />
+        <Route path="/messages" element={<Messages />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

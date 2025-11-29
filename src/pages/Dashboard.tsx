@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Building2, Users, TrendingUp, Search, Sparkles } from "lucide-react";
+import { LogOut, Building2, Users, TrendingUp, Search, Sparkles, MessageCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { NotificationBell } from "@/components/NotificationBell";
@@ -138,6 +138,10 @@ const Dashboard = () => {
                 <Button variant="outline" onClick={() => navigate("/partners")}>
                   <Search className="mr-2 h-4 w-4" />
                   Alle Partner
+                </Button>
+                <Button variant="outline" onClick={() => navigate("/messages")}>
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Nachrichten
                 </Button>
               </>
             )}
