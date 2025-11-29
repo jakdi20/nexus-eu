@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { 
   Search as SearchIcon, 
   MapPin, 
@@ -54,6 +55,7 @@ interface AISearchResult {
 const Search = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   const [profiles, setProfiles] = useState<CompanyProfile[]>([]);
   const [filteredProfiles, setFilteredProfiles] = useState<CompanyProfile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -95,8 +97,8 @@ const Search = () => {
     } catch (error) {
       console.error("Error loading profiles:", error);
       toast({
-        title: "Fehler",
-        description: "Profile konnten nicht geladen werden",
+        title: t("common.error"),
+        description: t("company.loadError"),
         variant: "destructive",
       });
     } finally {
@@ -130,8 +132,8 @@ const Search = () => {
   const handleAISearch = async () => {
     if (!aiQuery.trim()) {
       toast({
-        title: "Eingabe erforderlich",
-        description: "Bitte geben Sie eine Suchanfrage ein",
+        title: t("search.inputRequired"),
+        description: t("search.enterQuery"),
         variant: "destructive",
       });
       return;
@@ -142,7 +144,7 @@ const Search = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke('ai-partner-search', {
-        body: { query: aiQuery }
+        body: { query: aiQuery, language }
       });
 
       if (error) throw error;
@@ -152,20 +154,20 @@ const Search = () => {
 
       if (data.results?.length === 0) {
         toast({
-          title: "Keine Ergebnisse",
-          description: "Versuchen Sie eine andere Suchanfrage",
+          title: t("common.noResults"),
+          description: t("search.tryAgain"),
         });
       } else {
         toast({
-          title: "Suche abgeschlossen",
-          description: `${data.results.length} passende Unternehmen gefunden`,
+          title: t("search.searchComplete"),
+          description: `${data.results.length} ${t("search.companiesFound")}`,
         });
       }
     } catch (error: any) {
       console.error("Search error:", error);
       toast({
-        title: "Fehler bei der Suche",
-        description: error.message || "Bitte versuchen Sie es erneut",
+        title: t("search.searchError"),
+        description: error.message || t("search.tryAgain"),
         variant: "destructive",
       });
     } finally {
@@ -183,7 +185,7 @@ const Search = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-muted-foreground">Lade Partner...</p>
+          <p className="text-muted-foreground">{t("search.loadingPartners")}</p>
         </div>
       </div>
     );
@@ -194,34 +196,34 @@ const Search = () => {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary text-white shadow-glow">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
             <Sparkles className="h-6 w-6" />
           </div>
           <div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Partner suchen
+              {t("search.title")}
             </h1>
             <p className="text-muted-foreground mt-1">
-              KI-gestützte Suche und alle Partner
+              {t("search.aiSupported")}
             </p>
           </div>
         </div>
       </div>
 
-      <Card className="mb-8 shadow-lg border-2">
+      <Card className="mb-8 shadow-elevated border-2">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5" />
-            KI-Suche
+            {t("search.aiSearch")}
           </CardTitle>
           <CardDescription>
-            Beschreiben Sie einfach, was Sie suchen - z.B. "CNC-Fräsdienstleister in Bayern" oder "Bio-zertifizierte Lebensmittellieferanten"
+            {t("search.aiPlaceholder")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex gap-3">
             <Input
-              placeholder="Was suchen Sie? Beschreiben Sie Ihren idealen Partner..."
+              placeholder={t("search.placeholder")}
               value={aiQuery}
               onChange={(e) => setAiQuery(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && !aiSearching && handleAISearch()}
@@ -237,12 +239,12 @@ const Search = () => {
               {aiSearching ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Suche...
+                  {t("search.searching")}
                 </>
               ) : (
                 <>
                   <Sparkles className="mr-2 h-5 w-5" />
-                  Suchen
+                  {t("common.search")}
                 </>
               )}
             </Button>
@@ -253,12 +255,12 @@ const Search = () => {
       {/* AI Results */}
       {hasSearched && aiResults.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">KI-Suchergebnisse</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("search.aiResults")}</h2>
           <div className="grid gap-4">
             {aiResults.map((company) => (
               <Card
                 key={company.id}
-                className="hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                className="hover:shadow-glow transition-all duration-300 cursor-pointer group"
                 onClick={() => navigate(`/partner/${company.id}`)}
               >
                 <CardHeader>
@@ -272,7 +274,7 @@ const Search = () => {
                           <CheckCircle2 className="h-5 w-5 text-primary" />
                         )}
                         <Badge className="ml-auto" variant={company.ai_score >= 80 ? "default" : "secondary"}>
-                          {company.ai_score}% Match
+                          {company.ai_score}% {t("search.match")}
                         </Badge>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-primary mb-3 bg-primary/10 rounded-lg px-3 py-2">
@@ -309,26 +311,26 @@ const Search = () => {
       {!hasSearched && <AIRecommendations />}
 
       {/* Filter Section */}
-      <Card className="mb-8 shadow-lg">
+      <Card className="mb-8 shadow-elevated">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <SearchIcon className="h-5 w-5" />
-            Filter
+            {t("common.filter")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Input
-              placeholder="Suche nach Unternehmen..."
+              placeholder={t("search.searchCompanies")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             <Select value={industryFilter} onValueChange={setIndustryFilter}>
               <SelectTrigger>
-                <SelectValue placeholder="Branche" />
+                <SelectValue placeholder={t("company.industry")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Alle Branchen</SelectItem>
+                <SelectItem value="all">{t("company.allIndustries")}</SelectItem>
                 {uniqueIndustries.map((industry) => (
                   <SelectItem key={industry} value={industry}>
                     {industry}
@@ -338,10 +340,10 @@ const Search = () => {
             </Select>
             <Select value={countryFilter} onValueChange={setCountryFilter}>
               <SelectTrigger>
-                <SelectValue placeholder="Land" />
+                <SelectValue placeholder={t("company.country")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Alle Länder</SelectItem>
+                <SelectItem value="all">{t("company.allCountries")}</SelectItem>
                 {uniqueCountries.map((country) => (
                   <SelectItem key={country} value={country}>
                     {country}
@@ -355,14 +357,14 @@ const Search = () => {
 
       {/* All Partners */}
       <div className="mb-4">
-        <h2 className="text-2xl font-bold">Alle Partner ({filteredProfiles.length})</h2>
+        <h2 className="text-2xl font-bold">{t("search.allPartners")} ({filteredProfiles.length})</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProfiles.map((profile) => (
           <Card
             key={profile.id}
-            className="hover:shadow-xl transition-all duration-300 cursor-pointer group"
+            className="hover:shadow-glow transition-all duration-300 cursor-pointer group"
             onClick={() => navigate(`/partner/${profile.id}`)}
           >
             <CardHeader>
@@ -373,7 +375,7 @@ const Search = () => {
                 )}
               </CardTitle>
               <CardDescription className="line-clamp-2">
-                {profile.company_description || "Keine Beschreibung"}
+                {profile.company_description || t("common.noDescription")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -394,7 +396,7 @@ const Search = () => {
             </CardContent>
             <CardFooter>
               <Button className="w-full" variant="outline">
-                Profil ansehen
+                {t("common.viewProfile")}
               </Button>
             </CardFooter>
           </Card>
@@ -405,7 +407,7 @@ const Search = () => {
         <Card className="text-center py-12">
           <CardContent>
             <p className="text-muted-foreground text-lg">
-              Keine Partner gefunden. Versuchen Sie andere Filter.
+              {t("search.noResults")}
             </p>
           </CardContent>
         </Card>

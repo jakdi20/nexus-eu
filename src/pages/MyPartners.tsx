@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Heart, MessageCircle, Building2, MapPin, TrendingUp, CheckCircle2, Loader2 } from "lucide-react";
 
 interface PartnerProfile {
@@ -28,6 +29,7 @@ interface PartnerProfile {
 const MyPartners = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   const [partners, setPartners] = useState<PartnerProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [myCompanyId, setMyCompanyId] = useState<string | null>(null);
@@ -44,7 +46,6 @@ const MyPartners = () => {
         return;
       }
 
-      // Get my company ID
       const { data: myCompany } = await supabase
         .from("company_profiles")
         .select("id")
@@ -58,7 +59,6 @@ const MyPartners = () => {
 
       setMyCompanyId(myCompany.id);
 
-      // Get all companies I've exchanged messages with
       const { data: sentMessages } = await supabase
         .from("messages")
         .select("to_company_id, created_at")
@@ -71,7 +71,6 @@ const MyPartners = () => {
         .eq("to_company_id", myCompany.id)
         .order("created_at", { ascending: false });
 
-      // Combine and get unique partner IDs
       const partnerIds = new Set<string>();
       const partnerStats = new Map<string, { lastMessage: string; count: number }>();
 
@@ -98,7 +97,6 @@ const MyPartners = () => {
         return;
       }
 
-      // Fetch partner profiles
       const { data: profiles, error } = await supabase
         .from("company_profiles")
         .select("*")
@@ -106,7 +104,6 @@ const MyPartners = () => {
 
       if (error) throw error;
 
-      // Add message stats to profiles
       const partnersWithStats = profiles?.map((profile) => {
         const stats = partnerStats.get(profile.id);
         return {
@@ -115,7 +112,6 @@ const MyPartners = () => {
           message_count: stats?.count,
         };
       }).sort((a, b) => {
-        // Sort by last message time (most recent first)
         if (!a.last_message_time) return 1;
         if (!b.last_message_time) return -1;
         return new Date(b.last_message_time).getTime() - new Date(a.last_message_time).getTime();
@@ -125,8 +121,8 @@ const MyPartners = () => {
     } catch (error) {
       console.error("Error loading partners:", error);
       toast({
-        title: "Fehler",
-        description: "Partner konnten nicht geladen werden",
+        title: t("common.error"),
+        description: t("partners.loadError"),
         variant: "destructive",
       });
     } finally {
@@ -146,11 +142,11 @@ const MyPartners = () => {
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return "Gerade eben";
-    if (diffMins < 60) return `vor ${diffMins} Min.`;
-    if (diffHours < 24) return `vor ${diffHours} Std.`;
-    if (diffDays < 7) return `vor ${diffDays} Tag${diffDays > 1 ? "en" : ""}`;
-    return date.toLocaleDateString("de-DE");
+    if (diffMins < 1) return t("messages.justNow");
+    if (diffMins < 60) return t("messages.minutesAgo", { count: diffMins });
+    if (diffHours < 24) return t("messages.hoursAgo", { count: diffHours });
+    if (diffDays < 7) return diffDays > 1 ? t("messages.daysAgoPlural", { count: diffDays }) : t("messages.daysAgo", { count: diffDays });
+    return language === "de" ? date.toLocaleDateString("de-DE") : date.toLocaleDateString("en-US");
   };
 
   if (loading) {
@@ -158,7 +154,7 @@ const MyPartners = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-muted-foreground">Lade Partner...</p>
+          <p className="text-muted-foreground">{t("search.loadingPartners")}</p>
         </div>
       </div>
     );
@@ -166,18 +162,17 @@ const MyPartners = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary text-white">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
             <Heart className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-foreground">Meine Partner</h1>
+            <h1 className="text-4xl font-bold text-foreground">{t("partners.title")}</h1>
             <p className="text-muted-foreground mt-1">
               {partners.length === 0
-                ? "Noch keine Partner"
-                : `${partners.length} Partner mit denen Sie in Kontakt stehen`}
+                ? t("partners.noPartners")
+                : `${partners.length} ${t("partners.partnersConnected")}`}
             </p>
           </div>
         </div>
@@ -187,12 +182,12 @@ const MyPartners = () => {
         <Card className="text-center py-12">
           <CardContent>
             <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-            <p className="text-lg font-medium mb-2">Noch keine Partner</p>
+            <p className="text-lg font-medium mb-2">{t("partners.noPartners")}</p>
             <p className="text-sm text-muted-foreground mb-6">
-              Beginnen Sie mit der Suche nach passenden Partnern und nehmen Sie Kontakt auf
+              {t("partners.noPartnersDesc")}
             </p>
             <Button onClick={() => navigate("/search")}>
-              Partner suchen
+              {t("partners.searchPartners")}
             </Button>
           </CardContent>
         </Card>
@@ -201,7 +196,7 @@ const MyPartners = () => {
           {partners.map((partner) => (
             <Card
               key={partner.id}
-              className="hover:shadow-xl transition-all duration-300 group"
+              className="hover:shadow-glow transition-all duration-300 group"
             >
               <CardHeader>
                 <div className="flex items-start justify-between mb-2">
@@ -213,7 +208,7 @@ const MyPartners = () => {
                   </CardTitle>
                 </div>
                 <CardDescription className="line-clamp-2 min-h-[40px]">
-                  {partner.company_description || "Keine Beschreibung verfügbar"}
+                  {partner.company_description || t("common.noDescription")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -230,19 +225,19 @@ const MyPartners = () => {
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <TrendingUp className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{partner.company_size} Mitarbeiter</span>
+                    <span className="truncate">{partner.company_size} {t("common.employees")}</span>
                   </div>
 
                   {partner.last_message_time && (
                     <div className="pt-2 border-t">
                       <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>Letzte Nachricht</span>
+                        <span>{t("messages.lastMessage")}</span>
                         <span>{formatRelativeTime(partner.last_message_time)}</span>
                       </div>
                       {partner.message_count && (
                         <div className="flex items-center gap-1 mt-1">
                           <MessageCircle className="h-3 w-3" />
-                          <span className="text-xs">{partner.message_count} Nachrichten</span>
+                          <span className="text-xs">{partner.message_count} {t("messages.messagesCount")}</span>
                         </div>
                       )}
                     </div>
@@ -266,14 +261,14 @@ const MyPartners = () => {
                   onClick={() => startChat(partner.id)}
                 >
                   <MessageCircle className="mr-2 h-4 w-4" />
-                  Chat
+                  {t("common.chat")}
                 </Button>
                 <Button 
                   className="flex-1" 
                   variant="outline"
                   onClick={() => navigate(`/partner/${partner.id}`)}
                 >
-                  Profil
+                  {t("common.profile")}
                 </Button>
               </CardFooter>
             </Card>
