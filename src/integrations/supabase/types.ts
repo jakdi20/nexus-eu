@@ -26,9 +26,12 @@ export type Database = {
           founded_year: number | null
           id: string
           industry: string[]
+          is_premium: boolean | null
+          is_sponsored: boolean | null
           logo_url: string | null
           looking_for: string | null
           offers: string | null
+          sponsored_until: string | null
           updated_at: string | null
           user_id: string
           verification_badge_url: string | null
@@ -47,9 +50,12 @@ export type Database = {
           founded_year?: number | null
           id?: string
           industry: string[]
+          is_premium?: boolean | null
+          is_sponsored?: boolean | null
           logo_url?: string | null
           looking_for?: string | null
           offers?: string | null
+          sponsored_until?: string | null
           updated_at?: string | null
           user_id: string
           verification_badge_url?: string | null
@@ -68,9 +74,12 @@ export type Database = {
           founded_year?: number | null
           id?: string
           industry?: string[]
+          is_premium?: boolean | null
+          is_sponsored?: boolean | null
           logo_url?: string | null
           looking_for?: string | null
           offers?: string | null
+          sponsored_until?: string | null
           updated_at?: string | null
           user_id?: string
           verification_badge_url?: string | null
@@ -256,6 +265,44 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          company_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          status: string
+          type: string
+        }
+        Insert: {
+          amount: number
+          company_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          status?: string
+          type: string
+        }
+        Update: {
+          amount?: number
+          company_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          status?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       video_call_sessions: {
         Row: {
