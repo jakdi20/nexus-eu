@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon } from 'lucide-react';
 import VideoCall from '@/components/VideoCall';
+import IncomingCallNotification from '@/components/IncomingCallNotification';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 interface Message {
@@ -48,7 +49,6 @@ export default function Messages() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showVideoCall, setShowVideoCall] = useState(false);
   const [videoRoomId, setVideoRoomId] = useState<string | null>(null);
-  const [incomingCall, setIncomingCall] = useState<{ roomId: string; fromCompanyId: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -88,34 +88,11 @@ export default function Messages() {
     };
   }, [myCompanyId, selectedConversation]);
 
-  // Listen for incoming or updated video call sessions where this company is the callee
-  useEffect(() => {
-    if (!myCompanyId) return;
-
-    const videoChannel = supabase
-      .channel('video-call-sessions')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'video_call_sessions' },
-        (payload) => {
-          const session = payload.new as any;
-          if (!session) return;
-
-          const isCallee = session.company_id_2 === myCompanyId;
-          const isActiveStatus = session.status === 'calling' || session.status === 'pending';
-
-          if (isCallee && isActiveStatus) {
-            console.log('Incoming video call session detected:', session);
-            setIncomingCall({ roomId: session.room_id, fromCompanyId: session.company_id_1 });
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(videoChannel);
-    };
-  }, [myCompanyId]);
+  const handleAcceptCall = (roomId: string, fromCompanyId: string) => {
+    setSelectedConversation(fromCompanyId);
+    setVideoRoomId(roomId);
+    setShowVideoCall(true);
+  };
 
   const loadMyCompany = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -352,6 +329,14 @@ export default function Messages() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Global Incoming Call Notification */}
+      {myCompanyId && (
+        <IncomingCallNotification
+          myCompanyId={myCompanyId}
+          onAcceptCall={handleAcceptCall}
+        />
+      )}
+      
       <div className="container mx-auto p-4 max-w-6xl">
         <div className="flex items-center gap-4 mb-6">
           <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
@@ -390,45 +375,6 @@ export default function Messages() {
 
           {/* Messages */}
           <Card className="md:col-span-2">
-            {incomingCall && !showVideoCall && (
-              <div className="border-b px-6 py-3 flex items-center justify-between bg-accent/40">
-                <div>
-                  <p className="font-semibold">Eingehender Videoanruf</p>
-                  <p className="text-sm text-muted-foreground">
-                    Von:{' '}
-                    {conversations.find((c) => c.company_id === incomingCall.fromCompanyId)?.company_name ||
-                      'Partnerfirma'}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      setSelectedConversation(incomingCall.fromCompanyId);
-                      setVideoRoomId(incomingCall.roomId);
-                      setShowVideoCall(true);
-                      setIncomingCall(null);
-                    }}
-                  >
-                    Annehmen
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={async () => {
-                      if (!incomingCall) return;
-                      await supabase
-                        .from('video_call_sessions')
-                        .update({ status: 'ended', ended_at: new Date().toISOString() })
-                        .eq('room_id', incomingCall.roomId);
-                      setIncomingCall(null);
-                    }}
-                  >
-                    Ablehnen
-                  </Button>
-                </div>
-              </div>
-            )}
             {selectedConversation ? (
               <>
                 <CardHeader className="flex flex-row items-center justify-between">
@@ -546,7 +492,7 @@ export default function Messages() {
         {/* Video Call Dialog */}
         {showVideoCall && videoRoomId && myCompanyId && selectedConversation && (
           <Dialog open={showVideoCall} onOpenChange={setShowVideoCall}>
-            <DialogContent className="max-w-5xl">
+            <DialogContent className="max-w-6xl h-[90vh] p-0">
               <VideoCall
                 roomId={videoRoomId}
                 myCompanyId={myCompanyId}
