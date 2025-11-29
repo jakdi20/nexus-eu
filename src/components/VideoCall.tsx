@@ -590,21 +590,22 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-black">
+    <div className="relative w-full h-full flex flex-col bg-black overflow-hidden">
       {/* Header - Fixed at top */}
-      <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/80 to-transparent p-6">
+      <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-4 md:p-6">
         <div className="flex items-center justify-between">
           <div className="text-white">
-            <h2 className="text-xl font-semibold">Videoanruf</h2>
-            <p className="text-sm text-white/70 mt-1">{getStatusText()}</p>
+            <h2 className="text-lg md:text-xl font-semibold">Videoanruf</h2>
+            <p className="text-xs md:text-sm text-white/70 mt-1">{getStatusText()}</p>
           </div>
           <Button 
             onClick={endCall} 
             size="lg"
-            className="bg-red-600 hover:bg-red-700 text-white rounded-full h-12 px-6"
+            className="bg-red-600 hover:bg-red-700 text-white rounded-full h-10 md:h-12 px-4 md:px-6"
           >
-            <PhoneOff className="h-5 w-5 mr-2" />
-            Auflegen
+            <PhoneOff className="h-4 w-4 md:h-5 md:w-5 mr-2" />
+            <span className="hidden md:inline">Auflegen</span>
+            <span className="md:hidden">Ende</span>
           </Button>
         </div>
       </div>
@@ -642,7 +643,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
 
         {/* Local Video (Picture-in-Picture) */}
         {localStream && (
-          <div className="absolute top-24 right-6 w-64 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30">
+          <div className="absolute top-20 md:top-24 right-3 md:right-6 w-32 md:w-64 aspect-video bg-black rounded-xl md:rounded-2xl overflow-hidden shadow-2xl border-2 md:border-4 border-white/30 z-10">
             <video
               ref={localVideoRef}
               autoPlay
@@ -650,12 +651,12 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
               playsInline
               className="w-full h-full object-cover"
             />
-            <div className="absolute top-2 left-2 text-white text-sm font-medium bg-black/70 px-3 py-1 rounded-full">
+            <div className="absolute top-1 md:top-2 left-1 md:left-2 text-white text-xs md:text-sm font-medium bg-black/70 px-2 md:px-3 py-0.5 md:py-1 rounded-full">
               Sie
             </div>
             {!isVideoEnabled && (
               <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
-                <VideoOff className="h-12 w-12 text-white/50" />
+                <VideoOff className="h-6 w-6 md:h-12 md:w-12 text-white/50" />
               </div>
             )}
           </div>
@@ -663,18 +664,18 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       </div>
 
       {/* Controls - Fixed at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/90 to-transparent p-8">
-        <div className="flex items-center justify-center gap-4">
+      <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/90 to-transparent p-4 md:p-8">
+        <div className="flex items-center justify-center gap-3 md:gap-4">
           <Button
             onClick={toggleAudio}
             variant="secondary"
             size="lg"
-            className={`rounded-full h-16 w-16 ${!isAudioEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'}`}
+            className={`rounded-full h-12 w-12 md:h-16 md:w-16 ${!isAudioEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'}`}
           >
             {isAudioEnabled ? (
-              <Mic className="h-7 w-7 text-white" />
+              <Mic className="h-5 w-5 md:h-7 md:w-7 text-white" />
             ) : (
-              <MicOff className="h-7 w-7 text-white" />
+              <MicOff className="h-5 w-5 md:h-7 md:w-7 text-white" />
             )}
           </Button>
           
@@ -682,12 +683,12 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
             onClick={toggleVideo}
             variant="secondary"
             size="lg"
-            className={`rounded-full h-16 w-16 ${!isVideoEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'}`}
+            className={`rounded-full h-12 w-12 md:h-16 md:w-16 ${!isVideoEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'}`}
           >
             {isVideoEnabled ? (
-              <Video className="h-7 w-7 text-white" />
+              <Video className="h-5 w-5 md:h-7 md:w-7 text-white" />
             ) : (
-              <VideoOff className="h-7 w-7 text-white" />
+              <VideoOff className="h-5 w-5 md:h-7 md:w-7 text-white" />
             )}
           </Button>
         </div>
