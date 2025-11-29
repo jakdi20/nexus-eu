@@ -33,7 +33,7 @@ interface Conversation {
   last_message_time: string;
 }
 
-export default function Messages() {
+function Messages() {
   const [searchParams] = useSearchParams();
   const partnerId = searchParams.get('partnerId');
   const navigate = useNavigate();
@@ -97,14 +97,12 @@ export default function Messages() {
           console.log('New message received:', payload);
           const newMsg = payload.new as any;
           
-          // Filter in JavaScript - only process relevant messages
           const isRelevant = 
             (newMsg.from_company_id === myCompanyId && newMsg.to_company_id === selectedConversation) ||
             (newMsg.from_company_id === selectedConversation && newMsg.to_company_id === myCompanyId);
           
           if (!isRelevant) return;
           
-          // Load complete message with all joins
           const { data: fullMessage } = await supabase
             .from('messages')
             .select(`
@@ -117,7 +115,6 @@ export default function Messages() {
 
           if (fullMessage) {
             setMessages((prev) => {
-              // Only add if not already in list
               if (prev.some(m => m.id === fullMessage.id)) {
                 return prev;
               }
@@ -125,7 +122,6 @@ export default function Messages() {
             });
           }
           
-          // Reload conversations to update last message
           loadConversations();
         }
       )
@@ -148,8 +144,8 @@ export default function Messages() {
 
     if (error) {
       toast({
-        title: 'Fehler',
-        description: 'Firmenprofil konnte nicht geladen werden',
+        title: t('common.error'),
+        description: language === 'de' ? 'Firmenprofil konnte nicht geladen werden' : 'Company profile could not be loaded',
         variant: 'destructive',
       });
       return;
@@ -180,7 +176,7 @@ export default function Messages() {
       if (!conversationsMap.has(key) || new Date(msg.created_at) > new Date(conversationsMap.get(key)!.last_message_time)) {
         conversationsMap.set(key, {
           company_id: msg.to_company_id,
-          company_name: msg.to_company?.company_name || 'Unbekannt',
+          company_name: msg.to_company?.company_name || 'Unknown',
           last_message: msg.content,
           last_message_time: msg.created_at,
         });
@@ -192,7 +188,7 @@ export default function Messages() {
       if (!conversationsMap.has(key) || new Date(msg.created_at) > new Date(conversationsMap.get(key)!.last_message_time)) {
         conversationsMap.set(key, {
           company_id: msg.from_company_id,
-          company_name: msg.from_company?.company_name || 'Unbekannt',
+          company_name: msg.from_company?.company_name || 'Unknown',
           last_message: msg.content,
           last_message_time: msg.created_at,
         });
@@ -222,8 +218,8 @@ export default function Messages() {
 
     if (error) {
       toast({
-        title: 'Fehler',
-        description: 'Nachrichten konnten nicht geladen werden',
+        title: t('common.error'),
+        description: language === 'de' ? 'Nachrichten konnten nicht geladen werden' : 'Messages could not be loaded',
         variant: 'destructive',
       });
       return;
@@ -231,7 +227,6 @@ export default function Messages() {
 
     setMessages(data);
 
-    // Mark messages as read and update unread count
     await markAsRead(companyId);
     refreshUnreadCount();
   };
@@ -258,8 +253,8 @@ export default function Messages() {
     if (file) {
       if (file.size > 20 * 1024 * 1024) {
         toast({
-          title: 'Fehler',
-          description: 'Datei ist zu groß (max. 20MB)',
+          title: t('common.error'),
+          description: language === 'de' ? 'Datei ist zu groß (max. 20MB)' : 'File is too large (max. 20MB)',
           variant: 'destructive',
         });
         return;
@@ -283,8 +278,8 @@ export default function Messages() {
       fileUrl = await uploadFile(selectedFile);
       if (!fileUrl) {
         toast({
-          title: 'Fehler',
-          description: 'Datei konnte nicht hochgeladen werden',
+          title: t('common.error'),
+          description: language === 'de' ? 'Datei konnte nicht hochgeladen werden' : 'File could not be uploaded',
           variant: 'destructive',
         });
         setSending(false);
@@ -296,9 +291,8 @@ export default function Messages() {
       fileSize = selectedFile.size;
     }
 
-    const messageContent = newMessage.trim() || (selectedFile ? `Datei gesendet: ${selectedFile.name}` : '');
+    const messageContent = newMessage.trim() || (selectedFile ? `${language === 'de' ? 'Datei gesendet' : 'File sent'}: ${selectedFile.name}` : '');
     
-    // Optimistic update: Add message immediately to UI
     const tempId = `temp-${Date.now()}`;
     const optimisticMessage: Message = {
       id: tempId,
@@ -330,11 +324,10 @@ export default function Messages() {
     }).select().single();
 
     if (error) {
-      // Remove optimistic message on error
       setMessages((prev) => prev.filter(m => m.id !== tempId));
       toast({
-        title: 'Fehler',
-        description: 'Nachricht konnte nicht gesendet werden',
+        title: t('common.error'),
+        description: language === 'de' ? 'Nachricht konnte nicht gesendet werden' : 'Message could not be sent',
         variant: 'destructive',
       });
       setSending(false);
@@ -342,12 +335,8 @@ export default function Messages() {
       return;
     }
 
-    // Replace temp message with real one
     setMessages((prev) => prev.map(m => m.id === tempId ? data : m));
-    
-    // Update conversations list
     loadConversations();
-    
     setSending(false);
     setUploading(false);
   };
@@ -366,8 +355,8 @@ export default function Messages() {
 
     if (error) {
       toast({
-        title: 'Fehler',
-        description: 'Videoanruf konnte nicht gestartet werden',
+        title: t('common.error'),
+        description: language === 'de' ? 'Videoanruf konnte nicht gestartet werden' : 'Video call could not be started',
         variant: 'destructive',
       });
       return;
@@ -388,7 +377,6 @@ export default function Messages() {
 
   const translateMessage = async (messageId: string, text: string) => {
     if (translatedMessages[messageId]) {
-      // Remove translation (show original)
       const newTranslations = { ...translatedMessages };
       delete newTranslations[messageId];
       setTranslatedMessages(newTranslations);
@@ -427,216 +415,4 @@ export default function Messages() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">{t("common.loading")}</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-4 max-w-6xl">
-        <div className="flex items-center gap-4 mb-6">
-          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-3xl font-bold">{t("messages.title")}</h1>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-[calc(100vh-200px)]">
-          {/* Conversations List */}
-          <Card className="md:col-span-1">
-            <CardHeader>
-              <CardTitle>{language === "de" ? "Konversationen" : "Conversations"}</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <ScrollArea className="h-[calc(100vh-300px)]">
-                {conversations.length === 0 ? (
-                  <p className="text-center text-muted-foreground p-4">
-                    {language === "de" ? "Keine Konversationen" : "No conversations"}
-                  </p>
-                ) : (
-                  conversations.map((conv) => (
-                    <div
-                      key={conv.company_id}
-                      className={`p-4 cursor-pointer hover:bg-accent border-b ${
-                        selectedConversation === conv.company_id ? 'bg-accent' : ''
-                      }`}
-                      onClick={() => setSelectedConversation(conv.company_id)}
-                    >
-                      <p className="font-semibold">{conv.company_name}</p>
-                      <p className="text-sm text-muted-foreground truncate">{conv.last_message}</p>
-                    </div>
-                  ))
-                )}
-              </ScrollArea>
-            </CardContent>
-          </Card>
-
-          {/* Messages */}
-          <Card className="md:col-span-2">
-            {selectedConversation ? (
-              <>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>
-                    {conversations.find((c) => c.company_id === selectedConversation)?.company_name}
-                  </CardTitle>
-                  <Button onClick={startVideoCall} variant="outline" size="sm">
-                    <Video className="h-4 w-4 mr-2" />
-                    {language === "de" ? "Videoanruf" : "Video Call"}
-                  </Button>
-                </CardHeader>
-                <CardContent className="flex flex-col h-[calc(100vh-350px)]">
-                  <ScrollArea className="flex-1 pr-4">
-                    {messages.map((msg) => {
-                      const isMyMessage = msg.from_company_id === myCompanyId;
-                      const showTranslateButton = language === 'en' && !isMyMessage;
-                      const displayText = translatedMessages[msg.id] || msg.content;
-                      const isTranslated = !!translatedMessages[msg.id];
-                      
-                      return (
-                        <div
-                          key={msg.id}
-                          className={`mb-4 flex ${
-                            isMyMessage ? 'justify-end' : 'justify-start'
-                          }`}
-                        >
-                          <div
-                            className={`max-w-[70%] p-3 rounded-lg ${
-                              isMyMessage
-                                ? 'bg-primary text-primary-foreground'
-                                : 'bg-muted'
-                            }`}
-                          >
-                            <p className="whitespace-pre-wrap">{displayText}</p>
-                            
-                            {showTranslateButton && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="mt-2 h-6 text-xs"
-                                onClick={() => translateMessage(msg.id, msg.content)}
-                                disabled={translatingMessageId === msg.id}
-                              >
-                                <Languages className="h-3 w-3 mr-1" />
-                                {translatingMessageId === msg.id 
-                                  ? t("messages.translating")
-                                  : isTranslated 
-                                    ? t("messages.showOriginal")
-                                    : t("messages.showTranslation")
-                                }
-                              </Button>
-                            )}
-                            
-                            {msg.file_url && (
-                              <div className="mt-2 p-2 bg-background/10 rounded flex items-center gap-2">
-                                <FileIcon className="h-4 w-4" />
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm truncate">{msg.file_name}</p>
-                                  {msg.file_size && (
-                                    <p className="text-xs opacity-70">{formatFileSize(msg.file_size)}</p>
-                                  )}
-                                </div>
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  onClick={() => window.open(msg.file_url, '_blank')}
-                                >
-                                  <Download className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            )}
-                            
-                            <p className="text-xs mt-1 opacity-70">
-                              {new Date(msg.created_at).toLocaleString(language === 'de' ? 'de-DE' : 'en-US')}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                    <div ref={messagesEndRef} />
-                  </ScrollArea>
-
-                  <div className="space-y-2 mt-4">
-                    {selectedFile && (
-                      <div className="flex items-center gap-2 p-2 bg-muted rounded">
-                        <FileIcon className="h-4 w-4" />
-                        <span className="text-sm flex-1 truncate">{selectedFile.name}</span>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => {
-                            setSelectedFile(null);
-                            if (fileInputRef.current) fileInputRef.current.value = '';
-                          }}
-                        >
-                          ✕
-                        </Button>
-                      </div>
-                    )}
-                    
-                    <div className="flex gap-2">
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        className="hidden"
-                        onChange={handleFileSelect}
-                      />
-                      <Button
-                        onClick={() => fileInputRef.current?.click()}
-                        variant="outline"
-                        size="icon"
-                        disabled={uploading}
-                      >
-                        <Paperclip className="h-4 w-4" />
-                      </Button>
-                      <Input
-                        placeholder={t("messages.typeMessage")}
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-                        disabled={uploading}
-                      />
-                      <Button 
-                        onClick={sendMessage} 
-                        disabled={sending || uploading || (!newMessage.trim() && !selectedFile)}
-                      >
-                        {uploading ? '...' : <Send className="h-4 w-4" />}
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </>
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">{t("messages.selectConversation")}</p>
-              </div>
-            )}
-          </Card>
-        </div>
-
-        {/* Video Call Dialog */}
-        {activeCall && myCompanyId && (
-          <Dialog open={!!activeCall} onOpenChange={() => setActiveCall(null)}>
-            <DialogTitle className="sr-only">
-              {language === "de" ? "Videoanruf" : "Video Call"}
-            </DialogTitle>
-            <DialogDescription className="sr-only">
-              {language === "de" 
-                ? "Echtzeit-Videoanruf mit Ihrem Partnerunternehmen"
-                : "Real-time video call with your partner company"
-              }
-            </DialogDescription>
-            <VideoCall
-              roomId={activeCall.roomId}
-              myCompanyId={myCompanyId}
-              partnerCompanyId={activeCall.partnerCompanyId}
-              isInitiator={activeCall.isInitiator}
-              onClose={() => setActiveCall(null)}
-            />
-          </Dialog>
-        )}
-      </div>
-    </div>
-  );
-}
+      <div className=
