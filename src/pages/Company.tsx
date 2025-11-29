@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { MonetizationCard } from "@/components/MonetizationCard";
+import { CompanyInsights } from "@/components/CompanyInsights";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -72,6 +73,7 @@ const Company = () => {
   const [saving, setSaving] = useState(false);
   const [partnersContacted, setPartnersContacted] = useState(0);
   const [profileVisits, setProfileVisits] = useState(0);
+  const [insightsDialogOpen, setInsightsDialogOpen] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -301,13 +303,17 @@ const Company = () => {
 
         {/* Statistics Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <Card>
+          <Card 
+            className="cursor-pointer hover:shadow-glow transition-all duration-200 hover:scale-[1.02]"
+            onClick={() => setInsightsDialogOpen(true)}
+          >
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-2">
                 <MessageSquare className="h-5 w-5 text-primary" />
                 <p className="text-sm font-medium text-muted-foreground">Kontaktierte Partner</p>
               </div>
               <p className="text-3xl font-bold text-foreground">{partnersContacted}</p>
+              <p className="text-xs text-primary mt-2">Klicken für Details →</p>
             </CardContent>
           </Card>
 
@@ -718,6 +724,19 @@ const Company = () => {
               </div>
             </form>
           </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Insights Dialog */}
+      <Dialog open={insightsDialogOpen} onOpenChange={setInsightsDialogOpen}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Unternehmens-Insights</DialogTitle>
+            <DialogDescription>
+              Detaillierte Statistiken über Ihre Partner und Profilbesuche
+            </DialogDescription>
+          </DialogHeader>
+          <CompanyInsights companyId={profile.id} />
         </DialogContent>
       </Dialog>
     </div>

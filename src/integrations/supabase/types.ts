@@ -273,22 +273,31 @@ export type Database = {
         Row: {
           company_id: string
           id: string
+          referrer_url: string | null
           visited_at: string
+          visitor_city: string | null
           visitor_company_id: string | null
+          visitor_country: string | null
           visitor_ip: string | null
         }
         Insert: {
           company_id: string
           id?: string
+          referrer_url?: string | null
           visited_at?: string
+          visitor_city?: string | null
           visitor_company_id?: string | null
+          visitor_country?: string | null
           visitor_ip?: string | null
         }
         Update: {
           company_id?: string
           id?: string
+          referrer_url?: string | null
           visited_at?: string
+          visitor_city?: string | null
           visitor_company_id?: string | null
+          visitor_country?: string | null
           visitor_ip?: string | null
         }
         Relationships: [
