@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { query } = await req.json();
+    const { query, language = 'de' } = await req.json();
     
     if (!query || typeof query !== 'string') {
       throw new Error('Query parameter is required');
@@ -28,13 +28,11 @@ serve(async (req) => {
       }
     );
 
-    // Get the current user
     const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
     if (userError || !user) {
       throw new Error('Unauthorized');
     }
 
-    // Get all company profiles
     const { data: profiles, error: profilesError } = await supabaseClient
       .from('company_profiles')
       .select('*');
@@ -43,15 +41,27 @@ serve(async (req) => {
       throw profilesError;
     }
 
-    console.log(`AI Search: Processing query "${query}" for ${profiles?.length || 0} companies`);
+    console.log(`AI Search: Processing query "${query}" for ${profiles?.length || 0} companies in ${language}`);
 
-    // Use Lovable AI to understand the search query and match companies
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    const systemPrompt = `Du bist ein intelligenter Assistent, der Unternehmen bei der Partnersuche hilft.
+    const systemPrompt = language === 'en' 
+      ? `You are an intelligent assistant helping companies find partners.
+You will receive a search query and a list of company profiles.
+Your task is to identify and rank the most suitable companies.
+
+Rate each company on a scale of 0-100 based on:
+- How well the industry matches the query
+- How relevant the services/offerings are
+- How well the location fits
+- How well the desired partnerships match
+
+Respond ONLY with a JSON array containing the top 10 companies with their IDs and scores.
+Format: [{"id": "uuid", "score": 85, "reason": "Brief explanation"}]`
+      : `Du bist ein intelligenter Assistent, der Unternehmen bei der Partnersuche hilft.
 Du erhältst eine Suchanfrage und eine Liste von Unternehmensprofilen.
 Deine Aufgabe ist es, die passendsten Unternehmen zu identifizieren und zu ranken.
 
@@ -64,7 +74,24 @@ Bewerte jedes Unternehmen auf einer Skala von 0-100 basierend auf:
 Antworte NUR mit einem JSON-Array mit den IDs der Top 10 Unternehmen und ihrer Scores.
 Format: [{"id": "uuid", "score": 85, "reason": "Kurze Begründung"}]`;
 
-    const userPrompt = `Suchanfrage: "${query}"
+    const userPrompt = language === 'en'
+      ? `Search query: "${query}"
+
+Available companies:
+${profiles?.map((p, idx) => `
+${idx + 1}. ID: ${p.id}
+   Name: ${p.company_name}
+   Industry: ${p.industry}
+   Location: ${p.city}, ${p.country}
+   Size: ${p.company_size}
+   Description: ${p.company_description || 'No description'}
+   Offers: ${p.offers || 'No information'}
+   Looking for: ${p.looking_for || 'No information'}
+   Cooperation types: ${p.cooperation_type?.join(', ') || 'No information'}
+`).join('\n---\n')}
+
+Find the top 10 most suitable companies for this query.`
+      : `Suchanfrage: "${query}"
 
 Verfügbare Unternehmen:
 ${profiles?.map((p, idx) => `
@@ -73,10 +100,10 @@ ${idx + 1}. ID: ${p.id}
    Branche: ${p.industry}
    Standort: ${p.city}, ${p.country}
    Größe: ${p.company_size}
-   Beschreibung: ${p.description || 'Keine Beschreibung'}
-   Bietet an: ${p.offers?.join(', ') || 'Keine Angaben'}
-   Sucht: ${p.seeks?.join(', ') || 'Keine Angaben'}
-   Partnerschaftstypen: ${p.partnership_types?.join(', ') || 'Keine Angaben'}
+   Beschreibung: ${p.company_description || 'Keine Beschreibung'}
+   Bietet an: ${p.offers || 'Keine Angaben'}
+   Sucht: ${p.looking_for || 'Keine Angaben'}
+   Partnerschaftstypen: ${p.cooperation_type?.join(', ') || 'Keine Angaben'}
 `).join('\n---\n')}
 
 Finde die Top 10 passendsten Unternehmen für diese Anfrage.`;
@@ -93,20 +120,19 @@ Finde die Top 10 passendsten Unternehmen für diese Anfrage.`;
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        temperature: 0.7,
       }),
     });
 
     if (!aiResponse.ok) {
       if (aiResponse.status === 429) {
         return new Response(
-          JSON.stringify({ error: 'Rate limit exceeded. Please try again in a moment.' }),
+          JSON.stringify({ error: language === 'en' ? 'Rate limit exceeded. Please try again in a moment.' : 'Rate-Limit überschritten. Bitte versuchen Sie es in einem Moment erneut.' }),
           { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
       if (aiResponse.status === 402) {
         return new Response(
-          JSON.stringify({ error: 'AI credits exhausted. Please contact support.' }),
+          JSON.stringify({ error: language === 'en' ? 'AI credits exhausted. Please contact support.' : 'AI-Credits aufgebraucht. Bitte kontaktieren Sie den Support.' }),
           { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
@@ -120,10 +146,8 @@ Finde die Top 10 passendsten Unternehmen für diese Anfrage.`;
     
     console.log('AI Response:', aiContent);
 
-    // Parse AI response
     let rankedCompanies;
     try {
-      // Try to extract JSON from the response
       const jsonMatch = aiContent.match(/\[[\s\S]*\]/);
       if (jsonMatch) {
         rankedCompanies = JSON.parse(jsonMatch[0]);
@@ -132,15 +156,13 @@ Finde die Top 10 passendsten Unternehmen für diese Anfrage.`;
       }
     } catch (parseError) {
       console.error('Failed to parse AI response:', parseError);
-      // Fallback: return all companies with default scores
       rankedCompanies = profiles?.slice(0, 10).map((p) => ({
         id: p.id,
         score: 50,
-        reason: 'Allgemeine Übereinstimmung'
+        reason: language === 'en' ? 'General match' : 'Allgemeine Übereinstimmung'
       })) || [];
     }
 
-    // Get full company data for ranked IDs
     const results = rankedCompanies
       .map((ranked: { id: string; score: number; reason: string }) => {
         const company = profiles?.find((p) => p.id === ranked.id);
