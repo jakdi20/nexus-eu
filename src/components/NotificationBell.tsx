@@ -27,17 +27,29 @@ interface Notification {
 export const NotificationBell = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isReady, setIsReady] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    loadNotifications();
-    subscribeToNotifications();
+    const initNotifications = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setIsReady(true);
+        await loadNotifications();
+        subscribeToNotifications();
+      }
+    };
+    
+    initNotifications();
   }, []);
 
   const loadNotifications = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setIsReady(false);
+        return;
+      }
 
       const { data, error } = await supabase
         .from("notifications")
@@ -52,6 +64,7 @@ export const NotificationBell = () => {
       setUnreadCount(data?.filter((n) => !n.read).length || 0);
     } catch (error) {
       console.error("Error loading notifications:", error);
+      setIsReady(false);
     }
   };
 
@@ -120,6 +133,10 @@ export const NotificationBell = () => {
       console.error("Error marking all as read:", error);
     }
   };
+
+  if (!isReady) {
+    return null;
+  }
 
   return (
     <DropdownMenu>

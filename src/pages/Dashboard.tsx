@@ -135,7 +135,7 @@ const Dashboard = () => {
                 Partner finden
               </Button>
             )}
-            <NotificationBell />
+            {user && <NotificationBell />}
             <Button variant="outline" onClick={handleSignOut}>
               <LogOut className="mr-2 h-4 w-4" />
               Abmelden
