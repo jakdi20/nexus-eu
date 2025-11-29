@@ -1,8 +1,23 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Building2, Globe, TrendingUp, Users, Search, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect if already logged in
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/company");
+      }
+    };
+    checkAuth();
+  }, [navigate]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
