@@ -29,7 +29,8 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
   const navItems = [
     { path: "/company", label: "Mein Unternehmen", icon: Building2 },
-    { path: "/search", label: "Partner suchen", icon: Search },
+    { path: "/search", label: "KI-Suche", icon: Search },
+    { path: "/partners", label: "Alle Partner", icon: Building2 },
     { path: "/messages", label: "Nachrichten", icon: MessageCircle },
   ];
 

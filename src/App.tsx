@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Company from "./pages/Company";
 import Search from "./pages/Search";
+import Partners from "./pages/Partners";
 import PartnerDetail from "./pages/PartnerDetail";
 import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/company" element={<AppLayout><Company /></AppLayout>} />
           <Route path="/search" element={<AppLayout><Search /></AppLayout>} />
+          <Route path="/partners" element={<AppLayout><Partners /></AppLayout>} />
           <Route path="/messages" element={<AppLayout><Messages /></AppLayout>} />
           <Route path="/partner/:id" element={<AppLayout><PartnerDetail /></AppLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
