@@ -188,7 +188,7 @@ const Search = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* AI Search Section */}
+      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary text-white shadow-glow">
@@ -199,7 +199,7 @@ const Search = () => {
               Partner suchen
             </h1>
             <p className="text-muted-foreground mt-1">
-              KI-gestützte Suche und Empfehlungen
+              KI-gestützte Suche und alle Partner
             </p>
           </div>
         </div>
