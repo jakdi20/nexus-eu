@@ -11,6 +11,7 @@ import PartnerDetail from "./pages/PartnerDetail";
 import AISearch from "./pages/AISearch";
 import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
+import GlobalVideoCallManager from "./components/GlobalVideoCallManager";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <GlobalVideoCallManager />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />

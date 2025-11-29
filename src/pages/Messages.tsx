@@ -8,7 +8,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon } from 'lucide-react';
 import VideoCall from '@/components/VideoCall';
-import IncomingCallNotification from '@/components/IncomingCallNotification';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 interface Message {
@@ -130,15 +129,6 @@ export default function Messages() {
       supabase.removeChannel(channel);
     };
   }, [myCompanyId, selectedConversation]);
-
-  const handleAcceptCall = (roomId: string, fromCompanyId: string) => {
-    setSelectedConversation(fromCompanyId);
-    setActiveCall({
-      roomId,
-      partnerCompanyId: fromCompanyId,
-      isInitiator: false,
-    });
-  };
 
   const loadMyCompany = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -404,14 +394,6 @@ export default function Messages() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Global Incoming Call Notification */}
-      {myCompanyId && (
-        <IncomingCallNotification
-          myCompanyId={myCompanyId}
-          onAcceptCall={handleAcceptCall}
-        />
-      )}
-      
       <div className="container mx-auto p-4 max-w-6xl">
         <div className="flex items-center gap-4 mb-6">
           <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
