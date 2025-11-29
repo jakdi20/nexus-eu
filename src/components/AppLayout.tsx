@@ -2,9 +2,11 @@ import { ReactNode, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Building2, Search, MessageCircle, LogOut, Menu, X, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { NotificationBell } from "@/components/NotificationBell";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useUnreadMessages } from "@/hooks/use-unread-messages";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -15,6 +17,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const location = useLocation();
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { unreadCount } = useUnreadMessages();
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -54,15 +57,24 @@ const AppLayout = ({ children }: AppLayoutProps) => {
             <nav className="hidden md:flex items-center gap-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
+                const showBadge = item.path === "/messages" && unreadCount > 0;
                 return (
                   <Button
                     key={item.path}
                     variant={isActive(item.path) ? "default" : "ghost"}
                     onClick={() => navigate(item.path)}
-                    className="gap-2"
+                    className="gap-2 relative"
                   >
                     <Icon className="h-4 w-4" />
                     {item.label}
+                    {showBadge && (
+                      <Badge 
+                        variant="destructive" 
+                        className="absolute -top-1 -right-1 h-5 min-w-[20px] flex items-center justify-center p-0 text-xs"
+                      >
+                        {unreadCount > 99 ? "99+" : unreadCount}
+                      </Badge>
+                    )}
                   </Button>
                 );
               })}
@@ -93,6 +105,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
               <div className="flex flex-col gap-2">
                 {navItems.map((item) => {
                   const Icon = item.icon;
+                  const showBadge = item.path === "/messages" && unreadCount > 0;
                   return (
                     <Button
                       key={item.path}
@@ -101,10 +114,18 @@ const AppLayout = ({ children }: AppLayoutProps) => {
                         navigate(item.path);
                         setMobileMenuOpen(false);
                       }}
-                      className="justify-start gap-2 w-full"
+                      className="justify-start gap-2 w-full relative"
                     >
                       <Icon className="h-4 w-4" />
                       {item.label}
+                      {showBadge && (
+                        <Badge 
+                          variant="destructive" 
+                          className="ml-auto h-5 min-w-[20px] flex items-center justify-center p-0 text-xs"
+                        >
+                          {unreadCount > 99 ? "99+" : unreadCount}
+                        </Badge>
+                      )}
                     </Button>
                   );
                 })}
