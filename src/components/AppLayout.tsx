@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Building2, Search, MessageCircle, LogOut, Menu, X, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { NotificationBell } from "@/components/NotificationBell";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useUnreadMessages } from "@/hooks/use-unread-messages";
@@ -82,7 +81,6 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-3">
-              <NotificationBell />
               <Button variant="ghost" size="icon" onClick={handleSignOut} className="hidden md:flex">
                 <LogOut className="h-5 w-5" />
               </Button>
