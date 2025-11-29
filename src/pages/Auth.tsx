@@ -21,14 +21,14 @@ const Auth = () => {
     // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate("/dashboard");
+        navigate("/company");
       }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        navigate("/dashboard");
+        navigate("/company");
       }
     });
 
@@ -49,7 +49,7 @@ const Auth = () => {
 
       toast({
         title: "Erfolgreich angemeldet!",
-        description: "Sie werden zum Dashboard weitergeleitet.",
+        description: "Sie werden weitergeleitet.",
       });
     } catch (error: any) {
       toast({
@@ -100,7 +100,7 @@ const Auth = () => {
 
       toast({
         title: "Registrierung erfolgreich!",
-        description: "Sie werden zum Dashboard weitergeleitet.",
+        description: "Sie werden weitergeleitet.",
       });
     } catch (error: any) {
       toast({
