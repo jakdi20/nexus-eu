@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { MonetizationCard } from "@/components/MonetizationCard";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -336,6 +337,14 @@ const Company = () => {
         </div>
 
         <div className="space-y-6">
+          <MonetizationCard
+            companyId={profile.id}
+            isPremium={profile.is_premium || false}
+            isSponsored={profile.is_sponsored || false}
+            sponsoredUntil={profile.sponsored_until}
+            onUpdate={loadUserData}
+          />
+
           {profile.cooperation_type && profile.cooperation_type.length > 0 && (
             <Card>
               <CardHeader>

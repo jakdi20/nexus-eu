@@ -34,6 +34,8 @@ interface CompanyProfile {
   verified: boolean;
   verification_status: string;
   founded_year: number;
+  is_sponsored: boolean;
+  sponsored_until: string;
 }
 
 interface AISearchResult {
@@ -125,6 +127,16 @@ const Search = () => {
     if (countryFilter !== "all") {
       filtered = filtered.filter((p) => p.country === countryFilter);
     }
+
+    // Sort: sponsored first, then regular
+    filtered.sort((a, b) => {
+      const aSponsored = a.is_sponsored && a.sponsored_until && new Date(a.sponsored_until) > new Date();
+      const bSponsored = b.is_sponsored && b.sponsored_until && new Date(b.sponsored_until) > new Date();
+      
+      if (aSponsored && !bSponsored) return -1;
+      if (!aSponsored && bSponsored) return 1;
+      return 0;
+    });
 
     setFilteredProfiles(filtered);
   };
@@ -361,19 +373,32 @@ const Search = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProfiles.map((profile) => (
-          <Card
-            key={profile.id}
-            className="hover:shadow-glow transition-all duration-300 cursor-pointer group"
-            onClick={() => navigate(`/partner/${profile.id}`)}
-          >
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 group-hover:text-primary transition-colors">
-                {profile.company_name}
-                {profile.verification_status === "verified" && (
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
-                )}
-              </CardTitle>
+        {filteredProfiles.map((profile) => {
+          const isSponsored = profile.is_sponsored && profile.sponsored_until && new Date(profile.sponsored_until) > new Date();
+          
+          return (
+            <Card
+              key={profile.id}
+              className={`hover:shadow-glow transition-all duration-300 cursor-pointer group ${
+                isSponsored ? 'border-primary border-2' : ''
+              }`}
+              onClick={() => navigate(`/partner/${profile.id}`)}
+            >
+              <CardHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <CardTitle className="flex items-center gap-2 group-hover:text-primary transition-colors">
+                    {profile.company_name}
+                    {profile.verification_status === "verified" && (
+                      <CheckCircle2 className="h-5 w-5 text-primary" />
+                    )}
+                  </CardTitle>
+                  {isSponsored && (
+                    <Badge variant="default" className="gap-1">
+                      <TrendingUp className="h-3 w-3" />
+                      {t("monetization.sponsored")}
+                    </Badge>
+                  )}
+                </div>
               <CardDescription className="line-clamp-2">
                 {profile.company_description || t("common.noDescription")}
               </CardDescription>
@@ -400,7 +425,8 @@ const Search = () => {
               </Button>
             </CardFooter>
           </Card>
-        ))}
+        );
+        })}
       </div>
 
       {filteredProfiles.length === 0 && (
