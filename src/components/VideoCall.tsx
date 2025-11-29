@@ -139,17 +139,47 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
           await handleIceCandidate(payload.candidate);
         }
       })
+      .on('broadcast', { event: 'callee-ready' }, async ({ payload }) => {
+        console.log('Received callee-ready from:', payload.from);
+        if (!isInitiator) return;
+        if (payload.to !== myCompanyId) return;
+
+        console.log('Callee is ready, restarting offer from initiator');
+        if (peerConnectionRef.current) {
+          try {
+            peerConnectionRef.current.close();
+          } catch (e) {
+            console.error('Error closing existing peer connection before restart', e);
+          }
+          peerConnectionRef.current = null;
+        }
+        offerRetryCount.current = 0;
+        await startCall();
+      })
       .subscribe((status) => {
         console.log('Channel subscription status:', status);
         if (status === 'SUBSCRIBED') {
           console.log('Successfully subscribed to channel');
           setSignalingReady(true);
+
+          // Notify initiator that callee is ready once signaling is up
+          if (!isInitiator) {
+            console.log('Callee: signaling ready, sending callee-ready');
+            channel.send({
+              type: 'broadcast',
+              event: 'callee-ready',
+              payload: {
+                from: myCompanyId,
+                to: partnerCompanyId,
+                roomId,
+              },
+            });
+          }
         }
       });
 
     channelRef.current = channel;
   };
-
   const createPeerConnection = useCallback((streamToUse: MediaStream) => {
     console.log('Creating peer connection with stream:', streamToUse.id);
     
