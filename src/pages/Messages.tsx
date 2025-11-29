@@ -80,18 +80,24 @@ export default function Messages() {
     if (!myCompanyId || !selectedConversation) return;
 
     const channel = supabase
-      .channel('messages')
+      .channel(`chat-${myCompanyId}-${selectedConversation}`)
       .on(
         'postgres_changes',
         {
           event: 'INSERT',
           schema: 'public',
           table: 'messages',
-          filter: `or(and(from_company_id=eq.${myCompanyId},to_company_id=eq.${selectedConversation}),and(from_company_id=eq.${selectedConversation},to_company_id=eq.${myCompanyId}))`,
         },
         async (payload) => {
           console.log('New message received:', payload);
-          const messageId = (payload.new as any).id;
+          const newMsg = payload.new as any;
+          
+          // Filter in JavaScript - only process relevant messages
+          const isRelevant = 
+            (newMsg.from_company_id === myCompanyId && newMsg.to_company_id === selectedConversation) ||
+            (newMsg.from_company_id === selectedConversation && newMsg.to_company_id === myCompanyId);
+          
+          if (!isRelevant) return;
           
           // Load complete message with all joins
           const { data: fullMessage } = await supabase
@@ -101,7 +107,7 @@ export default function Messages() {
               from_company:company_profiles!messages_from_company_id_fkey(company_name),
               to_company:company_profiles!messages_to_company_id_fkey(company_name)
             `)
-            .eq('id', messageId)
+            .eq('id', newMsg.id)
             .single();
 
           if (fullMessage) {
