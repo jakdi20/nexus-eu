@@ -14,7 +14,6 @@ const Dashboard = () => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [calculatingMatches, setCalculatingMatches] = useState(false);
 
   useEffect(() => {
     // Check authentication and load profile
@@ -78,29 +77,6 @@ const Dashboard = () => {
       title: "Profil erstellt!",
       description: "Ihr Unternehmensprofil wurde erfolgreich angelegt.",
     });
-  };
-
-  const calculateMatches = async () => {
-    setCalculatingMatches(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('calculate-matches');
-      
-      if (error) throw error;
-
-      toast({
-        title: "Matches berechnet!",
-        description: data.message || "Ihre Partner-Matches wurden erfolgreich berechnet.",
-      });
-    } catch (error: any) {
-      console.error("Error calculating matches:", error);
-      toast({
-        title: "Fehler",
-        description: "Matches konnten nicht berechnet werden.",
-        variant: "destructive",
-      });
-    } finally {
-      setCalculatingMatches(false);
-    }
   };
 
   if (loading) {
@@ -255,30 +231,6 @@ const Dashboard = () => {
                     <p className="mt-1 text-foreground">{profile.description}</p>
                   </div>
                 )}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Partner-Matching</CardTitle>
-                <CardDescription>
-                  Finden Sie automatisch passende Geschäftspartner
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Unser Algorithmus analysiert Ihr Profil und findet passende Partner basierend auf Branche, 
-                    Standort, Angeboten und Bedürfnissen.
-                  </p>
-                  <Button 
-                    onClick={calculateMatches} 
-                    disabled={calculatingMatches}
-                    className="w-full"
-                  >
-                    {calculatingMatches ? "Wird berechnet..." : "Matches jetzt berechnen"}
-                  </Button>
-                </div>
               </CardContent>
             </Card>
 
