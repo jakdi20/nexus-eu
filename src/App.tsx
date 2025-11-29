@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import Features from "./pages/Features";
 import Auth from "./pages/Auth";
 import Company from "./pages/Company";
 import Search from "./pages/Search";
@@ -25,6 +26,7 @@ const App = () => (
         <GlobalVideoCallManager />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/features" element={<Features />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/company" element={<AppLayout><Company /></AppLayout>} />
           <Route path="/search" element={<AppLayout><Search /></AppLayout>} />
