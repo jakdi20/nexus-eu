@@ -8,7 +8,7 @@ import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import Features from "./pages/Features";
 import Auth from "./pages/Auth";
-import Company from "./pages/Company";
+import CompanyDashboard from "./pages/CompanyDashboard";
 import Search from "./pages/Search";
 import MyPartners from "./pages/MyPartners";
 import PartnerDetail from "./pages/PartnerDetail";
@@ -32,7 +32,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/features" element={<Features />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/company" element={<AppLayout><Company /></AppLayout>} />
+              <Route path="/company" element={<AppLayout><CompanyDashboard /></AppLayout>} />
               <Route path="/search" element={<AppLayout><Search /></AppLayout>} />
               <Route path="/my-partners" element={<AppLayout><MyPartners /></AppLayout>} />
               <Route path="/messages" element={<AppLayout><Messages /></AppLayout>} />
