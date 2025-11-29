@@ -35,6 +35,9 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
   const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const iceCandidatesQueue = useRef<RTCIceCandidate[]>([]);
+  const localStreamRef = useRef<MediaStream | null>(null); // Ref for immediate access
+  const offerRetryCount = useRef(0);
+  const isReadyRef = useRef(false);
 
   useEffect(() => {
     let mounted = true;
@@ -54,21 +57,22 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     };
   }, [roomId]);
 
-  // Automatic connection effect
+  // Automatic connection effect with ready synchronization
   useEffect(() => {
     if (!localStream || !channelRef.current) return;
 
     const autoConnect = async () => {
       if (isInitiator) {
-        console.log('Initiator: Auto-starting call...');
-        setCallState('calling');
-        await startCall();
-      } else {
-        console.log('Callee: signaling ready, requesting offer...');
+        console.log('Initiator: Waiting for callee to be ready...');
         setCallState('connecting');
+        // Wait for ready signal from callee before starting call
+      } else {
+        console.log('Callee: Signaling ready to receive offer...');
+        setCallState('connecting');
+        isReadyRef.current = true;
         channelRef.current?.send({
           type: 'broadcast',
-          event: 'request-offer',
+          event: 'ready',
           payload: {
             from: myCompanyId,
             to: partnerCompanyId,
@@ -97,8 +101,9 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         },
       });
       
-      console.log('Media access granted');
-      setLocalStream(stream);
+      console.log('Media access granted, tracks:', stream.getTracks().map(t => `${t.kind}: ${t.label}`));
+      localStreamRef.current = stream; // Set ref immediately
+      setLocalStream(stream); // Set state for UI updates
       if (localVideoRef.current) {
         localVideoRef.current.srcObject = stream;
       }
@@ -121,6 +126,15 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
           broadcast: { self: false }
         }
       })
+      .on('broadcast', { event: 'ready' }, async ({ payload }) => {
+        console.log('Received ready signal from:', payload.from);
+        if (payload.from === partnerCompanyId && payload.to === myCompanyId && isInitiator) {
+          console.log('Initiator: Partner is ready, starting call...');
+          isReadyRef.current = true;
+          setCallState('calling');
+          await startCall();
+        }
+      })
       .on('broadcast', { event: 'offer' }, async ({ payload }) => {
         console.log('Received offer from:', payload.from);
         if (payload.from !== myCompanyId && payload.to === myCompanyId) {
@@ -139,14 +153,6 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
           await handleIceCandidate(payload.candidate);
         }
       })
-      .on('broadcast', { event: 'request-offer' }, async ({ payload }) => {
-        console.log('Received request-offer from:', payload.from);
-        if (payload.to === myCompanyId && payload.from === partnerCompanyId && isInitiator) {
-          console.log('Initiator: received request-offer, starting call');
-          setCallState('calling');
-          await startCall();
-        }
-      })
       .subscribe((status) => {
         console.log('Channel subscription status:', status);
         if (status === 'SUBSCRIBED') {
@@ -157,8 +163,15 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     channelRef.current = channel;
   };
 
-  const createPeerConnection = useCallback(() => {
-    console.log('Creating peer connection...');
+  const createPeerConnection = useCallback((streamToUse: MediaStream) => {
+    console.log('Creating peer connection with stream:', streamToUse.id);
+    
+    // Check if peer connection already exists
+    if (peerConnectionRef.current) {
+      console.log('Peer connection already exists, closing old one first');
+      peerConnectionRef.current.close();
+      peerConnectionRef.current = null;
+    }
     
     const configuration: RTCConfiguration = {
       iceServers: [
@@ -193,6 +206,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       
       if (pc.iceConnectionState === 'connected' || pc.iceConnectionState === 'completed') {
         setCallState('connected');
+        offerRetryCount.current = 0; // Reset retry count on success
         toast({
           title: 'Verbunden ✓',
           description: 'Videoanruf aktiv',
@@ -210,7 +224,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     };
 
     pc.ontrack = (event) => {
-      console.log('Received remote track');
+      console.log('Received remote track:', event.track.kind);
       const stream = event.streams[0];
       setRemoteStream(stream);
       if (remoteVideoRef.current) {
@@ -222,19 +236,22 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       console.log('Connection state:', pc.connectionState);
     };
 
-    if (localStream) {
-      console.log('Adding local tracks to peer connection');
-      localStream.getTracks().forEach((track) => {
-        pc.addTrack(track, localStream);
-      });
-    }
+    // Add tracks from the provided stream
+    console.log('Adding local tracks to peer connection:', streamToUse.getTracks().map(t => `${t.kind}: ${t.enabled}`));
+    streamToUse.getTracks().forEach((track) => {
+      const sender = pc.addTrack(track, streamToUse);
+      console.log(`Track added: ${track.kind}, enabled: ${track.enabled}, sender: ${sender.track?.kind}`);
+    });
 
     peerConnectionRef.current = pc;
     return pc;
-  }, [localStream, myCompanyId, roomId, toast]);
+  }, [myCompanyId, partnerCompanyId, roomId, toast]);
 
   const startCall = async () => {
-    if (!localStream) {
+    const stream = localStreamRef.current;
+    
+    if (!stream) {
+      console.error('No local stream available in ref');
       toast({
         title: 'Fehler',
         description: 'Lokaler Stream nicht verfügbar',
@@ -243,8 +260,14 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       return;
     }
 
-    console.log('Starting call...');
-    const pc = createPeerConnection();
+    // Prevent duplicate peer connections
+    if (peerConnectionRef.current) {
+      console.log('Peer connection already exists, skipping duplicate creation');
+      return;
+    }
+
+    console.log('Starting call with stream:', stream.id, 'tracks:', stream.getTracks().length);
+    const pc = createPeerConnection(stream);
 
     try {
       console.log('Creating offer...');
@@ -256,7 +279,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       console.log('Setting local description...');
       await pc.setLocalDescription(offer);
 
-      console.log('Sending offer...');
+      console.log('Sending offer (attempt', offerRetryCount.current + 1, ')...');
       await channelRef.current?.send({
         type: 'broadcast',
         event: 'offer',
@@ -275,6 +298,16 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         .eq('room_id', roomId);
         
       console.log('Call started successfully');
+      
+      // Retry mechanism: if no answer after 5 seconds, retry up to 3 times
+      setTimeout(() => {
+        if (pc.connectionState === 'new' && offerRetryCount.current < 3) {
+          console.log('No response to offer, retrying...');
+          offerRetryCount.current++;
+          peerConnectionRef.current = null; // Reset so we can recreate
+          startCall();
+        }
+      }, 5000);
     } catch (error) {
       console.error('Error starting call:', error);
       toast({
@@ -289,7 +322,20 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     console.log('Handling offer from:', from);
     setCallState('connecting');
     
-    const pc = createPeerConnection();
+    const stream = localStreamRef.current;
+    if (!stream) {
+      console.error('No local stream available to handle offer');
+      return;
+    }
+    
+    // Prevent duplicate peer connections
+    if (peerConnectionRef.current) {
+      console.log('Peer connection already exists while handling offer, closing old one');
+      peerConnectionRef.current.close();
+      peerConnectionRef.current = null;
+    }
+    
+    const pc = createPeerConnection(stream);
 
     try {
       console.log('Setting remote description (offer)...');
@@ -415,10 +461,17 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
   const cleanup = () => {
     console.log('Cleaning up...');
     
+    if (localStreamRef.current) {
+      localStreamRef.current.getTracks().forEach((track) => {
+        track.stop();
+        console.log('Stopped track:', track.kind);
+      });
+      localStreamRef.current = null;
+    }
+    
     if (localStream) {
       localStream.getTracks().forEach((track) => {
         track.stop();
-        console.log('Stopped track:', track.kind);
       });
     }
     
@@ -431,6 +484,10 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       supabase.removeChannel(channelRef.current);
       channelRef.current = null;
     }
+    
+    // Reset retry counter
+    offerRetryCount.current = 0;
+    isReadyRef.current = false;
   };
 
   const getStatusText = () => {
