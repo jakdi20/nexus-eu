@@ -1,11 +1,18 @@
 import { ReactNode, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Building2, Search, MessageCircle, LogOut, Menu, X, Heart, Users } from "lucide-react";
+import { Building2, Search, MessageCircle, LogOut, Menu, X, Heart, Users, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useUnreadMessages } from "@/hooks/use-unread-messages";
+import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -17,12 +24,13 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { unreadCount } = useUnreadMessages();
+  const { language, setLanguage, t } = useLanguage();
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     toast({
-      title: "Abgemeldet",
-      description: "Sie wurden erfolgreich abgemeldet.",
+      title: language === "de" ? "Abgemeldet" : "Signed Out",
+      description: language === "de" ? "Sie wurden erfolgreich abgemeldet." : "You have been successfully signed out.",
     });
     navigate("/");
   };
@@ -30,10 +38,10 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { path: "/company", label: "Mein Unternehmen", icon: Building2 },
-    { path: "/search", label: "Suche", icon: Search },
-    { path: "/my-partners", label: "Meine Partner", icon: Heart },
-    { path: "/messages", label: "Nachrichten", icon: MessageCircle },
+    { path: "/company", label: t("nav.company"), icon: Building2 },
+    { path: "/search", label: t("nav.search"), icon: Search },
+    { path: "/my-partners", label: t("nav.myPartners"), icon: Heart },
+    { path: "/messages", label: t("nav.messages"), icon: MessageCircle },
   ];
 
   return (
@@ -81,6 +89,21 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Languages className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setLanguage("de")} className={language === "de" ? "bg-muted" : ""}>
+                    🇩🇪 Deutsch
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLanguage("en")} className={language === "en" ? "bg-muted" : ""}>
+                    🇬🇧 English
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button variant="ghost" size="icon" onClick={handleSignOut} className="hidden md:flex">
                 <LogOut className="h-5 w-5" />
               </Button>
@@ -133,7 +156,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
                   className="justify-start gap-2 w-full text-destructive hover:text-destructive"
                 >
                   <LogOut className="h-4 w-4" />
-                  Abmelden
+                  {t("nav.signOut")}
                 </Button>
               </div>
             </nav>
