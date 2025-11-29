@@ -57,34 +57,24 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     };
   }, [roomId]);
 
-  // Automatic connection effect with ready synchronization
+  // Automatic connection effect
   useEffect(() => {
     if (!localStream || !channelRef.current) return;
 
     const autoConnect = async () => {
       if (isInitiator) {
-        console.log('Initiator: Waiting for callee to be ready...');
-        setCallState('connecting');
-        // Wait for ready signal from callee before starting call
+        console.log('Initiator: Auto-starting call...');
+        setCallState('calling');
+        await startCall();
       } else {
-        console.log('Callee: Signaling ready to receive offer...');
-        setCallState('connecting');
-        isReadyRef.current = true;
-        channelRef.current?.send({
-          type: 'broadcast',
-          event: 'ready',
-          payload: {
-            from: myCompanyId,
-            to: partnerCompanyId,
-            roomId,
-          },
-        });
+        console.log('Callee: Waiting for offer...');
+        setCallState('ringing');
       }
     };
 
     const timer = setTimeout(autoConnect, 500);
     return () => clearTimeout(timer);
-  }, [localStream, isInitiator, myCompanyId, partnerCompanyId, roomId]);
+  }, [localStream, isInitiator]);
 
   const initializeMedia = async () => {
     try {
@@ -124,15 +114,6 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       .channel(`video-call-${roomId}`, {
         config: {
           broadcast: { self: false }
-        }
-      })
-      .on('broadcast', { event: 'ready' }, async ({ payload }) => {
-        console.log('Received ready signal from:', payload.from);
-        if (payload.from === partnerCompanyId && payload.to === myCompanyId && isInitiator) {
-          console.log('Initiator: Partner is ready, starting call...');
-          isReadyRef.current = true;
-          setCallState('calling');
-          await startCall();
         }
       })
       .on('broadcast', { event: 'offer' }, async ({ payload }) => {
@@ -433,18 +414,24 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
   };
 
   const toggleVideo = () => {
-    if (localStream) {
-      const videoTrack = localStream.getVideoTracks()[0];
-      videoTrack.enabled = !videoTrack.enabled;
-      setIsVideoEnabled(videoTrack.enabled);
+    const stream = localStreamRef.current;
+    if (stream) {
+      const videoTrack = stream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        setIsVideoEnabled(videoTrack.enabled);
+      }
     }
   };
 
   const toggleAudio = () => {
-    if (localStream) {
-      const audioTrack = localStream.getAudioTracks()[0];
-      audioTrack.enabled = !audioTrack.enabled;
-      setIsAudioEnabled(audioTrack.enabled);
+    const stream = localStreamRef.current;
+    if (stream) {
+      const audioTrack = stream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        setIsAudioEnabled(audioTrack.enabled);
+      }
     }
   };
 
