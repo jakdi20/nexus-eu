@@ -32,6 +32,11 @@ const formSchema = z.object({
   offers: z.string().optional(),
   seeks: z.string().optional(),
   partnership_types: z.array(z.string()).min(1, "Mindestens eine Art auswählen"),
+  team_size: z.string().optional(),
+  founding_year: z.string().optional(),
+  portfolio_url: z.string().url("Bitte geben Sie eine gültige URL ein").optional().or(z.literal("")),
+  certificates: z.string().optional(),
+  annual_revenue_range: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -58,6 +63,11 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
       offers: "",
       seeks: "",
       partnership_types: [],
+      team_size: "",
+      founding_year: "",
+      portfolio_url: "",
+      certificates: "",
+      annual_revenue_range: "",
     },
   });
 
@@ -77,6 +87,11 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
         offers: values.offers ? values.offers.split(",").map(s => s.trim()).filter(Boolean) : [],
         seeks: values.seeks ? values.seeks.split(",").map(s => s.trim()).filter(Boolean) : [],
         partnership_types: values.partnership_types as ("supplier" | "buyer" | "cooperation" | "service_provider" | "service_seeker")[],
+        team_size: values.team_size ? parseInt(values.team_size) : null,
+        founding_year: values.founding_year ? parseInt(values.founding_year) : null,
+        portfolio_url: values.portfolio_url || null,
+        certificates: values.certificates ? values.certificates.split(",").map(s => s.trim()).filter(Boolean) : [],
+        annual_revenue_range: values.annual_revenue_range || null,
       };
 
       const { data, error } = await supabase
@@ -293,6 +308,91 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
                     <Input placeholder="z.B. Rohmaterialien, Vertriebspartner (durch Komma trennen)" {...field} />
                   </FormControl>
                   <FormDescription>Trennen Sie mehrere Anforderungen durch Kommas</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="team_size"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Team-Größe</FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="z.B. 25" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="founding_year"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Gründungsjahr</FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="z.B. 2010" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="portfolio_url"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Portfolio URL</FormLabel>
+                  <FormControl>
+                    <Input placeholder="https://www.beispiel.de/portfolio" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="certificates"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Zertifikate</FormLabel>
+                  <FormControl>
+                    <Input placeholder="z.B. ISO 9001, DIN EN, CE (durch Komma trennen)" {...field} />
+                  </FormControl>
+                  <FormDescription>Trennen Sie mehrere Zertifikate durch Kommas</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="annual_revenue_range"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Jährlicher Umsatz</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Umsatzbereich wählen" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="0-100k">0 - 100.000 €</SelectItem>
+                      <SelectItem value="100k-500k">100.000 - 500.000 €</SelectItem>
+                      <SelectItem value="500k-1m">500.000 - 1 Mio. €</SelectItem>
+                      <SelectItem value="1m-5m">1 Mio. - 5 Mio. €</SelectItem>
+                      <SelectItem value="5m-10m">5 Mio. - 10 Mio. €</SelectItem>
+                      <SelectItem value="10m+">10 Mio. € +</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

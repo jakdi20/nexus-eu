@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Building2, Users, TrendingUp } from "lucide-react";
+import { LogOut, Building2, Users, TrendingUp, Search } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
+import { NotificationBell } from "@/components/NotificationBell";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Dashboard = () => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [calculatingMatches, setCalculatingMatches] = useState(false);
 
   useEffect(() => {
     // Check authentication and load profile
@@ -78,6 +80,29 @@ const Dashboard = () => {
     });
   };
 
+  const calculateMatches = async () => {
+    setCalculatingMatches(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('calculate-matches');
+      
+      if (error) throw error;
+
+      toast({
+        title: "Matches berechnet!",
+        description: data.message || "Ihre Partner-Matches wurden erfolgreich berechnet.",
+      });
+    } catch (error: any) {
+      console.error("Error calculating matches:", error);
+      toast({
+        title: "Fehler",
+        description: "Matches konnten nicht berechnet werden.",
+        variant: "destructive",
+      });
+    } finally {
+      setCalculatingMatches(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -103,10 +128,19 @@ const Dashboard = () => {
               <p className="text-sm text-muted-foreground">Dashboard</p>
             </div>
           </div>
-          <Button variant="outline" onClick={handleSignOut}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Abmelden
-          </Button>
+          <div className="flex items-center gap-3">
+            {profile && (
+              <Button variant="default" onClick={() => navigate("/partners")}>
+                <Search className="mr-2 h-4 w-4" />
+                Partner finden
+              </Button>
+            )}
+            <NotificationBell />
+            <Button variant="outline" onClick={handleSignOut}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Abmelden
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -203,6 +237,30 @@ const Dashboard = () => {
                     <p className="mt-1 text-foreground">{profile.description}</p>
                   </div>
                 )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Partner-Matching</CardTitle>
+                <CardDescription>
+                  Finden Sie automatisch passende Geschäftspartner
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Unser Algorithmus analysiert Ihr Profil und findet passende Partner basierend auf Branche, 
+                    Standort, Angeboten und Bedürfnissen.
+                  </p>
+                  <Button 
+                    onClick={calculateMatches} 
+                    disabled={calculatingMatches}
+                    className="w-full"
+                  >
+                    {calculatingMatches ? "Wird berechnet..." : "Matches jetzt berechnen"}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 

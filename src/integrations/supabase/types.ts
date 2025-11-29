@@ -16,58 +16,199 @@ export type Database = {
     Tables: {
       company_profiles: {
         Row: {
+          annual_revenue_range: string | null
+          certificates: string[] | null
           city: string
           company_name: string
           company_size: Database["public"]["Enums"]["company_size"]
           country: string
           created_at: string | null
           description: string | null
+          founding_year: number | null
           id: string
           industry: string
           logo_url: string | null
           offers: string[] | null
           partnership_types: Database["public"]["Enums"]["partnership_type"][]
+          portfolio_url: string | null
           seeks: string[] | null
+          team_size: number | null
           updated_at: string | null
           user_id: string
+          verification_badge_url: string | null
+          verification_status: string | null
           verified: boolean | null
           website: string | null
         }
         Insert: {
+          annual_revenue_range?: string | null
+          certificates?: string[] | null
           city: string
           company_name: string
           company_size: Database["public"]["Enums"]["company_size"]
           country: string
           created_at?: string | null
           description?: string | null
+          founding_year?: number | null
           id?: string
           industry: string
           logo_url?: string | null
           offers?: string[] | null
           partnership_types?: Database["public"]["Enums"]["partnership_type"][]
+          portfolio_url?: string | null
           seeks?: string[] | null
+          team_size?: number | null
           updated_at?: string | null
           user_id: string
+          verification_badge_url?: string | null
+          verification_status?: string | null
           verified?: boolean | null
           website?: string | null
         }
         Update: {
+          annual_revenue_range?: string | null
+          certificates?: string[] | null
           city?: string
           company_name?: string
           company_size?: Database["public"]["Enums"]["company_size"]
           country?: string
           created_at?: string | null
           description?: string | null
+          founding_year?: number | null
           id?: string
           industry?: string
           logo_url?: string | null
           offers?: string[] | null
           partnership_types?: Database["public"]["Enums"]["partnership_type"][]
+          portfolio_url?: string | null
           seeks?: string[] | null
+          team_size?: number | null
           updated_at?: string | null
           user_id?: string
+          verification_badge_url?: string | null
+          verification_status?: string | null
           verified?: boolean | null
           website?: string | null
+        }
+        Relationships: []
+      }
+      connection_requests: {
+        Row: {
+          created_at: string | null
+          from_company_id: string
+          id: string
+          message: string | null
+          status: string
+          to_company_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          from_company_id: string
+          id?: string
+          message?: string | null
+          status?: string
+          to_company_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          from_company_id?: string
+          id?: string
+          message?: string | null
+          status?: string
+          to_company_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "connection_requests_from_company_id_fkey"
+            columns: ["from_company_id"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "connection_requests_to_company_id_fkey"
+            columns: ["to_company_id"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matches: {
+        Row: {
+          company_id_1: string
+          company_id_2: string
+          created_at: string | null
+          id: string
+          match_reasons: string[] | null
+          match_score: number
+        }
+        Insert: {
+          company_id_1: string
+          company_id_2: string
+          created_at?: string | null
+          id?: string
+          match_reasons?: string[] | null
+          match_score: number
+        }
+        Update: {
+          company_id_1?: string
+          company_id_2?: string
+          created_at?: string | null
+          id?: string
+          match_reasons?: string[] | null
+          match_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_company_id_1_fkey"
+            columns: ["company_id_1"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_company_id_2_fkey"
+            columns: ["company_id_2"]
+            isOneToOne: false
+            referencedRelation: "company_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          read: boolean | null
+          related_company_id: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          read?: boolean | null
+          related_company_id?: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          read?: boolean | null
+          related_company_id?: string | null
+          title?: string
+          type?: string
+          user_id?: string
         }
         Relationships: []
       }
