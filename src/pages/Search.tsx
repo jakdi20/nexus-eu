@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
-import { PremiumGate } from "@/components/PremiumGate";
 import { 
   Search as SearchIcon, 
   MapPin, 
@@ -17,7 +16,8 @@ import {
   TrendingUp, 
   CheckCircle2,
   Sparkles,
-  Loader2
+  Loader2,
+  Lock
 } from "lucide-react";
 import AIRecommendations from "@/components/AIRecommendations";
 
@@ -234,53 +234,65 @@ const Search = () => {
         </div>
       </div>
 
-      <PremiumGate 
-        isPremium={isPremium} 
-        feature={t("monetization.premiumFeature1")}
-        className="mb-8"
-      >
-        <Card className="border-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+      <Card className="mb-8 border-2 relative">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5" />
-              {t("search.aiSearch")}
-            </CardTitle>
-            <CardDescription>
-              {t("search.aiPlaceholder")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex gap-3">
-              <Input
-                placeholder={t("search.placeholder")}
-                value={aiQuery}
-                onChange={(e) => setAiQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && !aiSearching && handleAISearch()}
-                disabled={aiSearching || !isPremium}
-                className="flex-1 text-lg h-14"
-              />
-              <Button
-                onClick={handleAISearch}
-                disabled={aiSearching || !aiQuery.trim() || !isPremium}
-                size="lg"
-                className="px-8"
-              >
-                {aiSearching ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    {t("search.searching")}
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="mr-2 h-5 w-5" />
-                    {t("common.search")}
-                  </>
-                )}
+              <CardTitle>{t("search.aiSearch")}</CardTitle>
+            </div>
+            {!isPremium && (
+              <Badge variant="secondary" className="gap-1">
+                <Lock className="h-3 w-3" />
+                Premium
+              </Badge>
+            )}
+          </div>
+          <CardDescription>
+            {isPremium 
+              ? t("search.aiPlaceholder")
+              : t("monetization.upgradeToUnlock")
+            }
+          </CardDescription>
+        </CardHeader>
+        <CardContent className={!isPremium ? 'opacity-50' : ''}>
+          <div className="flex gap-3">
+            <Input
+              placeholder={t("search.placeholder")}
+              value={aiQuery}
+              onChange={(e) => setAiQuery(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && !aiSearching && isPremium && handleAISearch()}
+              disabled={aiSearching || !isPremium}
+              className="flex-1 text-lg h-14"
+            />
+            <Button
+              onClick={handleAISearch}
+              disabled={aiSearching || !aiQuery.trim() || !isPremium}
+              size="lg"
+              className="px-8"
+            >
+              {aiSearching ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  {t("search.searching")}
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  {t("common.search")}
+                </>
+              )}
+            </Button>
+          </div>
+          {!isPremium && (
+            <div className="mt-4 text-center">
+              <Button onClick={() => navigate('/company')} variant="outline" size="sm">
+                {t("monetization.upgradePremium")}
               </Button>
             </div>
-          </CardContent>
-        </Card>
-      </PremiumGate>
+          )}
+        </CardContent>
+      </Card>
 
       {/* AI Results */}
       {hasSearched && aiResults.length > 0 && (
@@ -338,15 +350,55 @@ const Search = () => {
       )}
 
       {/* AI Recommendations (only if no search) */}
-      {!hasSearched && (
-        <PremiumGate 
-          isPremium={isPremium} 
-          feature={t("monetization.premiumFeature2")}
-          className="mb-8"
-        >
-          <AIRecommendations />
-        </PremiumGate>
+      {!hasSearched && !isPremium && (
+        <Card className="mb-8 border-primary/20 shadow-lg relative">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-primary" />
+                <CardTitle>KI-Empfehlungen</CardTitle>
+              </div>
+              <Badge variant="secondary" className="gap-1">
+                <Lock className="h-3 w-3" />
+                Premium
+              </Badge>
+            </div>
+            <CardDescription>
+              {t("monetization.upgradeToUnlock")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="opacity-50">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="border-2">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Badge variant="secondary" className="text-xs">#{i}</Badge>
+                          <Badge className="text-xs">95% Match</Badge>
+                        </div>
+                        <CardTitle className="text-base">Beispiel Unternehmen</CardTitle>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      KI-basierte Empfehlung basierend auf Ihrem Profil...
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <div className="mt-6 text-center">
+              <Button onClick={() => navigate('/company')} variant="default">
+                {t("monetization.upgradePremium")}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       )}
+      {!hasSearched && isPremium && <AIRecommendations />}
 
       {/* Filter Section */}
       <Card className="mb-8 shadow-elevated">
