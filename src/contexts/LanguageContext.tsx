@@ -12,7 +12,7 @@ const translations = {
   de: {
     // Navigation
     "nav.company": "Mein Unternehmen",
-    "nav.search": "Suche",
+    "nav.search": "Partner finden",
     "nav.myPartners": "Meine Partner",
     "nav.messages": "Nachrichten",
     "nav.signOut": "Abmelden",
@@ -83,7 +83,7 @@ const translations = {
   en: {
     // Navigation
     "nav.company": "My Company",
-    "nav.search": "Search",
+    "nav.search": "Find Partners",
     "nav.myPartners": "My Partners",
     "nav.messages": "Messages",
     "nav.signOut": "Sign Out",
