@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Edit, Loader2, MapPin, Building2, Users, Globe, Calendar } from "lucide-react";
+import { Edit, Loader2, MapPin, Building2, Users, Globe, Calendar, MessageSquare, Eye } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
@@ -70,6 +70,8 @@ const Company = () => {
   const [loading, setLoading] = useState(true);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [partnersContacted, setPartnersContacted] = useState(0);
+  const [profileVisits, setProfileVisits] = useState(0);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -131,6 +133,9 @@ const Company = () => {
           looking_for: profileData.looking_for || "",
           cooperation_type: profileData.cooperation_type || [],
         });
+
+        // Load statistics
+        await loadStatistics(profileData.id);
       }
     } catch (error: any) {
       console.error("Error loading user data:", error);
@@ -141,6 +146,42 @@ const Company = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadStatistics = async (companyId: string) => {
+    try {
+      // Count partners contacted (unique companies we sent messages or connection requests to)
+      const { data: messagesData } = await supabase
+        .from("messages")
+        .select("to_company_id")
+        .eq("from_company_id", companyId);
+
+      const { data: requestsData } = await supabase
+        .from("connection_requests")
+        .select("to_company_id")
+        .eq("from_company_id", companyId);
+
+      const uniquePartners = new Set([
+        ...(messagesData?.map(m => m.to_company_id) || []),
+        ...(requestsData?.map(r => r.to_company_id) || []),
+      ]);
+
+      setPartnersContacted(uniquePartners.size);
+
+      // Count profile visits in last 7 days
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+      const { data: visitsData, count } = await supabase
+        .from("profile_visits")
+        .select("*", { count: "exact", head: true })
+        .eq("company_id", companyId)
+        .gte("visited_at", sevenDaysAgo.toISOString());
+
+      setProfileVisits(count || 0);
+    } catch (error) {
+      console.error("Error loading statistics:", error);
     }
   };
 
@@ -258,8 +299,28 @@ const Company = () => {
           </Card>
         )}
 
-        {/* Info Grid */}
+        {/* Statistics Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <MessageSquare className="h-5 w-5 text-primary" />
+                <p className="text-sm font-medium text-muted-foreground">Kontaktierte Partner</p>
+              </div>
+              <p className="text-3xl font-bold text-foreground">{partnersContacted}</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <Eye className="h-5 w-5 text-primary" />
+                <p className="text-sm font-medium text-muted-foreground">Profilbesuche (7 Tage)</p>
+              </div>
+              <p className="text-3xl font-bold text-foreground">{profileVisits}</p>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-3 mb-2">
