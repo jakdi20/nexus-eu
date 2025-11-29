@@ -1,7 +1,1 @@
-project_id = "aovhgnjjrvyjckueavoc"
-
-[functions.calculate-matches]
-verify_jwt = true
-
-[functions.ai-partner-search]
-verify_jwt = true
+project_id = "ydoaxvfdhyadzzxdsilv"
