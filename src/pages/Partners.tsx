@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Search, MapPin, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
+import AIRecommendations from "@/components/AIRecommendations";
 
 interface CompanyProfile {
   id: string;
@@ -134,6 +135,8 @@ const Partners = () => {
             Entdecken Sie {profiles.length} potenzielle Geschäftspartner
           </p>
         </div>
+
+        <AIRecommendations />
 
         <Card className="mb-8 shadow-lg">
           <CardHeader>

@@ -1,1 +1,10 @@
 project_id = "ydoaxvfdhyadzzxdsilv"
+
+[functions.ai-partner-search]
+verify_jwt = false
+
+[functions.calculate-matches]
+verify_jwt = false
+
+[functions.ai-partner-recommendations]
+verify_jwt = true
