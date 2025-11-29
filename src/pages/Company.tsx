@@ -47,6 +47,7 @@ const cooperationTypes = [
 
 const formSchema = z.object({
   company_name: z.string().trim().min(2).max(100),
+  slogan: z.string().trim().max(100).optional(),
   industry: z.array(z.string()).min(1),
   company_size: z.enum(companySizes),
   country: z.string().trim().min(2),
@@ -74,6 +75,7 @@ const Company = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       company_name: "",
+      slogan: "",
       industry: [],
       company_size: "11-50",
       country: "",
@@ -117,6 +119,7 @@ const Company = () => {
       if (profileData) {
         form.reset({
           company_name: profileData.company_name || "",
+          slogan: profileData.slogan || "",
           industry: profileData.industry || [],
           company_size: profileData.company_size || "11-50",
           country: profileData.country || "",
@@ -155,6 +158,7 @@ const Company = () => {
     try {
       const updateData = {
         company_name: values.company_name,
+        slogan: values.slogan || null,
         industry: values.industry,
         company_size: values.company_size,
         country: values.country,
@@ -224,99 +228,120 @@ const Company = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Header Section */}
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground mb-2">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex-1">
+            <h1 className="text-5xl font-bold text-foreground mb-3">
               {profile.company_name}
             </h1>
-            <p className="text-muted-foreground">Ihr Unternehmensprofil</p>
+            {profile.slogan && (
+              <p className="text-xl text-muted-foreground italic mb-4">
+                "{profile.slogan}"
+              </p>
+            )}
           </div>
-          <Button onClick={() => setEditDialogOpen(true)} className="gap-2">
-            <Edit className="h-4 w-4" />
+          <Button onClick={() => setEditDialogOpen(true)} size="lg" className="gap-2">
+            <Edit className="h-5 w-5" />
             Bearbeiten
           </Button>
         </div>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Branche</CardTitle>
-            <Building2 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {profile.industry?.map((ind: string, idx: number) => (
-                <Badge key={idx} variant="secondary">{ind}</Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Description */}
+        {profile.company_description && (
+          <Card className="mb-6">
+            <CardContent className="pt-6">
+              <p className="text-lg text-foreground leading-relaxed">
+                {profile.company_description}
+              </p>
+            </CardContent>
+          </Card>
+        )}
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Standort</CardTitle>
-            <MapPin className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{profile.city}</div>
-            <p className="text-xs text-muted-foreground">{profile.country}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Größe</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{profile.company_size}</div>
-            <p className="text-xs text-muted-foreground">Mitarbeiter</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
+        {/* Info Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Über das Unternehmen</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {profile.company_description && (
-                <p className="text-foreground leading-relaxed">{profile.company_description}</p>
-              )}
-              
-              <div className="grid gap-4 md:grid-cols-2 pt-4 border-t">
-                {profile.founded_year && (
-                  <div className="flex items-center gap-3">
-                    <Calendar className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Gegründet</p>
-                      <p className="font-medium">{profile.founded_year}</p>
-                    </div>
-                  </div>
-                )}
-                {profile.website && (
-                  <div className="flex items-center gap-3">
-                    <Globe className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Website</p>
-                      <a href={profile.website} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
-                        {profile.website.replace(/^https?:\/\//, '')}
-                      </a>
-                    </div>
-                  </div>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <MapPin className="h-5 w-5 text-primary" />
+                <p className="text-sm font-medium text-muted-foreground">Standort</p>
+              </div>
+              <p className="text-lg font-semibold">{profile.city}</p>
+              <p className="text-sm text-muted-foreground">{profile.country}</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <Users className="h-5 w-5 text-primary" />
+                <p className="text-sm font-medium text-muted-foreground">Mitarbeiter</p>
+              </div>
+              <p className="text-lg font-semibold">{profile.company_size}</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3 mb-2">
+                <Building2 className="h-5 w-5 text-primary" />
+                <p className="text-sm font-medium text-muted-foreground">Branche</p>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {profile.industry?.slice(0, 2).map((ind: string, idx: number) => (
+                  <Badge key={idx} variant="secondary" className="text-xs">
+                    {ind}
+                  </Badge>
+                ))}
+                {profile.industry?.length > 2 && (
+                  <Badge variant="secondary" className="text-xs">
+                    +{profile.industry.length - 2}
+                  </Badge>
                 )}
               </div>
             </CardContent>
           </Card>
 
+          {profile.website && (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  <p className="text-sm font-medium text-muted-foreground">Website</p>
+                </div>
+                <a 
+                  href={profile.website} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-sm font-medium text-primary hover:underline truncate block"
+                >
+                  {profile.website.replace(/^https?:\/\//, '')}
+                </a>
+              </CardContent>
+            </Card>
+          )}
+
+          {profile.founded_year && !profile.website && (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  <p className="text-sm font-medium text-muted-foreground">Gegründet</p>
+                </div>
+                <p className="text-lg font-semibold">{profile.founded_year}</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+
+      {/* Content Grid */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2 space-y-6">
           {profile.offers && (
             <Card>
               <CardHeader>
-                <CardTitle>Was wir anbieten</CardTitle>
+                <CardTitle>Produkte & Angebote</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-foreground">{profile.offers}</p>
@@ -331,6 +356,21 @@ const Company = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-foreground">{profile.looking_for}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {profile.industry && profile.industry.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Alle Branchen</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {profile.industry.map((ind: string, idx: number) => (
+                    <Badge key={idx} variant="secondary">{ind}</Badge>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           )}
@@ -385,6 +425,23 @@ const Company = () => {
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="slogan"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Slogan / Mission Statement</FormLabel>
+                    <FormControl>
+                      <Input placeholder="z.B. Innovation für eine bessere Zukunft" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      {field.value?.length || 0}/100 Zeichen
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

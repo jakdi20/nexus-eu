@@ -31,6 +31,7 @@ export type Database = {
           logo_url: string | null
           looking_for: string | null
           offers: string | null
+          slogan: string | null
           sponsored_until: string | null
           updated_at: string | null
           user_id: string
@@ -55,6 +56,7 @@ export type Database = {
           logo_url?: string | null
           looking_for?: string | null
           offers?: string | null
+          slogan?: string | null
           sponsored_until?: string | null
           updated_at?: string | null
           user_id: string
@@ -79,6 +81,7 @@ export type Database = {
           logo_url?: string | null
           looking_for?: string | null
           offers?: string | null
+          slogan?: string | null
           sponsored_until?: string | null
           updated_at?: string | null
           user_id?: string

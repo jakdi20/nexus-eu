@@ -41,6 +41,7 @@ const cooperationTypes = [
 
 const formSchema = z.object({
   company_name: z.string().trim().min(2, "Name muss mindestens 2 Zeichen haben").max(100),
+  slogan: z.string().trim().max(100, "Maximal 100 Zeichen").optional(),
   industry: z.array(z.string()).min(1, "Mindestens eine Branche auswählen"),
   company_size: z.enum(companySizes, { required_error: "Bitte Größe auswählen" }),
   country: z.string().trim().min(2, "Land ist erforderlich"),
@@ -68,6 +69,7 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
     resolver: zodResolver(formSchema),
     defaultValues: {
       company_name: "",
+      slogan: "",
       industry: [],
       company_size: "11-50",
       country: "",
@@ -88,6 +90,7 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
       const profileData = {
         user_id: userId,
         company_name: values.company_name,
+        slogan: values.slogan || null,
         industry: values.industry,
         company_size: values.company_size,
         country: values.country,
@@ -141,6 +144,23 @@ const CompanyProfileForm = ({ userId, onProfileCreated }: CompanyProfileFormProp
                   <FormControl>
                     <Input placeholder="z.B. Mustermann GmbH" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="slogan"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Slogan / Mission Statement</FormLabel>
+                  <FormControl>
+                    <Input placeholder="z.B. Innovation für eine bessere Zukunft" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    {field.value?.length || 0}/100 Zeichen
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
