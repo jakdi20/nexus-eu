@@ -29,6 +29,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
   const [isVideoEnabled, setIsVideoEnabled] = useState(true);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [callState, setCallState] = useState<CallState>('initializing');
+  const [signalingReady, setSignalingReady] = useState(false);
   
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
@@ -59,7 +60,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
 
   // Automatic connection effect
   useEffect(() => {
-    if (!localStream || !channelRef.current) return;
+    if (!localStream || !signalingReady) return;
 
     const autoConnect = async () => {
       if (isInitiator) {
@@ -74,7 +75,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
 
     const timer = setTimeout(autoConnect, 500);
     return () => clearTimeout(timer);
-  }, [localStream, isInitiator]);
+  }, [localStream, signalingReady, isInitiator]);
 
   const initializeMedia = async () => {
     try {
@@ -94,9 +95,6 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       console.log('Media access granted, tracks:', stream.getTracks().map(t => `${t.kind}: ${t.label}`));
       localStreamRef.current = stream; // Set ref immediately
       setLocalStream(stream); // Set state for UI updates
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = stream;
-      }
     } catch (error) {
       console.error('Error accessing media devices:', error);
       toast({
@@ -107,8 +105,15 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     }
   };
 
+  // Keep local video element in sync with stream
+  useEffect(() => {
+    if (localVideoRef.current && localStream) {
+      localVideoRef.current.srcObject = localStream;
+    }
+  }, [localStream]);
   const setupSignaling = () => {
     console.log('Setting up signaling channel for room:', roomId);
+    setSignalingReady(false);
     
     const channel = supabase
       .channel(`video-call-${roomId}`, {
@@ -138,6 +143,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         console.log('Channel subscription status:', status);
         if (status === 'SUBSCRIBED') {
           console.log('Successfully subscribed to channel');
+          setSignalingReady(true);
         }
       });
 
