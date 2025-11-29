@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Edit, Loader2, MapPin, Building2, Users, Globe, Calendar, MessageSquare, Eye } from "lucide-react";
+import { Edit, Loader2, MapPin, Building2, Users, Globe, Calendar, MessageSquare, Eye, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MonetizationCard } from "@/components/MonetizationCard";
 import { CompanyInsights } from "@/components/CompanyInsights";
+import { PremiumDialog } from "@/components/PremiumDialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -74,6 +74,7 @@ const Company = () => {
   const [partnersContacted, setPartnersContacted] = useState(0);
   const [profileVisits, setProfileVisits] = useState(0);
   const [insightsDialogOpen, setInsightsDialogOpen] = useState(false);
+  const [premiumDialogOpen, setPremiumDialogOpen] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -284,10 +285,21 @@ const Company = () => {
               </p>
             )}
           </div>
-          <Button onClick={() => setEditDialogOpen(true)} size="lg" className="gap-2">
-            <Edit className="h-5 w-5" />
-            Bearbeiten
-          </Button>
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => setPremiumDialogOpen(true)} 
+              size="lg" 
+              variant="outline"
+              className="gap-2"
+            >
+              <Sparkles className="h-5 w-5" />
+              Premium
+            </Button>
+            <Button onClick={() => setEditDialogOpen(true)} size="lg" className="gap-2">
+              <Edit className="h-5 w-5" />
+              Bearbeiten
+            </Button>
+          </div>
         </div>
 
         {/* Description */}
@@ -444,14 +456,6 @@ const Company = () => {
         </div>
 
         <div className="space-y-6">
-          <MonetizationCard
-            companyId={profile.id}
-            isPremium={profile.is_premium || false}
-            isSponsored={profile.is_sponsored || false}
-            sponsoredUntil={profile.sponsored_until}
-            onUpdate={loadUserData}
-          />
-
           {profile.cooperation_type && profile.cooperation_type.length > 0 && (
             <Card>
               <CardHeader>
@@ -739,6 +743,17 @@ const Company = () => {
           <CompanyInsights companyId={profile.id} />
         </DialogContent>
       </Dialog>
+
+      {/* Premium Dialog */}
+      <PremiumDialog
+        open={premiumDialogOpen}
+        onOpenChange={setPremiumDialogOpen}
+        companyId={profile.id}
+        isPremium={profile.is_premium || false}
+        isSponsored={profile.is_sponsored || false}
+        sponsoredUntil={profile.sponsored_until}
+        onUpdate={loadUserData}
+      />
     </div>
   );
 };
