@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Building2, Search, MessageCircle, LogOut, Menu, X } from "lucide-react";
+import { Building2, Search, MessageCircle, LogOut, Menu, X, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NotificationBell } from "@/components/NotificationBell";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,8 +29,8 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
   const navItems = [
     { path: "/company", label: "Mein Unternehmen", icon: Building2 },
-    { path: "/search", label: "KI-Suche", icon: Search },
-    { path: "/partners", label: "Alle Partner", icon: Building2 },
+    { path: "/search", label: "Suche", icon: Search },
+    { path: "/my-partners", label: "Meine Partner", icon: Heart },
     { path: "/messages", label: "Nachrichten", icon: MessageCircle },
   ];
 
