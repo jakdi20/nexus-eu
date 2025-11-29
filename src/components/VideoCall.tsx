@@ -82,24 +82,24 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
     const channel = supabase
       .channel(`video-call-${roomId}`, {
         config: {
-          broadcast: { self: true }
+          broadcast: { self: false }
         }
       })
       .on('broadcast', { event: 'offer' }, async ({ payload }) => {
         console.log('Received offer from:', payload.from);
-        if (payload.from !== myCompanyId) {
+        if (payload.from !== myCompanyId && payload.to === myCompanyId) {
           await handleOffer(payload.offer, payload.from);
         }
       })
       .on('broadcast', { event: 'answer' }, async ({ payload }) => {
         console.log('Received answer from:', payload.from);
-        if (payload.from !== myCompanyId) {
+        if (payload.from !== myCompanyId && payload.to === myCompanyId) {
           await handleAnswer(payload.answer);
         }
       })
       .on('broadcast', { event: 'ice-candidate' }, async ({ payload }) => {
         console.log('Received ICE candidate from:', payload.from);
-        if (payload.from !== myCompanyId) {
+        if (payload.from !== myCompanyId && payload.to === myCompanyId) {
           await handleIceCandidate(payload.candidate);
         }
       })
@@ -135,6 +135,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
           payload: { 
             candidate: event.candidate.toJSON(),
             from: myCompanyId,
+            to: partnerCompanyId,
             roomId 
           },
         });
@@ -216,6 +217,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
         payload: { 
           offer: pc.localDescription?.toJSON(),
           from: myCompanyId,
+          to: partnerCompanyId,
           roomId 
         },
       });
@@ -266,6 +268,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, onClo
         payload: { 
           answer: pc.localDescription?.toJSON(),
           from: myCompanyId,
+          to: from,
           roomId 
         },
       });
