@@ -43,52 +43,64 @@ export default function IncomingCallNotification({
     if (!myCompanyId) return;
 
     const channel = supabase
-      .channel('global-video-calls')
+      .channel(`global-video-calls-${myCompanyId}`)
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'INSERT',
           schema: 'public',
           table: 'video_call_sessions',
+          filter: `company_id_2=eq.${myCompanyId}`,
         },
         async (payload) => {
           const session = payload.new as any;
           
           if (!session) return;
 
-          const isCallee = session.company_id_2 === myCompanyId;
-          const isPendingOrCalling = session.status === 'pending' || session.status === 'calling';
+          console.log('Incoming call detected:', session);
 
-          if (isCallee && isPendingOrCalling && !incomingCall) {
-            // Fetch company name
-            const { data: companyData } = await supabase
-              .from('company_profiles')
-              .select('company_name')
-              .eq('id', session.company_id_1)
-              .single();
+          // Fetch company name
+          const { data: companyData } = await supabase
+            .from('company_profiles')
+            .select('company_name')
+            .eq('id', session.company_id_1)
+            .single();
 
-            const newIncomingCall = {
-              roomId: session.room_id,
-              fromCompanyId: session.company_id_1,
-              fromCompanyName: companyData?.company_name || 'Unbekannte Firma',
-            };
+          const newIncomingCall = {
+            roomId: session.room_id,
+            fromCompanyId: session.company_id_1,
+            fromCompanyName: companyData?.company_name || 'Unbekannte Firma',
+          };
 
-            setIncomingCall(newIncomingCall);
+          setIncomingCall(newIncomingCall);
 
-            // Play ringtone
-            if (audioElement) {
-              audioElement.play().catch(console.error);
-            }
-
-            // Show toast notification
-            toast({
-              title: 'Eingehender Videoanruf',
-              description: `${newIncomingCall.fromCompanyName} ruft an`,
-              duration: 10000,
-            });
+          // Play ringtone
+          if (audioElement) {
+            audioElement.play().catch(console.error);
           }
 
-          // If call ended or accepted by someone else, clear notification
+          // Show toast notification
+          toast({
+            title: 'Eingehender Videoanruf',
+            description: `${newIncomingCall.fromCompanyName} ruft an`,
+            duration: 10000,
+          });
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'video_call_sessions',
+          filter: `company_id_2=eq.${myCompanyId}`,
+        },
+        async (payload) => {
+          const session = payload.new as any;
+          
+          if (!session) return;
+
+          // If call ended, clear notification
           if (session.status === 'ended' && incomingCall?.roomId === session.room_id) {
             handleDecline();
           }
