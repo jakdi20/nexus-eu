@@ -197,6 +197,14 @@ export const MonetizationCard = ({
                   <CheckCircle className="h-4 w-4 text-primary" />
                   <span className="text-sm">{t("monetization.premiumFeature3")}</span>
                 </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-primary" />
+                  <span className="text-sm">{t("monetization.premiumFeature4")}</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-primary" />
+                  <span className="text-sm">{t("monetization.premiumFeature5")}</span>
+                </li>
               </ul>
             </div>
             <div className="pt-4 border-t">
