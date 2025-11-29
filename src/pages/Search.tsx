@@ -234,28 +234,7 @@ const Search = () => {
         </div>
       </div>
 
-      <Card className="mb-8 border-2 relative overflow-hidden">
-        {!isPremium && (
-          <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-10 flex items-center justify-center">
-            <div className="text-center space-y-4 p-6">
-              <div className="flex justify-center">
-                <div className="rounded-full bg-primary/10 p-6">
-                  <Lock className="h-16 w-16 text-primary" />
-                </div>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Premium Feature</h3>
-                <p className="text-muted-foreground mb-4">
-                  KI-gestützte Partnersuche ist nur für Premium-Mitglieder verfügbar
-                </p>
-                <Button onClick={() => navigate('/company')} size="lg" className="gap-2">
-                  <Sparkles className="h-5 w-5" />
-                  Jetzt Premium werden
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+      <Card className="mb-8 border-2 relative">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -276,7 +255,7 @@ const Search = () => {
             }
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className={!isPremium ? 'opacity-30' : ''}>
           <div className="flex gap-3">
             <Input
               placeholder={t("search.placeholder")}
@@ -306,6 +285,18 @@ const Search = () => {
             </Button>
           </div>
         </CardContent>
+        {!isPremium && (
+          <CardFooter className="flex justify-center pt-0 pb-6">
+            <Button 
+              onClick={() => navigate('/company')} 
+              size="lg" 
+              className="gap-2 shadow-lg"
+            >
+              <Sparkles className="h-5 w-5" />
+              Jetzt Premium werden für KI-Suche
+            </Button>
+          </CardFooter>
+        )}
       </Card>
 
       {/* AI Results */}
@@ -365,26 +356,7 @@ const Search = () => {
 
       {/* AI Recommendations (only if no search) */}
       {!hasSearched && !isPremium && (
-        <Card className="mb-8 border-2 border-primary/30 shadow-lg relative overflow-hidden">
-          <div className="absolute inset-0 bg-background/60 backdrop-blur-md z-10 flex items-center justify-center">
-            <div className="text-center space-y-4 p-6">
-              <div className="flex justify-center">
-                <div className="rounded-full bg-primary/10 p-6">
-                  <Lock className="h-16 w-16 text-primary" />
-                </div>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2">KI-Empfehlungen freischalten</h3>
-                <p className="text-muted-foreground mb-4">
-                  Erhalten Sie personalisierte Partner-Empfehlungen basierend auf Ihrem Profil
-                </p>
-                <Button onClick={() => navigate('/company')} size="lg" className="gap-2">
-                  <Sparkles className="h-5 w-5" />
-                  Premium aktivieren
-                </Button>
-              </div>
-            </div>
-          </div>
+        <Card className="mb-8 border-2 border-primary/30 shadow-lg relative">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -400,7 +372,7 @@ const Search = () => {
               Personalisierte Vorschläge für perfekte Kooperationen
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="opacity-30">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[1, 2, 3].map((i) => (
                 <Card key={i} className="border-2">
@@ -424,6 +396,16 @@ const Search = () => {
               ))}
             </div>
           </CardContent>
+          <CardFooter className="flex justify-center pb-6">
+            <Button 
+              onClick={() => navigate('/company')} 
+              size="lg" 
+              className="gap-2 shadow-lg"
+            >
+              <Sparkles className="h-5 w-5" />
+              Premium aktivieren für KI-Empfehlungen
+            </Button>
+          </CardFooter>
         </Card>
       )}
       {!hasSearched && isPremium && <AIRecommendations />}
