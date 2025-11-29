@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Building2, Users, TrendingUp, Search } from "lucide-react";
+import { LogOut, Building2, Users, TrendingUp, Search, Sparkles } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { NotificationBell } from "@/components/NotificationBell";
@@ -130,10 +130,16 @@ const Dashboard = () => {
           </div>
           <div className="flex items-center gap-3">
             {profile && (
-              <Button variant="default" onClick={() => navigate("/partners")}>
-                <Search className="mr-2 h-4 w-4" />
-                Partner finden
-              </Button>
+              <>
+                <Button variant="default" onClick={() => navigate("/ai-search")} className="gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  KI-Suche
+                </Button>
+                <Button variant="outline" onClick={() => navigate("/partners")}>
+                  <Search className="mr-2 h-4 w-4" />
+                  Alle Partner
+                </Button>
+              </>
             )}
             {user && <NotificationBell />}
             <Button variant="outline" onClick={handleSignOut}>
