@@ -56,7 +56,7 @@ export default function GlobalVideoCallManager() {
 
       {activeCall && (
         <Dialog open={!!activeCall} onOpenChange={handleCloseCall}>
-          <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0">
+          <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 overflow-hidden">
             <DialogTitle className="sr-only">Videoanruf</DialogTitle>
             <DialogDescription className="sr-only">
               Echtzeit-Videoanruf mit Ihrem Partnerunternehmen
