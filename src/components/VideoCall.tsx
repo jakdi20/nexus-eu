@@ -64,15 +64,23 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         setCallState('calling');
         await startCall();
       } else {
-        console.log('Callee: Waiting for offer...');
-        setCallState('ringing');
+        console.log('Callee: signaling ready, requesting offer...');
+        setCallState('connecting');
+        channelRef.current?.send({
+          type: 'broadcast',
+          event: 'request-offer',
+          payload: {
+            from: myCompanyId,
+            to: partnerCompanyId,
+            roomId,
+          },
+        });
       }
     };
 
-    // Small delay to ensure everything is ready
     const timer = setTimeout(autoConnect, 500);
     return () => clearTimeout(timer);
-  }, [localStream, isInitiator]);
+  }, [localStream, isInitiator, myCompanyId, partnerCompanyId, roomId]);
 
   const initializeMedia = async () => {
     try {
@@ -129,6 +137,14 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         console.log('Received ICE candidate from:', payload.from);
         if (payload.from !== myCompanyId && payload.to === myCompanyId) {
           await handleIceCandidate(payload.candidate);
+        }
+      })
+      .on('broadcast', { event: 'request-offer' }, async ({ payload }) => {
+        console.log('Received request-offer from:', payload.from);
+        if (payload.to === myCompanyId && payload.from === partnerCompanyId && isInitiator) {
+          console.log('Initiator: received request-offer, starting call');
+          setCallState('calling');
+          await startCall();
         }
       })
       .subscribe((status) => {
