@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon } from 'lucide-react';
 import VideoCall from '@/components/VideoCall';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { useUnreadMessages } from '@/hooks/use-unread-messages';
 
 interface Message {
   id: string;
@@ -36,6 +37,7 @@ export default function Messages() {
   const partnerId = searchParams.get('partnerId');
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { markAsRead, refreshUnreadCount } = useUnreadMessages();
   
   const [myCompanyId, setMyCompanyId] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -225,13 +227,9 @@ export default function Messages() {
 
     setMessages(data);
 
-    // Mark messages as read
-    await supabase
-      .from('messages')
-      .update({ read: true })
-      .eq('from_company_id', companyId)
-      .eq('to_company_id', myCompanyId)
-      .eq('read', false);
+    // Mark messages as read and update unread count
+    await markAsRead(companyId);
+    refreshUnreadCount();
   };
 
   const uploadFile = async (file: File): Promise<string | null> => {

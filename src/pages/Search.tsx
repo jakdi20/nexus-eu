@@ -21,30 +21,31 @@ import AIRecommendations from "@/components/AIRecommendations";
 interface CompanyProfile {
   id: string;
   company_name: string;
-  description: string;
-  industry: string;
+  company_description: string;
+  industry: string[];
   country: string;
   city: string;
   company_size: string;
-  partnership_types: string[];
-  offers: string[];
-  seeks: string[];
+  cooperation_type: string[];
+  offers: string;
+  looking_for: string;
   website: string;
   verified: boolean;
   verification_status: string;
+  founded_year: number;
 }
 
 interface AISearchResult {
   id: string;
   company_name: string;
-  description: string;
-  industry: string;
+  company_description: string;
+  industry: string[];
   country: string;
   city: string;
   company_size: string;
-  partnership_types: string[];
-  offers: string[];
-  seeks: string[];
+  cooperation_type: string[];
+  offers: string;
+  looking_for: string;
   verification_status: string;
   ai_score: number;
   ai_reason: string;
@@ -110,13 +111,13 @@ const Search = () => {
       filtered = filtered.filter(
         (p) =>
           p.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.industry.toLowerCase().includes(searchTerm.toLowerCase())
+          p.company_description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.industry?.some(ind => ind.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     }
 
     if (industryFilter !== "all") {
-      filtered = filtered.filter((p) => p.industry === industryFilter);
+      filtered = filtered.filter((p) => p.industry?.includes(industryFilter));
     }
 
     if (countryFilter !== "all") {
@@ -172,8 +173,10 @@ const Search = () => {
     }
   };
 
-  const uniqueIndustries = Array.from(new Set(profiles.map((p) => p.industry)));
-  const uniqueCountries = Array.from(new Set(profiles.map((p) => p.country)));
+  const uniqueIndustries = Array.from(
+    new Set(profiles.flatMap((p) => p.industry || []))
+  ).sort();
+  const uniqueCountries = Array.from(new Set(profiles.map((p) => p.country))).sort();
 
   if (loading) {
     return (
@@ -280,11 +283,11 @@ const Search = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground line-clamp-2 mb-4">{company.description}</p>
+                  <p className="text-muted-foreground line-clamp-2 mb-4">{company.company_description}</p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div className="flex items-center gap-2 text-sm">
                       <Building2 className="h-4 w-4 text-muted-foreground" />
-                      <span>{company.industry}</span>
+                      <span className="truncate">{company.industry?.join(", ")}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
@@ -370,14 +373,14 @@ const Search = () => {
                 )}
               </CardTitle>
               <CardDescription className="line-clamp-2">
-                {profile.description}
+                {profile.company_description || "Keine Beschreibung"}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Building2 className="h-4 w-4" />
-                  <span>{profile.industry}</span>
+                  <span className="truncate">{profile.industry?.join(", ")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4" />

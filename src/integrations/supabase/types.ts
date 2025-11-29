@@ -40,7 +40,7 @@ export type Database = {
           city: string
           company_description?: string | null
           company_name: string
-          company_size: Database["public"]["Enums"]["company_size"]
+          company_size?: Database["public"]["Enums"]["company_size"]
           cooperation_type?: string[] | null
           country: string
           created_at?: string | null
@@ -313,7 +313,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      company_size: "1-10" | "11-50" | "51-250" | "251-1000" | "1000+"
+      company_size: "1" | "2-10" | "11-50" | "51-250" | "250+"
       partnership_type:
         | "supplier"
         | "buyer"
@@ -447,7 +447,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      company_size: ["1-10", "11-50", "51-250", "251-1000", "1000+"],
+      company_size: ["1", "2-10", "11-50", "51-250", "250+"],
       partnership_type: [
         "supplier",
         "buyer",
