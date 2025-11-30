@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Building2, Search, MessageCircle, LogOut, Menu, X, Heart, Users, Languages, Moon, Sun } from "lucide-react";
+import { Building2, Search, MessageCircle, LogOut, Menu, X, Users, Languages, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,7 +42,6 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const navItems = [
     { path: "/company", label: t("nav.company"), icon: Building2 },
     { path: "/search", label: t("nav.search"), icon: Search },
-    { path: "/my-partners", label: t("nav.myPartners"), icon: Heart },
     { path: "/messages", label: t("nav.messages"), icon: MessageCircle },
   ];
 
