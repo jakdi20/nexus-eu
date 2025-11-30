@@ -412,7 +412,7 @@ const Index = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm">AI partner search</span>
+                  <span className="text-sm">Basic filter search</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
@@ -449,6 +449,10 @@ const Index = () => {
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="h-5 w-5 text-white mt-0.5 flex-shrink-0" />
                   <span className="text-sm">Everything in Starter</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-white mt-0.5 flex-shrink-0" />
+                  <span className="text-sm">AI-powered partner search</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="h-5 w-5 text-white mt-0.5 flex-shrink-0" />
