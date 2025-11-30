@@ -105,6 +105,7 @@ interface Conversation {
   company_name: string;
   last_message: string;
   last_message_time: string;
+  unread_count: number;
 }
 
 const CompanyDashboard = () => {
@@ -310,6 +311,59 @@ const CompanyDashboard = () => {
     };
   }, [profile?.id, selectedConversation]);
 
+  // Realtime updates for all conversations
+  useEffect(() => {
+    if (!profile?.id) return;
+
+    const channel = supabase
+      .channel(`conversations-${profile.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+        },
+        async (payload) => {
+          const newMsg = payload.new as any;
+          
+          // Only reload if this message is relevant to our company
+          const isRelevant = 
+            newMsg.from_company_id === profile.id || 
+            newMsg.to_company_id === profile.id;
+          
+          if (isRelevant) {
+            loadConversations();
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'messages',
+        },
+        async (payload) => {
+          const updatedMsg = payload.new as any;
+          
+          // Reload conversations when messages are marked as read
+          const isRelevant = 
+            updatedMsg.from_company_id === profile.id || 
+            updatedMsg.to_company_id === profile.id;
+          
+          if (isRelevant) {
+            loadConversations();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [profile?.id]);
+
   const loadUserData = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -443,7 +497,7 @@ const CompanyDashboard = () => {
 
     const { data: receivedMessages } = await supabase
       .from('messages')
-      .select('from_company_id, from_company:company_profiles!messages_from_company_id_fkey(company_name), content, created_at')
+      .select('from_company_id, from_company:company_profiles!messages_from_company_id_fkey(company_name), content, created_at, read')
       .eq('to_company_id', profile.id)
       .order('created_at', { ascending: false });
 
@@ -454,9 +508,10 @@ const CompanyDashboard = () => {
       if (!conversationsMap.has(key) || new Date(msg.created_at) > new Date(conversationsMap.get(key)!.last_message_time)) {
         conversationsMap.set(key, {
           company_id: msg.to_company_id,
-          company_name: msg.to_company?.company_name || 'Unbekannt',
+          company_name: msg.to_company?.company_name || 'Unknown',
           last_message: msg.content,
           last_message_time: msg.created_at,
+          unread_count: 0,
         });
       }
     });
@@ -466,11 +521,26 @@ const CompanyDashboard = () => {
       if (!conversationsMap.has(key) || new Date(msg.created_at) > new Date(conversationsMap.get(key)!.last_message_time)) {
         conversationsMap.set(key, {
           company_id: msg.from_company_id,
-          company_name: msg.from_company?.company_name || 'Unbekannt',
+          company_name: msg.from_company?.company_name || 'Unknown',
           last_message: msg.content,
           last_message_time: msg.created_at,
+          unread_count: 0,
         });
       }
+    });
+
+    // Count unread messages per conversation
+    const unreadCounts = new Map<string, number>();
+    receivedMessages?.forEach((msg: any) => {
+      if (!msg.read) {
+        const count = unreadCounts.get(msg.from_company_id) || 0;
+        unreadCounts.set(msg.from_company_id, count + 1);
+      }
+    });
+
+    // Update conversations with unread counts
+    conversationsMap.forEach((conv, key) => {
+      conv.unread_count = unreadCounts.get(key) || 0;
     });
 
     const sortedConversations = Array.from(conversationsMap.values()).sort(
@@ -797,7 +867,14 @@ const CompanyDashboard = () => {
                     >
                       <div className="flex items-start justify-between mb-2">
                         <p className="font-semibold text-sm">{conv.company_name}</p>
-                        <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <div className="flex items-center gap-2">
+                          {conv.unread_count > 0 && (
+                            <Badge variant="destructive" className="h-5 min-w-[20px] flex items-center justify-center p-0 text-xs">
+                              {conv.unread_count > 99 ? "99+" : conv.unread_count}
+                            </Badge>
+                          )}
+                          <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        </div>
                       </div>
                       <p className="text-sm text-muted-foreground line-clamp-2 mb-1">
                         {conv.last_message}
