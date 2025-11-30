@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -7,14 +7,26 @@ import {
   Edit, 
   Loader2, 
   Sparkles, 
-  TrendingUp
+  TrendingUp,
+  Building2,
+  MapPin,
+  Mail,
+  Phone,
+  Globe,
+  Calendar,
+  Users,
+  MessageCircle,
+  Heart,
+  Send,
+  CheckCircle2
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { CompanyInsights } from "@/components/CompanyInsights";
 import { PremiumDialog } from "@/components/PremiumDialog";
+import { useUnreadMessages } from "@/hooks/use-unread-messages";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +35,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 
 const companySizes = ["1", "2-10", "11-50", "51-250", "250+"] as const;
 
@@ -62,16 +73,58 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+interface PartnerProfile {
+  id: string;
+  company_name: string;
+  description?: string;
+  industry: string;
+  country: string;
+  firmensitz: string;
+  company_size: string;
+  verification_status?: string;
+  last_message_time?: string;
+  message_count?: number;
+}
+
+interface Message {
+  id: string;
+  from_company_id: string;
+  to_company_id: string;
+  content: string;
+  created_at: string;
+  from_company?: { company_name: string };
+  to_company?: { company_name: string };
+}
+
+interface Conversation {
+  company_id: string;
+  company_name: string;
+  last_message: string;
+  last_message_time: string;
+}
+
 const CompanyDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { markAsRead, refreshUnreadCount } = useUnreadMessages();
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [insightsDialogOpen, setInsightsDialogOpen] = useState(false);
   const [premiumDialogOpen, setPremiumDialogOpen] = useState(false);
+  
+  // Partners state
+  const [partners, setPartners] = useState<PartnerProfile[]>([]);
+  const [loadingPartners, setLoadingPartners] = useState(false);
+  
+  // Messages state
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [sending, setSending] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
 
   const form = useForm<FormValues>({
@@ -97,6 +150,74 @@ const CompanyDashboard = () => {
   useEffect(() => {
     loadUserData();
   }, []);
+
+  useEffect(() => {
+    if (profile?.id) {
+      loadPartners();
+      loadConversations();
+    }
+  }, [profile?.id]);
+
+  useEffect(() => {
+    if (profile?.id && selectedConversation) {
+      loadMessages(selectedConversation);
+    }
+  }, [profile?.id, selectedConversation]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  // Realtime messages
+  useEffect(() => {
+    if (!profile?.id || !selectedConversation) return;
+
+    const channel = supabase
+      .channel(`chat-${profile.id}-${selectedConversation}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+        },
+        async (payload) => {
+          const newMsg = payload.new as any;
+          
+          const isRelevant = 
+            (newMsg.from_company_id === profile.id && newMsg.to_company_id === selectedConversation) ||
+            (newMsg.from_company_id === selectedConversation && newMsg.to_company_id === profile.id);
+          
+          if (!isRelevant) return;
+          
+          const { data: fullMessage } = await supabase
+            .from('messages')
+            .select(`
+              *,
+              from_company:company_profiles!messages_from_company_id_fkey(company_name),
+              to_company:company_profiles!messages_to_company_id_fkey(company_name)
+            `)
+            .eq('id', newMsg.id)
+            .single();
+
+          if (fullMessage) {
+            setMessages((prev) => {
+              if (prev.some(m => m.id === fullMessage.id)) return prev;
+              return [...prev, fullMessage];
+            });
+          }
+          
+          loadConversations();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [profile?.id, selectedConversation]);
 
   const loadUserData = async () => {
     try {
@@ -149,6 +270,166 @@ const CompanyDashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const loadPartners = async () => {
+    if (!profile?.id) return;
+    setLoadingPartners(true);
+
+    try {
+      const { data: sentMessages } = await supabase
+        .from("messages")
+        .select("to_company_id, created_at")
+        .eq("from_company_id", profile.id)
+        .order("created_at", { ascending: false });
+
+      const { data: receivedMessages } = await supabase
+        .from("messages")
+        .select("from_company_id, created_at")
+        .eq("to_company_id", profile.id)
+        .order("created_at", { ascending: false });
+
+      const partnerIds = new Set<string>();
+      const partnerStats = new Map<string, { lastMessage: string; count: number }>();
+
+      sentMessages?.forEach((msg) => {
+        partnerIds.add(msg.to_company_id);
+        const existing = partnerStats.get(msg.to_company_id);
+        partnerStats.set(msg.to_company_id, {
+          lastMessage: existing ? (new Date(msg.created_at) > new Date(existing.lastMessage) ? msg.created_at : existing.lastMessage) : msg.created_at,
+          count: (existing?.count || 0) + 1,
+        });
+      });
+
+      receivedMessages?.forEach((msg) => {
+        partnerIds.add(msg.from_company_id);
+        const existing = partnerStats.get(msg.from_company_id);
+        partnerStats.set(msg.from_company_id, {
+          lastMessage: existing ? (new Date(msg.created_at) > new Date(existing.lastMessage) ? msg.created_at : existing.lastMessage) : msg.created_at,
+          count: (existing?.count || 0) + 1,
+        });
+      });
+
+      if (partnerIds.size === 0) {
+        setLoadingPartners(false);
+        return;
+      }
+
+      const { data: profiles } = await supabase
+        .from("company_profiles")
+        .select("*")
+        .in("id", Array.from(partnerIds));
+
+      const partnersWithStats = profiles?.map((profile) => {
+        const stats = partnerStats.get(profile.id);
+        return {
+          ...profile,
+          last_message_time: stats?.lastMessage,
+          message_count: stats?.count,
+        };
+      }).sort((a, b) => {
+        if (!a.last_message_time) return 1;
+        if (!b.last_message_time) return -1;
+        return new Date(b.last_message_time).getTime() - new Date(a.last_message_time).getTime();
+      });
+
+      setPartners(partnersWithStats || []);
+    } catch (error) {
+      console.error("Error loading partners:", error);
+    } finally {
+      setLoadingPartners(false);
+    }
+  };
+
+  const loadConversations = async () => {
+    if (!profile?.id) return;
+
+    const { data: sentMessages } = await supabase
+      .from('messages')
+      .select('to_company_id, to_company:company_profiles!messages_to_company_id_fkey(company_name), content, created_at')
+      .eq('from_company_id', profile.id)
+      .order('created_at', { ascending: false });
+
+    const { data: receivedMessages } = await supabase
+      .from('messages')
+      .select('from_company_id, from_company:company_profiles!messages_from_company_id_fkey(company_name), content, created_at')
+      .eq('to_company_id', profile.id)
+      .order('created_at', { ascending: false });
+
+    const conversationsMap = new Map<string, Conversation>();
+
+    sentMessages?.forEach((msg: any) => {
+      const key = msg.to_company_id;
+      if (!conversationsMap.has(key) || new Date(msg.created_at) > new Date(conversationsMap.get(key)!.last_message_time)) {
+        conversationsMap.set(key, {
+          company_id: msg.to_company_id,
+          company_name: msg.to_company?.company_name || 'Unbekannt',
+          last_message: msg.content,
+          last_message_time: msg.created_at,
+        });
+      }
+    });
+
+    receivedMessages?.forEach((msg: any) => {
+      const key = msg.from_company_id;
+      if (!conversationsMap.has(key) || new Date(msg.created_at) > new Date(conversationsMap.get(key)!.last_message_time)) {
+        conversationsMap.set(key, {
+          company_id: msg.from_company_id,
+          company_name: msg.from_company?.company_name || 'Unbekannt',
+          last_message: msg.content,
+          last_message_time: msg.created_at,
+        });
+      }
+    });
+
+    const sortedConversations = Array.from(conversationsMap.values()).sort(
+      (a, b) => new Date(b.last_message_time).getTime() - new Date(a.last_message_time).getTime()
+    );
+
+    setConversations(sortedConversations);
+  };
+
+  const loadMessages = async (companyId: string) => {
+    if (!profile?.id) return;
+
+    const { data } = await supabase
+      .from('messages')
+      .select(`
+        *,
+        from_company:company_profiles!messages_from_company_id_fkey(company_name),
+        to_company:company_profiles!messages_to_company_id_fkey(company_name)
+      `)
+      .or(`and(from_company_id.eq.${profile.id},to_company_id.eq.${companyId}),and(from_company_id.eq.${companyId},to_company_id.eq.${profile.id})`)
+      .order('created_at', { ascending: true });
+
+    setMessages(data || []);
+    await markAsRead(companyId);
+    refreshUnreadCount();
+  };
+
+  const sendMessage = async () => {
+    if (!newMessage.trim() || !profile?.id || !selectedConversation) return;
+
+    setSending(true);
+
+    const { error } = await supabase.from('messages').insert({
+      from_company_id: profile.id,
+      to_company_id: selectedConversation,
+      content: newMessage.trim(),
+    });
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Fehler",
+        description: "Nachricht konnte nicht gesendet werden.",
+      });
+    } else {
+      setNewMessage('');
+      loadConversations();
+    }
+
+    setSending(false);
   };
 
 
@@ -242,46 +523,317 @@ const CompanyDashboard = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Header Section */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-4xl font-bold text-foreground">
-                Analytics Dashboard
-              </h1>
-              {profile.is_sponsored && (
-                <Badge variant="default" className="gap-1">
-                  <TrendingUp className="h-3 w-3" />
-                  Sponsored
-                </Badge>
-              )}
-              {isPremium && (
-                <Badge variant="secondary" className="gap-1">
-                  <Sparkles className="h-3 w-3" />
-                  Premium
-                </Badge>
-              )}
-            </div>
+      {/* Header */}
+      <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <Building2 className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Mein Unternehmen</h1>
             <p className="text-muted-foreground">{profile.company_name}</p>
           </div>
-          <div className="flex gap-3">
-            <Button 
-              onClick={() => setEditDialogOpen(true)} 
-              size="lg" 
-              variant="outline"
-              className="gap-2"
-            >
-              <Edit className="h-5 w-5" />
-              Profil bearbeiten
-            </Button>
-            <Button onClick={() => setPremiumDialogOpen(true)} size="lg" className="gap-2">
-              <Sparkles className="h-5 w-5" />
-              Premium
-            </Button>
+        </div>
+        <div className="flex gap-3">
+          <Button onClick={() => setEditDialogOpen(true)} variant="outline" className="gap-2">
+            <Edit className="h-4 w-4" />
+            Bearbeiten
+          </Button>
+          <Button onClick={() => setPremiumDialogOpen(true)} className="gap-2">
+            <Sparkles className="h-4 w-4" />
+            Premium
+          </Button>
+        </div>
+      </div>
+
+      {/* Main Layout: Company Info + Messages */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        {/* Company Overview */}
+        <div className="lg:col-span-2 space-y-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  Unternehmensübersicht
+                  {profile.is_sponsored && (
+                    <Badge variant="default" className="gap-1">
+                      <TrendingUp className="h-3 w-3" />
+                      Sponsored
+                    </Badge>
+                  )}
+                  {profile.is_premium && (
+                    <Badge variant="secondary" className="gap-1">
+                      <Sparkles className="h-3 w-3" />
+                      Premium
+                    </Badge>
+                  )}
+                </CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center gap-3">
+                  <Building2 className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Branche</p>
+                    <p className="font-medium">{profile.industry}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Users className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Mitarbeiter</p>
+                    <p className="font-medium">{profile.company_size}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Standort</p>
+                    <p className="font-medium">{profile.firmensitz}, {profile.country}</p>
+                  </div>
+                </div>
+                {profile.founded_year && (
+                  <div className="flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Gegründet</p>
+                      <p className="font-medium">{profile.founded_year}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {profile.description && (
+                <div className="pt-4 border-t">
+                  <p className="text-sm text-muted-foreground mb-1">Beschreibung</p>
+                  <p className="text-sm">{profile.description}</p>
+                </div>
+              )}
+
+              <div className="pt-4 border-t grid grid-cols-1 md:grid-cols-2 gap-4">
+                {profile.contact_email && (
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">{profile.contact_email}</span>
+                  </div>
+                )}
+                {profile.contact_phone && (
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">{profile.contact_phone}</span>
+                  </div>
+                )}
+                {profile.website && (
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-muted-foreground" />
+                    <a href={profile.website} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
+                      Website
+                    </a>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {profile.offers && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Was wir anbieten</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm">{profile.offers}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {profile.seeks && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Was wir suchen</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm">{profile.seeks}</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+
+        {/* Messages Sidebar */}
+        <div className="lg:col-span-1">
+          <Card className="h-[600px] flex flex-col">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageCircle className="h-5 w-5" />
+                Nachrichten
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
+              {conversations.length === 0 ? (
+                <div className="flex-1 flex items-center justify-center p-4 text-center">
+                  <div>
+                    <MessageCircle className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">Keine Nachrichten</p>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* Conversation List */}
+                  {!selectedConversation ? (
+                    <ScrollArea className="flex-1">
+                      {conversations.map((conv) => (
+                        <div
+                          key={conv.company_id}
+                          className="p-3 cursor-pointer hover:bg-accent border-b transition-colors"
+                          onClick={() => setSelectedConversation(conv.company_id)}
+                        >
+                          <p className="font-semibold text-sm mb-1">{conv.company_name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{conv.last_message}</p>
+                        </div>
+                      ))}
+                    </ScrollArea>
+                  ) : (
+                    <>
+                      {/* Chat View */}
+                      <div className="border-b p-3 flex items-center justify-between">
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedConversation(null)}>
+                          ← Zurück
+                        </Button>
+                        <p className="font-semibold text-sm truncate">
+                          {conversations.find((c) => c.company_id === selectedConversation)?.company_name}
+                        </p>
+                      </div>
+                      
+                      <ScrollArea className="flex-1 p-4">
+                        <div className="space-y-4">
+                          {messages.map((msg) => (
+                            <div
+                              key={msg.id}
+                              className={`flex ${msg.from_company_id === profile.id ? 'justify-end' : 'justify-start'}`}
+                            >
+                              <div
+                                className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
+                                  msg.from_company_id === profile.id
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-muted'
+                                }`}
+                              >
+                                <p>{msg.content}</p>
+                                <p className="text-xs opacity-70 mt-1">
+                                  {new Date(msg.created_at).toLocaleTimeString('de-DE', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                          <div ref={messagesEndRef} />
+                        </div>
+                      </ScrollArea>
+
+                      <div className="border-t p-3">
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="Nachricht schreiben..."
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                sendMessage();
+                              }
+                            }}
+                          />
+                          <Button size="icon" onClick={sendMessage} disabled={sending || !newMessage.trim()}>
+                            <Send className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Partners Section */}
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <Heart className="h-5 w-5" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">Meine Partner</h2>
+            <p className="text-sm text-muted-foreground">
+              {partners.length === 0 ? 'Noch keine Partner' : `${partners.length} Partner`}
+            </p>
           </div>
         </div>
 
+        {partners.length === 0 ? (
+          <Card className="text-center py-12">
+            <CardContent>
+              <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-lg font-medium mb-2">Noch keine Partner</p>
+              <p className="text-sm text-muted-foreground mb-6">
+                Beginnen Sie Gespräche mit potenziellen Partnern
+              </p>
+              <Button onClick={() => navigate("/search")}>
+                Partner suchen
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {partners.slice(0, 6).map((partner) => (
+              <Card key={partner.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <span className="line-clamp-1">{partner.company_name}</span>
+                    {partner.verification_status === "verified" && (
+                      <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                    )}
+                  </CardTitle>
+                  <CardDescription className="line-clamp-2 text-sm">
+                    {partner.description || "Keine Beschreibung"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Building2 className="h-4 w-4" />
+                      <span className="truncate">{partner.industry}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      <span className="truncate">{partner.firmensitz}, {partner.country}</span>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex gap-2">
+                  <Button size="sm" className="flex-1" onClick={() => setSelectedConversation(partner.id)}>
+                    <MessageCircle className="mr-2 h-3 w-3" />
+                    Chat
+                  </Button>
+                  <Button size="sm" variant="outline" className="flex-1" onClick={() => navigate(`/partner/${partner.id}`)}>
+                    Profil
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        {partners.length > 6 && (
+          <div className="mt-4 text-center">
+            <Button variant="outline" onClick={() => navigate("/my-partners")}>
+              Alle Partner ansehen ({partners.length})
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Edit Dialog */}
@@ -559,19 +1111,6 @@ const CompanyDashboard = () => {
               </div>
             </form>
           </Form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Insights Dialog */}
-      <Dialog open={insightsDialogOpen} onOpenChange={setInsightsDialogOpen}>
-        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Unternehmens-Insights</DialogTitle>
-            <DialogDescription>
-              Detaillierte Statistiken über Ihre Partner und Profilbesuche
-            </DialogDescription>
-          </DialogHeader>
-          <CompanyInsights companyId={profile.id} />
         </DialogContent>
       </Dialog>
 
