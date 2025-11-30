@@ -63,7 +63,7 @@ const AppLayout = ({
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <button onClick={() => navigate("/company")} className="flex items-center hover:opacity-80 transition-opacity cursor-pointer">
-              <img alt="EuroConnect" className="h-12 md:h-14 w-auto" src="/lovable-uploads/e5bdd950-5be5-4e49-b245-af0c94ebe43d.png" />
+              <img alt="EuroConnect" className="h-12 md:h-14 w-auto" src="/lovable-uploads/4a7f5935-7bf9-4b6b-8e09-538bdc1adfdd.png" />
             </button>
 
             {/* Desktop Navigation */}
