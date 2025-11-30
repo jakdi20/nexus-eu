@@ -73,6 +73,7 @@ Deno.serve(async (req) => {
       // Map company_size to match enum values
       let companySize = c.profile.company_size;
       if (companySize === '1-10') companySize = '1';
+      else if (companySize === '201-500') companySize = '250+';
       else if (companySize === '501+') companySize = '250+';
       
       return {
