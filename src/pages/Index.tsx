@@ -23,24 +23,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation Header */}
-      <header className="relative z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center">
-              <img src={euroConnectLogo} alt="EuroConnect" className="h-10 w-auto" />
-            </div>
-            <Link to="/auth">
-              <Button variant="default" className="shadow-sm">
-                Login
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="relative overflow-hidden">
+        {/* Login Button - Top Right */}
+        <div className="absolute top-6 right-6 z-20">
+          <Link to="/auth">
+            <Button variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 shadow-sm">
+              Login
+            </Button>
+          </Link>
+        </div>
         <div className="absolute inset-0 bg-gradient-hero opacity-95" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDEzNEgxNHYtMjFoMjJ2MjF6bTAtNWgtMnYyaC0ydi0ySDIwdjJoLTJ2LTJoLTJ2LTJoMnYtMmgydjJoMTJ2LTJoMnYyaDJ2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-10" />
         
