@@ -57,7 +57,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
               onClick={() => navigate("/company")}
               className="flex items-center hover:opacity-80 transition-opacity cursor-pointer"
             >
-              <img src={euroConnectLogo} alt="EuroConnect" className="h-8 md:h-9 w-auto" />
+              <img src={euroConnectLogo} alt="EuroConnect" className="h-10 md:h-11 w-auto" />
             </button>
 
             {/* Desktop Navigation */}
