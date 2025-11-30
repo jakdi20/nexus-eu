@@ -116,7 +116,7 @@ Deno.serve(async (req) => {
       
       const { data, error } = await supabaseClient
         .from('company_profiles')
-        .insert(batch);
+        .upsert(batch, { onConflict: 'id', ignoreDuplicates: true });
 
       if (error) {
         console.error(`Error in batch ${Math.floor(i / batchSize) + 1}:`, error);
