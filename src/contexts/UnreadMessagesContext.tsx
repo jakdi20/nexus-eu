@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { useLocation } from 'react-router-dom';
 
 interface UnreadMessagesContextType {
   unreadCount: number;
@@ -20,6 +22,8 @@ export const useUnreadMessagesContext = () => {
 export const UnreadMessagesProvider = ({ children }: { children: ReactNode }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [myCompanyId, setMyCompanyId] = useState<string | null>(null);
+  const { toast } = useToast();
+  const location = useLocation();
 
   useEffect(() => {
     loadMyCompanyAndUnread();
@@ -39,7 +43,24 @@ export const UnreadMessagesProvider = ({ children }: { children: ReactNode }) =>
           table: 'messages',
           filter: `to_company_id=eq.${myCompanyId}`,
         },
-        () => {
+        async (payload) => {
+          const newMessage = payload.new as any;
+          
+          // Load company name for the toast
+          const { data: companyData } = await supabase
+            .from('company_profiles')
+            .select('company_name')
+            .eq('id', newMessage.from_company_id)
+            .single();
+
+          // Only show toast if not on messages page
+          if (location.pathname !== '/messages') {
+            toast({
+              title: 'Neue Nachricht',
+              description: `${companyData?.company_name || 'Ein Partner'} hat Ihnen eine Nachricht gesendet`,
+            });
+          }
+          
           loadUnreadCount();
         }
       )
@@ -60,7 +81,7 @@ export const UnreadMessagesProvider = ({ children }: { children: ReactNode }) =>
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [myCompanyId]);
+  }, [myCompanyId, location.pathname, toast]);
 
   const loadMyCompanyAndUnread = async () => {
     const { data: { user } } = await supabase.auth.getUser();
