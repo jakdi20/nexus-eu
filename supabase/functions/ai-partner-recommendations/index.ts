@@ -80,25 +80,23 @@ Antworte NUR mit einem JSON-Array mit genau diesem Format:
 
     const userPrompt = `Mein Unternehmensprofil:
 Name: ${myProfile.company_name}
-Branche: ${myProfile.industry?.join(', ') || 'Keine'}
-Standort: ${myProfile.city}, ${myProfile.country}
+Branche: ${myProfile.industry || 'Keine'}
+Standort: ${myProfile.firmensitz}, ${myProfile.country}
 Größe: ${myProfile.company_size}
-Beschreibung: ${myProfile.company_description || 'Keine'}
+Beschreibung: ${myProfile.description || 'Keine'}
 Angebote: ${myProfile.offers || 'Keine'}
-Sucht: ${myProfile.looking_for || 'Nichts'}
-Kooperationstypen: ${myProfile.cooperation_type?.join(', ') || 'Keine'}
+Sucht: ${myProfile.seeks || 'Nichts'}
 
 Verfügbare Partner:
 ${allProfiles.map(p => `
 ID: ${p.id}
 Name: ${p.company_name}
-Branche: ${p.industry?.join(', ') || 'Keine'}
-Standort: ${p.city}, ${p.country}
+Branche: ${p.industry || 'Keine'}
+Standort: ${p.firmensitz}, ${p.country}
 Größe: ${p.company_size}
-Beschreibung: ${p.company_description || 'Keine'}
+Beschreibung: ${p.description || 'Keine'}
 Angebote: ${p.offers || 'Keine'}
-Sucht: ${p.looking_for || 'Nichts'}
-Kooperationstypen: ${p.cooperation_type?.join(', ') || 'Keine'}
+Sucht: ${p.seeks || 'Nichts'}
 `).join('\n---\n')}
 
 Finde die 5 besten Matches.`;
@@ -169,10 +167,9 @@ Finde die 5 besten Matches.`;
       return {
         ...rec,
         industry: profile.industry,
-        city: profile.city,
+        firmensitz: profile.firmensitz,
         country: profile.country,
         company_size: profile.company_size,
-        cooperation_type: profile.cooperation_type,
         verified: profile.verification_status === 'verified',
       };
     }).filter(Boolean);

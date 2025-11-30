@@ -125,11 +125,8 @@ function calculateMatchScore(profile1: any, profile2: any): { score: number; rea
   let score = 0;
   const reasons: string[] = [];
 
-  // Same industry bonus - industry is now an array
-  const industryMatch = profile1.industry?.some((ind: string) => 
-    profile2.industry?.includes(ind)
-  );
-  if (industryMatch) {
+  // Same industry bonus - industry is now a string
+  if (profile1.industry && profile2.industry && profile1.industry === profile2.industry) {
     score += 20;
     reasons.push('Gleiche Branche');
   }
@@ -139,47 +136,38 @@ function calculateMatchScore(profile1: any, profile2: any): { score: number; rea
     score += 15;
     reasons.push('Gleicher Standort');
     
-    // Same city bonus
-    if (profile1.city === profile2.city) {
+    // Same city bonus (firmensitz instead of city)
+    if (profile1.firmensitz === profile2.firmensitz) {
       score += 10;
       reasons.push('Gleiche Stadt');
     }
   }
 
-  // Cooperation type compatibility - cooperation_type is an array
-  const cooperationMatch = profile1.cooperation_type?.some((type: string) => 
-    profile2.cooperation_type?.includes(type)
-  );
-  if (cooperationMatch) {
-    score += 20;
-    reasons.push('Kompatible Kooperationstypen');
-  }
-
-  // Offers/Looking_for matching (text fields, comma-separated)
+  // Offers/seeks matching (text fields, comma-separated)
   // Split by comma and trim whitespace
   const profile1Offers = profile1.offers ? profile1.offers.split(',').map((s: string) => s.trim().toLowerCase()) : [];
-  const profile1LookingFor = profile1.looking_for ? profile1.looking_for.split(',').map((s: string) => s.trim().toLowerCase()) : [];
+  const profile1Seeks = profile1.seeks ? profile1.seeks.split(',').map((s: string) => s.trim().toLowerCase()) : [];
   const profile2Offers = profile2.offers ? profile2.offers.split(',').map((s: string) => s.trim().toLowerCase()) : [];
-  const profile2LookingFor = profile2.looking_for ? profile2.looking_for.split(',').map((s: string) => s.trim().toLowerCase()) : [];
+  const profile2Seeks = profile2.seeks ? profile2.seeks.split(',').map((s: string) => s.trim().toLowerCase()) : [];
 
   // What profile1 offers matches what profile2 is looking for
-  const offersLookingForMatch = profile1Offers.some((offer: string) => 
-    profile2LookingFor.some((lookingFor: string) => 
-      offer.includes(lookingFor) || lookingFor.includes(offer)
+  const offersSeeksMatch = profile1Offers.some((offer: string) => 
+    profile2Seeks.some((seek: string) => 
+      offer.includes(seek) || seek.includes(offer)
     )
   );
-  if (offersLookingForMatch) {
+  if (offersSeeksMatch) {
     score += 25;
     reasons.push('Angebote passen zu Bedürfnissen');
   }
 
   // What profile1 is looking for matches what profile2 offers
-  const lookingForOffersMatch = profile1LookingFor.some((lookingFor: string) => 
+  const seeksOffersMatch = profile1Seeks.some((seek: string) => 
     profile2Offers.some((offer: string) => 
-      lookingFor.includes(offer) || offer.includes(lookingFor)
+      seek.includes(offer) || offer.includes(seek)
     )
   );
-  if (lookingForOffersMatch) {
+  if (seeksOffersMatch) {
     score += 25;
     reasons.push('Bedürfnisse passen zu Angeboten');
   }
