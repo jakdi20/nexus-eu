@@ -179,48 +179,48 @@ const Index = () => {
                 <p className="text-muted-foreground">Describe what you're looking for and let AI find the perfect matches</p>
               </div>
               <Card className="overflow-hidden shadow-2xl border-2">
-                <div className="bg-gradient-card p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                      <Sparkles className="h-5 w-5" />
+                <div className="bg-gradient-card p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                      <Sparkles className="h-6 w-6" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-muted-foreground">AI Search</div>
-                      <div className="text-xs text-muted-foreground">Natural language query</div>
+                      <div className="text-base font-semibold text-foreground">AI Search</div>
+                      <div className="text-sm text-muted-foreground">Natural language query</div>
                     </div>
                   </div>
-                  <div className="bg-background rounded-lg p-4 mb-4 border border-border">
-                    <div className="flex gap-3">
-                      <div className="flex-1 bg-muted/30 rounded-md px-4 py-3 text-sm text-muted-foreground border border-border/50">
+                  <div className="bg-background rounded-lg p-6 mb-6 border border-border shadow-sm">
+                    <div className="flex gap-4">
+                      <div className="flex-1 bg-muted/30 rounded-lg px-5 py-4 text-base text-muted-foreground border border-border/50 flex items-center">
                         "Looking for plastic injection molding suppliers in Bavaria with ISO certification"
                       </div>
-                      <Button className="gap-2 shadow-sm">
-                        <Sparkles className="h-4 w-4" />
+                      <Button size="lg" className="gap-2 shadow-md px-8">
+                        <Sparkles className="h-5 w-5" />
                         Search
                       </Button>
                     </div>
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {[
                       { name: "BayerPlast GmbH", score: 95, reason: "Perfect match: ISO 9001 certified, specializes in precision molding, based in Munich" },
                       { name: "Alpine Polymers", score: 88, reason: "Strong fit: Large production capacity, automotive grade quality, Augsburg location" },
                       { name: "Süd Kunststoffe", score: 82, reason: "Good match: 20+ years experience, full quality certifications, competitive pricing" }
                     ].map((result, i) => (
-                      <div key={i} className="bg-background rounded-lg p-4 border border-border hover:border-primary/50 transition-colors cursor-pointer group">
-                        <div className="flex items-start justify-between gap-3 mb-2">
+                      <div key={i} className="bg-background rounded-xl p-5 border border-border hover:border-primary/50 transition-all cursor-pointer group hover:shadow-md">
+                        <div className="flex items-start justify-between gap-3 mb-3">
                           <div className="flex items-center gap-2 flex-1">
-                            <Building2 className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-semibold group-hover:text-primary transition-colors">{result.name}</span>
-                            <CheckCircle2 className="h-4 w-4 text-primary" />
+                            <Building2 className="h-5 w-5 text-muted-foreground" />
+                            <span className="font-semibold text-base group-hover:text-primary transition-colors">{result.name}</span>
+                            <CheckCircle2 className="h-5 w-5 text-primary" />
                           </div>
-                          <Badge variant={result.score >= 90 ? "default" : "secondary"} className="gap-1">
-                            <Sparkles className="h-3 w-3" />
+                          <Badge variant={result.score >= 90 ? "default" : "secondary"} className="gap-1 px-3 py-1">
+                            <Sparkles className="h-3.5 w-3.5" />
                             {result.score}% Match
                           </Badge>
                         </div>
-                        <div className="flex items-start gap-2 text-sm bg-primary/5 rounded px-3 py-2 border border-primary/10">
+                        <div className="flex items-start gap-2 text-sm bg-primary/5 rounded-lg px-4 py-3 border border-primary/10">
                           <Sparkles className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <p className="text-muted-foreground italic">{result.reason}</p>
+                          <p className="text-muted-foreground italic leading-relaxed">{result.reason}</p>
                         </div>
                       </div>
                     ))}
