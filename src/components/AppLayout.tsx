@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useUnreadMessages } from "@/hooks/use-unread-messages";
+import { useUnreadMessagesContext } from "@/contexts/UnreadMessagesContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTheme } from "next-themes";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -24,7 +24,7 @@ const AppLayout = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {
     unreadCount
-  } = useUnreadMessages();
+  } = useUnreadMessagesContext();
   const {
     language,
     setLanguage,
