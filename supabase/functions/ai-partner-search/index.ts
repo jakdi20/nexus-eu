@@ -82,12 +82,11 @@ ${profiles?.map((p, idx) => `
 ${idx + 1}. ID: ${p.id}
    Name: ${p.company_name}
    Industry: ${p.industry}
-   Location: ${p.city}, ${p.country}
+   Location: ${p.firmensitz}, ${p.country}
    Size: ${p.company_size}
-   Description: ${p.company_description || 'No description'}
+   Description: ${p.description || 'No description'}
    Offers: ${p.offers || 'No information'}
-   Looking for: ${p.looking_for || 'No information'}
-   Cooperation types: ${p.cooperation_type?.join(', ') || 'No information'}
+   Looking for: ${p.seeks || 'No information'}
 `).join('\n---\n')}
 
 Find the top 10 most suitable companies for this query.`
@@ -98,12 +97,11 @@ ${profiles?.map((p, idx) => `
 ${idx + 1}. ID: ${p.id}
    Name: ${p.company_name}
    Branche: ${p.industry}
-   Standort: ${p.city}, ${p.country}
+   Standort: ${p.firmensitz}, ${p.country}
    Größe: ${p.company_size}
-   Beschreibung: ${p.company_description || 'Keine Beschreibung'}
+   Beschreibung: ${p.description || 'Keine Beschreibung'}
    Bietet an: ${p.offers || 'Keine Angaben'}
-   Sucht: ${p.looking_for || 'Keine Angaben'}
-   Partnerschaftstypen: ${p.cooperation_type?.join(', ') || 'Keine Angaben'}
+   Sucht: ${p.seeks || 'Keine Angaben'}
 `).join('\n---\n')}
 
 Finde die Top 10 passendsten Unternehmen für diese Anfrage.`;
