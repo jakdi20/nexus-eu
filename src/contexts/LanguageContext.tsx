@@ -255,6 +255,7 @@ const translations = {
     "partnerDetail.contactTitle": "Kontakt aufnehmen",
     "partnerDetail.contactDescription": "Starten Sie einen Chat mit {companyName}",
     "partnerDetail.startChat": "Chat starten",
+    "partnerDetail.loadError": "Profil konnte nicht geladen werden",
     
     // Profile Form
     "profileForm.title": "Unternehmensprofil erstellen",
@@ -536,6 +537,7 @@ const translations = {
     "partnerDetail.contactTitle": "Get in Touch",
     "partnerDetail.contactDescription": "Start a chat with {companyName}",
     "partnerDetail.startChat": "Start Chat",
+    "partnerDetail.loadError": "Could not load profile",
     
     // Profile Form
     "profileForm.title": "Create Company Profile",
