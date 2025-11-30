@@ -6,16 +6,8 @@ import { useToast } from "@/hooks/use-toast";
 import { 
   Edit, 
   Loader2, 
-  MessageSquare, 
-  Eye, 
   Sparkles, 
-  TrendingUp, 
-  Clock,
-  Target,
-  Award,
-  BarChart3,
-  Users,
-  Mail
+  TrendingUp
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +15,7 @@ import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CompanyInsights } from "@/components/CompanyInsights";
 import { PremiumDialog } from "@/components/PremiumDialog";
-import { AnalyticsWidget } from "@/components/AnalyticsWidget";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -32,7 +24,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Progress } from "@/components/ui/progress";
 
 const companySizes = ["1", "2-10", "11-50", "51-250", "250+"] as const;
 
@@ -89,16 +80,6 @@ const CompanyDashboard = () => {
   const [insightsDialogOpen, setInsightsDialogOpen] = useState(false);
   const [premiumDialogOpen, setPremiumDialogOpen] = useState(false);
 
-  // Analytics Stats
-  const [partnersContacted, setPartnersContacted] = useState(0);
-  const [profileVisits, setProfileVisits] = useState(0);
-  const [profileVisits30Days, setProfileVisits30Days] = useState(0);
-  const [receivedRequests, setReceivedRequests] = useState(0);
-  const [responseRate, setResponseRate] = useState(0);
-  const [avgResponseTime, setAvgResponseTime] = useState<string>("-");
-  const [profileCompletion, setProfileCompletion] = useState(0);
-  const [visibilityScore, setVisibilityScore] = useState(0);
-  const [matchQuality, setMatchQuality] = useState(0);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -160,9 +141,6 @@ const CompanyDashboard = () => {
           looking_for: profileData.looking_for || "",
           cooperation_type: profileData.cooperation_type || [],
         });
-
-        // Load analytics
-        await loadAnalytics(profileData);
       }
     } catch (error: any) {
       console.error("Error loading user data:", error);
@@ -176,110 +154,6 @@ const CompanyDashboard = () => {
     }
   };
 
-  const loadAnalytics = async (profileData: any) => {
-    try {
-      const companyId = profileData.id;
-
-      // Partners Contacted
-      const { data: messagesData } = await supabase
-        .from("messages")
-        .select("to_company_id")
-        .eq("from_company_id", companyId);
-
-      const { data: requestsData } = await supabase
-        .from("connection_requests")
-        .select("to_company_id")
-        .eq("from_company_id", companyId);
-
-      const uniquePartners = new Set([
-        ...(messagesData?.map(m => m.to_company_id) || []),
-        ...(requestsData?.map(r => r.to_company_id) || []),
-      ]);
-
-      setPartnersContacted(uniquePartners.size);
-
-      // Profile Visits (7 days)
-      const sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-      const { count: visits7Days } = await supabase
-        .from("profile_visits")
-        .select("*", { count: "exact", head: true })
-        .eq("company_id", companyId)
-        .gte("visited_at", sevenDaysAgo.toISOString());
-
-      setProfileVisits(visits7Days || 0);
-
-      // Profile Visits (30 days)
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-      const { count: visits30Days } = await supabase
-        .from("profile_visits")
-        .select("*", { count: "exact", head: true })
-        .eq("company_id", companyId)
-        .gte("visited_at", thirtyDaysAgo.toISOString());
-
-      setProfileVisits30Days(visits30Days || 0);
-
-      // Received Requests
-      const { count: receivedCount } = await supabase
-        .from("connection_requests")
-        .select("*", { count: "exact", head: true })
-        .eq("to_company_id", companyId);
-
-      setReceivedRequests(receivedCount || 0);
-
-      // Response Rate (messages sent vs received)
-      const { data: sentMessages } = await supabase
-        .from("messages")
-        .select("id")
-        .eq("from_company_id", companyId);
-
-      const { data: receivedMessages } = await supabase
-        .from("messages")
-        .select("id")
-        .eq("to_company_id", companyId);
-
-      if (receivedMessages && receivedMessages.length > 0) {
-        const rate = ((sentMessages?.length || 0) / receivedMessages.length) * 100;
-        setResponseRate(Math.min(100, Math.round(rate)));
-      }
-
-      // Profile Completion
-      const fields = [
-        profileData.company_name,
-        profileData.company_description,
-        profileData.industry?.length > 0,
-        profileData.country,
-        profileData.city,
-        profileData.company_size,
-        profileData.website,
-        profileData.offers,
-        profileData.looking_for,
-        profileData.cooperation_type?.length > 0,
-        profileData.founded_year,
-        profileData.slogan,
-      ];
-      const completed = fields.filter(Boolean).length;
-      setProfileCompletion(Math.round((completed / fields.length) * 100));
-
-      // Visibility Score (based on profile completion and premium status)
-      let score = profileCompletion * 0.5;
-      if (profileData.is_premium) score += 25;
-      if (profileData.is_sponsored) score += 25;
-      setVisibilityScore(Math.round(score));
-
-      // Match Quality (dummy for now - would need AI)
-      setMatchQuality(profileData.is_premium ? 85 : 45);
-
-      // Avg Response Time (dummy)
-      setAvgResponseTime(profileData.is_premium ? "2-4h" : "-");
-      
-    } catch (error) {
-      console.error("Error loading analytics:", error);
-    }
-  };
 
   const handleProfileCreated = (newProfile: any) => {
     setProfile(newProfile);
@@ -409,146 +283,7 @@ const CompanyDashboard = () => {
           </div>
         </div>
 
-        {/* Profile Completion Banner */}
-        {profileCompletion < 100 && (
-          <Card className="mb-6 border-primary/20">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <p className="font-semibold text-foreground">Profil-Vervollständigung</p>
-                  <p className="text-sm text-muted-foreground">
-                    Vervollständigen Sie Ihr Profil für bessere Sichtbarkeit
-                  </p>
-                </div>
-                <div className="text-2xl font-bold text-primary">{profileCompletion}%</div>
-              </div>
-              <Progress value={profileCompletion} className="h-2" />
-            </CardContent>
-          </Card>
-        )}
       </div>
-
-      {/* Analytics Widgets Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <AnalyticsWidget
-          title="Kontaktierte Partner"
-          value={partnersContacted}
-          icon={MessageSquare}
-          subtitle="Gesamt"
-          onClick={() => setInsightsDialogOpen(true)}
-        />
-
-        <AnalyticsWidget
-          title="Profilbesuche (7 Tage)"
-          value={profileVisits}
-          icon={Eye}
-          subtitle="Letzte Woche"
-          onClick={() => setInsightsDialogOpen(true)}
-        />
-
-        <AnalyticsWidget
-          title="Profilbesuche (30 Tage)"
-          value={profileVisits30Days}
-          icon={TrendingUp}
-          subtitle="Letzter Monat"
-          isPremium
-          isLocked={!isPremium}
-        />
-
-        <AnalyticsWidget
-          title="Erhaltene Anfragen"
-          value={receivedRequests}
-          icon={Mail}
-          subtitle="Partneranfragen"
-          isPremium
-          isLocked={!isPremium}
-        />
-
-        <AnalyticsWidget
-          title="Antwortrate"
-          value={`${responseRate}%`}
-          icon={Target}
-          subtitle="Nachrichten"
-          isPremium
-          isLocked={!isPremium}
-        />
-
-        <AnalyticsWidget
-          title="Ø Antwortzeit"
-          value={avgResponseTime}
-          icon={Clock}
-          subtitle="Reaktionsgeschwindigkeit"
-          isPremium
-          isLocked={!isPremium}
-        />
-
-        <AnalyticsWidget
-          title="Sichtbarkeits-Score"
-          value={visibilityScore}
-          icon={BarChart3}
-          subtitle={`von 100 Punkten`}
-          isPremium
-          isLocked={!isPremium}
-        />
-
-        <AnalyticsWidget
-          title="Match-Qualität"
-          value={`${matchQuality}%`}
-          icon={Award}
-          subtitle="KI-Score"
-          isPremium
-          isLocked={!isPremium}
-        />
-      </div>
-
-      {/* Premium Upsell if not premium */}
-      {!isPremium && (
-        <Card className="mb-8 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="rounded-full bg-primary/20 p-4">
-                  <Sparkles className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-1">Schalten Sie alle Analytics frei</h3>
-                  <p className="text-muted-foreground">
-                    Erhalten Sie Zugriff auf erweiterte Metriken, KI-Insights und detaillierte Reports
-                  </p>
-                </div>
-              </div>
-              <Button onClick={() => setPremiumDialogOpen(true)} size="lg" className="gap-2">
-                <Sparkles className="h-5 w-5" />
-                Premium werden
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Detailed Insights Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5" />
-            Detaillierte Insights
-          </CardTitle>
-          <CardDescription>
-            Klicken Sie auf die Widgets oben für detaillierte Analysen
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8">
-            <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-20" />
-            <p className="text-muted-foreground mb-4">
-              Wählen Sie ein Widget aus, um detaillierte Statistiken zu sehen
-            </p>
-            <Button onClick={() => setInsightsDialogOpen(true)} variant="outline">
-              Alle Insights anzeigen
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
