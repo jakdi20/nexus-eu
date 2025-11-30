@@ -36,11 +36,7 @@ export default function AIRecommendations() {
       setLoading(true);
       setError(null);
 
-      const { data, error: functionError } = await supabase.functions.invoke('ai-partner-recommendations', {
-        headers: {
-          Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-        },
-      });
+      const { data, error: functionError } = await supabase.functions.invoke('ai-partner-recommendations');
 
       if (functionError) {
         console.error('Function error:', functionError);
