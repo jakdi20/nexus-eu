@@ -23,6 +23,22 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Navigation Header */}
+      <header className="relative z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <div className="flex h-16 items-center justify-between">
+            <div className="flex items-center">
+              <img src={euroConnectLogo} alt="EuroConnect" className="h-10 w-auto" />
+            </div>
+            <Link to="/auth">
+              <Button variant="default" className="shadow-sm">
+                Login
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-95" />
