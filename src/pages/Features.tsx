@@ -22,157 +22,157 @@ const Features = () => {
   const features = [
     {
       icon: <Sparkles className="h-10 w-10" />,
-      title: "KI-Partnersuche in natürlicher Sprache",
-      description: "Beschreiben Sie einfach, was Sie suchen - ohne komplizierte Filter. Zum Beispiel: 'Ich suche einen Lieferanten für Metallteile in Bayern' oder 'Wer kann mir bei der Expansion nach Italien helfen?'",
+      title: "AI Partner Search in Natural Language",
+      description: "Simply describe what you're looking for - no complicated filters needed. For example: 'Looking for metal parts supplier in Bavaria' or 'Who can help me expand to Italy?'",
       details: [
-        "Versteht natürliche Sprache und Kontext",
-        "Findet Unternehmen basierend auf Bedürfnissen",
-        "Berücksichtigt Branche, Standort und Kooperationstyp",
-        "Sofortige, präzise Ergebnisse"
+        "Understands natural language and context",
+        "Finds companies based on your needs",
+        "Considers industry, location, and partnership type",
+        "Instant, precise results"
       ],
       gradient: "from-blue-500 to-cyan-500"
     },
     {
       icon: <Network className="h-10 w-10" />,
-      title: "Intelligentes Matching-System",
-      description: "Unser KI-Algorithmus analysiert Ihr Unternehmensprofil und findet automatisch die besten Partner für Sie - basierend auf komplementären Angeboten, Branchen und Zielen.",
+      title: "Intelligent Matching System",
+      description: "Our AI algorithm analyzes your company profile and automatically finds the best partners for you - based on complementary offerings, industries, and goals.",
       details: [
-        "Automatische Partner-Empfehlungen",
-        "Match-Score von 0-100%",
-        "Detaillierte Begründungen für jeden Match",
-        "Kontinuierliche Aktualisierung"
+        "Automatic partner recommendations",
+        "Match score from 0-100%",
+        "Detailed reasons for each match",
+        "Continuous updates"
       ],
       gradient: "from-purple-500 to-pink-500"
     },
     {
       icon: <Building2 className="h-10 w-10" />,
-      title: "Umfassendes Unternehmensprofil",
-      description: "Erstellen Sie ein aussagekräftiges Profil, das Ihre Stärken, Angebote und Bedürfnisse klar kommuniziert. Zeigen Sie, was Sie bieten und was Sie suchen.",
+      title: "Comprehensive Company Profile",
+      description: "Create a meaningful profile that clearly communicates your strengths, offerings, and needs. Show what you offer and what you're looking for.",
       details: [
-        "Branchenauswahl (mehrfach möglich)",
-        "Angebote und Bedürfnisse als Tags",
-        "Unternehmensgröße und Standort",
-        "Beschreibung bis 500 Zeichen",
-        "Kooperationstypen definieren"
+        "Industry selection (multiple possible)",
+        "Offerings and needs as tags",
+        "Company size and location",
+        "Description up to 500 characters",
+        "Define partnership types"
       ],
       gradient: "from-orange-500 to-red-500"
     },
     {
       icon: <MessageCircle className="h-10 w-10" />,
-      title: "Direktnachrichten-System",
-      description: "Kommunizieren Sie direkt mit potenziellen Partnern. Tauschen Sie Nachrichten aus, teilen Sie Dokumente und bauen Sie Beziehungen auf.",
+      title: "Direct Messaging System",
+      description: "Communicate directly with potential partners. Exchange messages, share documents, and build relationships.",
       details: [
-        "Echtzeit-Nachrichten",
-        "Dateianhänge möglich",
-        "Ungelesene Nachrichten auf einen Blick",
-        "Konversationsverlauf gespeichert"
+        "Real-time messaging",
+        "File attachments supported",
+        "Unread messages at a glance",
+        "Conversation history saved"
       ],
       gradient: "from-green-500 to-emerald-500"
     },
     {
       icon: <Video className="h-10 w-10" />,
-      title: "Integrierte Videoanrufe",
-      description: "Lernen Sie potenzielle Partner persönlich kennen - direkt in der Plattform. Starten Sie Videogespräche mit einem Klick.",
+      title: "Integrated Video Calls",
+      description: "Get to know potential partners personally - directly on the platform. Start video conversations with one click.",
       details: [
-        "Ein-Klick-Videoanrufe",
-        "Eingehende Anrufe mit Benachrichtigung",
-        "Keine zusätzliche Software nötig",
-        "Sichere, verschlüsselte Verbindung"
+        "One-click video calls",
+        "Incoming calls with notification",
+        "No additional software needed",
+        "Secure, encrypted connection"
       ],
       gradient: "from-indigo-500 to-blue-500"
     },
     {
       icon: <Heart className="h-10 w-10" />,
-      title: "Partner-Verwaltung",
-      description: "Behalten Sie den Überblick über Ihre Geschäftsbeziehungen. Verwalten Sie aktive Partnerschaften und offene Anfragen zentral.",
+      title: "Partner Management",
+      description: "Keep track of your business relationships. Manage active partnerships and open requests centrally.",
       details: [
-        "Übersicht aller Verbindungen",
-        "Eingehende und ausgehende Anfragen",
-        "Status-Tracking (ausstehend, akzeptiert)",
-        "Schneller Zugriff auf Partner-Profile"
+        "Overview of all connections",
+        "Incoming and outgoing requests",
+        "Status tracking (pending, accepted)",
+        "Quick access to partner profiles"
       ],
       gradient: "from-pink-500 to-rose-500"
     },
     {
       icon: <Bell className="h-10 w-10" />,
-      title: "Intelligente Benachrichtigungen",
-      description: "Verpassen Sie keine wichtigen Updates. Erhalten Sie Benachrichtigungen über neue Matches, Nachrichten und Verbindungsanfragen.",
+      title: "Smart Notifications",
+      description: "Never miss important updates. Receive notifications about new matches, messages, and connection requests.",
       details: [
-        "Echtzeit-Benachrichtigungen",
-        "Neue Matches und Partner-Empfehlungen",
-        "Eingehende Nachrichten und Anfragen",
-        "Eingehende Videoanrufe"
+        "Real-time notifications",
+        "New matches and partner recommendations",
+        "Incoming messages and requests",
+        "Incoming video calls"
       ],
       gradient: "from-yellow-500 to-orange-500"
     },
     {
       icon: <Shield className="h-10 w-10" />,
-      title: "Verifizierte Unternehmensprofile",
-      description: "Vertrauen Sie auf geprüfte Profile. Alle Unternehmen durchlaufen einen Verifikationsprozess für maximale Sicherheit.",
+      title: "Verified Company Profiles",
+      description: "Trust verified profiles. All companies go through a verification process for maximum security.",
       details: [
-        "Manuelle Prüfung aller Profile",
-        "Verifikations-Badge für geprüfte Unternehmen",
-        "Transparente Unternehmensinformationen",
-        "Schutz vor Fake-Profilen"
+        "Manual review of all profiles",
+        "Verification badge for approved companies",
+        "Transparent company information",
+        "Protection against fake profiles"
       ],
       gradient: "from-cyan-500 to-teal-500"
     },
     {
       icon: <Globe className="h-10 w-10" />,
-      title: "Europaweit vernetzt",
-      description: "Erreichen Sie KMUs in allen EU-Mitgliedsstaaten sowie UK, Norwegen und der Schweiz. Expandieren Sie grenzüberschreitend.",
+      title: "Pan-European Network",
+      description: "Reach SMEs in all EU member states as well as UK, Norway, and Switzerland. Expand cross-border.",
       details: [
-        "Alle 27 EU-Länder abgedeckt",
-        "Plus UK, Norwegen, Schweiz",
-        "Mehrsprachige Plattform",
-        "Lokale und internationale Partner"
+        "All 27 EU countries covered",
+        "Plus UK, Norway, Switzerland",
+        "Multilingual platform",
+        "Local and international partners"
       ],
       gradient: "from-blue-500 to-indigo-500"
     },
     {
       icon: <Users className="h-10 w-10" />,
-      title: "Vielseitige Kooperationstypen",
-      description: "Definieren Sie, welche Art von Partnerschaft Sie suchen - von Technologiepartnern über Lieferanten bis zu Pilotcustomern.",
+      title: "Diverse Partnership Types",
+      description: "Define what type of partnership you're looking for - from technology partners to suppliers to pilot customers.",
       details: [
-        "Technologie-Partner",
-        "Vertriebs-Partner",
-        "Projekt-Partner",
-        "Lieferant/Abnehmer",
-        "Pilotcustomer"
+        "Technology partners",
+        "Distribution partners",
+        "Project partners",
+        "Supplier/Customer",
+        "Pilot customers"
       ],
       gradient: "from-violet-500 to-purple-500"
     },
     {
       icon: <TrendingUp className="h-10 w-10" />,
-      title: "Wachstum fördern",
-      description: "Nutzen Sie die Plattform, um neue Märkte zu erschließen, Ihre Reichweite zu erhöhen und Ihr Geschäft nachhaltig auszubauen.",
+      title: "Drive Growth",
+      description: "Use the platform to access new markets, increase your reach, and sustainably grow your business.",
       details: [
-        "Neue Märkte erschließen",
-        "Umsatz steigern",
-        "Netzwerk ausbauen",
-        "Innovationen durch Kooperationen"
+        "Access new markets",
+        "Increase revenue",
+        "Expand network",
+        "Innovation through partnerships"
       ],
       gradient: "from-green-500 to-lime-500"
     },
     {
       icon: <Zap className="h-10 w-10" />,
-      title: "Schnell & Effizient",
-      description: "Sparen Sie Zeit bei der Partnersuche. Was früher Wochen dauerte, erledigen Sie jetzt in Minuten - dank KI und intelligenter Automatisierung.",
+      title: "Fast & Efficient",
+      description: "Save time in partner search. What used to take weeks, you now complete in minutes - thanks to AI and smart automation.",
       details: [
-        "Sofortige Suchergebnisse",
-        "Automatische Empfehlungen",
-        "Effiziente Kommunikation",
-        "Zeitsparende Prozesse"
+        "Instant search results",
+        "Automatic recommendations",
+        "Efficient communication",
+        "Time-saving processes"
       ],
       gradient: "from-yellow-500 to-amber-500"
     }
   ];
 
   const stats = [
-    { value: "15K+", label: "Registrierte Unternehmen" },
-    { value: "28", label: "Europäische Länder" },
-    { value: "50K+", label: "Erfolgreiche Verbindungen" },
-    { value: "95%", label: "Zufriedene Nutzer" }
+    { value: "15K+", label: "Registered Companies" },
+    { value: "28", label: "European Countries" },
+    { value: "50K+", label: "Successful Connections" },
+    { value: "95%", label: "Satisfied Users" }
   ];
 
   return (
@@ -189,11 +189,11 @@ const Features = () => {
             </Link>
             <div className="flex items-center gap-4">
               <Link to="/">
-                <Button variant="ghost">Zurück</Button>
+                <Button variant="ghost">Back</Button>
               </Link>
               <Link to="/auth">
                 <Button className="bg-gradient-primary text-white hover:opacity-90">
-                  Jetzt starten
+                  Get Started
                 </Button>
               </Link>
             </div>
@@ -206,10 +206,10 @@ const Features = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE0MEgxNHYtMjFoMjJ2MjF6bTAtNWgtMnYyaC0ydi0yaC0xMnYyaC0ydi0yaC0ydi0yaDJ2LTJoMnYyaDEydi0yaDJ2MmgydjJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-10" />
         <div className="container relative z-10 mx-auto px-4 text-center">
           <h1 className="mb-6 text-4xl font-bold text-white md:text-6xl">
-            Alle Funktionen im Überblick
+            All Features at a Glance
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-white/90 md:text-xl">
-            Entdecken Sie, wie EuroConnect Ihre Geschäftsentwicklung in Europa revolutioniert
+            Discover how EuroConnect revolutionizes your business development in Europe
           </p>
         </div>
       </section>
@@ -273,10 +273,10 @@ const Features = () => {
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-16 max-w-2xl text-center">
             <h2 className="mb-4 text-3xl font-bold text-foreground md:text-5xl">
-              So funktioniert's
+              How It Works
             </h2>
             <p className="text-lg text-muted-foreground">
-              In wenigen Schritten zum perfekten Geschäftspartner
+              Find the perfect business partner in just a few steps
             </p>
           </div>
 
@@ -284,18 +284,18 @@ const Features = () => {
             {[
               {
                 step: "1",
-                title: "Profil erstellen",
-                description: "Registrieren Sie sich kostenlos und erstellen Sie Ihr Unternehmensprofil mit allen wichtigen Informationen."
+                title: "Create Profile",
+                description: "Register for free and create your company profile with all important information."
               },
               {
                 step: "2",
-                title: "Partner finden",
-                description: "Beschreiben Sie in natürlicher Sprache, was Sie suchen, oder lassen Sie sich automatisch Matches vorschlagen."
+                title: "Find Partners",
+                description: "Describe in natural language what you're looking for, or get automatic match suggestions."
               },
               {
                 step: "3",
-                title: "Verbindung aufbauen",
-                description: "Senden Sie Verbindungsanfragen, chatten Sie mit Partnern und vereinbaren Sie Videoanrufe."
+                title: "Build Connections",
+                description: "Send connection requests, chat with partners, and schedule video calls."
               }
             ].map((item, i) => (
               <div key={i} className="relative text-center">
@@ -318,14 +318,14 @@ const Features = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE0MEgxNHYtMjFoMjJ2MjF6bTAtNWgtMnYyaC0ydi0yaC0xMnYyaC0ydi0yaC0ydi0yaDJ2LTJoMnYyaDEydi0yaDJ2MmgydjJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-10" />
         <div className="container relative z-10 mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl font-bold text-white md:text-5xl">
-            Bereit loszulegen?
+            Ready to Get Started?
           </h2>
           <p className="mb-8 text-lg text-white/90 md:text-xl">
-            Erstellen Sie jetzt kostenlos Ihr Unternehmensprofil und finden Sie die perfekten Partner
+            Create your company profile for free now and find the perfect partners
           </p>
           <Link to="/auth">
             <Button size="lg" className="group bg-white text-primary hover:bg-white/90 shadow-elevated">
-              Jetzt kostenlos starten
+              Start Free Today
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
           </Link>
@@ -335,7 +335,7 @@ const Features = () => {
       {/* Footer */}
       <footer className="border-t border-border bg-muted/30 py-12">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 EuroConnect. Alle Rechte vorbehalten.</p>
+          <p>&copy; 2024 EuroConnect. All rights reserved.</p>
         </div>
       </footer>
     </div>
