@@ -23,6 +23,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PremiumDialog } from "@/components/PremiumDialog";
@@ -124,6 +126,7 @@ const CompanyDashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
+  const [messagesSheetOpen, setMessagesSheetOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
 
@@ -159,10 +162,15 @@ const CompanyDashboard = () => {
   }, [profile?.id]);
 
   useEffect(() => {
-    if (profile?.id && selectedConversation) {
+    if (profile?.id && selectedConversation && messagesSheetOpen) {
       loadMessages(selectedConversation);
     }
-  }, [profile?.id, selectedConversation]);
+  }, [profile?.id, selectedConversation, messagesSheetOpen]);
+
+  const openChat = (conversationId: string) => {
+    setSelectedConversation(conversationId);
+    setMessagesSheetOpen(true);
+  };
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -522,55 +530,62 @@ const CompanyDashboard = () => {
   const isPremium = profile.is_premium || false;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <Building2 className="h-6 w-6" />
+    <div className="container mx-auto px-4 py-8 space-y-8">
+      {/* Header Section */}
+      <section>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+              <Building2 className="h-6 w-6" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Mein Unternehmen</h1>
+              <p className="text-muted-foreground">{profile.company_name}</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Mein Unternehmen</h1>
-            <p className="text-muted-foreground">{profile.company_name}</p>
+          <div className="flex gap-3">
+            <Button onClick={() => setEditDialogOpen(true)} variant="outline" className="gap-2">
+              <Edit className="h-4 w-4" />
+              Bearbeiten
+            </Button>
+            <Button onClick={() => setPremiumDialogOpen(true)} className="gap-2">
+              <Sparkles className="h-4 w-4" />
+              Premium
+            </Button>
           </div>
         </div>
-        <div className="flex gap-3">
-          <Button onClick={() => setEditDialogOpen(true)} variant="outline" className="gap-2">
-            <Edit className="h-4 w-4" />
-            Bearbeiten
-          </Button>
-          <Button onClick={() => setPremiumDialogOpen(true)} className="gap-2">
-            <Sparkles className="h-4 w-4" />
-            Premium
-          </Button>
-        </div>
-      </div>
+      </section>
 
-      {/* Main Layout: Company Info + Messages */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* Company Overview */}
-        <div className="lg:col-span-2 space-y-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  Unternehmensübersicht
+      <Separator />
+
+      {/* Company Overview Section */}
+      <section className="space-y-4">
+        <div className="flex items-center gap-2">
+          <Building2 className="h-5 w-5 text-primary" />
+          <h2 className="text-2xl font-bold">Unternehmensübersicht</h2>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Main Info */}
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  Basisinformationen
                   {profile.is_sponsored && (
-                    <Badge variant="default" className="gap-1">
+                    <Badge variant="default" className="gap-1 text-xs">
                       <TrendingUp className="h-3 w-3" />
                       Sponsored
                     </Badge>
                   )}
                   {profile.is_premium && (
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 text-xs">
                       <Sparkles className="h-3 w-3" />
                       Premium
                     </Badge>
                   )}
                 </CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </CardHeader>
+              <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-3">
                   <Building2 className="h-5 w-5 text-muted-foreground" />
@@ -611,174 +626,141 @@ const CompanyDashboard = () => {
                 </div>
               )}
 
-              <div className="pt-4 border-t grid grid-cols-1 md:grid-cols-2 gap-4">
-                {profile.contact_email && (
-                  <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{profile.contact_email}</span>
-                  </div>
-                )}
-                {profile.contact_phone && (
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{profile.contact_phone}</span>
-                  </div>
-                )}
-                {profile.website && (
-                  <div className="flex items-center gap-2">
-                    <Globe className="h-4 w-4 text-muted-foreground" />
-                    <a href={profile.website} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
-                      Website
-                    </a>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {profile.offers && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Was wir anbieten</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm">{profile.offers}</p>
-              </CardContent>
-            </Card>
-          )}
-
-          {profile.seeks && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Was wir suchen</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm">{profile.seeks}</p>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* Messages Sidebar */}
-        <div className="lg:col-span-1">
-          <Card className="h-[600px] flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageCircle className="h-5 w-5" />
-                Nachrichten
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
-              {conversations.length === 0 ? (
-                <div className="flex-1 flex items-center justify-center p-4 text-center">
-                  <div>
-                    <MessageCircle className="h-12 w-12 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Keine Nachrichten</p>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {/* Conversation List */}
-                  {!selectedConversation ? (
-                    <ScrollArea className="flex-1">
-                      {conversations.map((conv) => (
-                        <div
-                          key={conv.company_id}
-                          className="p-3 cursor-pointer hover:bg-accent border-b transition-colors"
-                          onClick={() => setSelectedConversation(conv.company_id)}
-                        >
-                          <p className="font-semibold text-sm mb-1">{conv.company_name}</p>
-                          <p className="text-xs text-muted-foreground truncate">{conv.last_message}</p>
-                        </div>
-                      ))}
-                    </ScrollArea>
-                  ) : (
-                    <>
-                      {/* Chat View */}
-                      <div className="border-b p-3 flex items-center justify-between">
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedConversation(null)}>
-                          ← Zurück
-                        </Button>
-                        <p className="font-semibold text-sm truncate">
-                          {conversations.find((c) => c.company_id === selectedConversation)?.company_name}
-                        </p>
-                      </div>
-                      
-                      <ScrollArea className="flex-1 p-4">
-                        <div className="space-y-4">
-                          {messages.map((msg) => (
-                            <div
-                              key={msg.id}
-                              className={`flex ${msg.from_company_id === profile.id ? 'justify-end' : 'justify-start'}`}
-                            >
-                              <div
-                                className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
-                                  msg.from_company_id === profile.id
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'bg-muted'
-                                }`}
-                              >
-                                <p>{msg.content}</p>
-                                <p className="text-xs opacity-70 mt-1">
-                                  {new Date(msg.created_at).toLocaleTimeString('de-DE', {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-                          <div ref={messagesEndRef} />
-                        </div>
-                      </ScrollArea>
-
-                      <div className="border-t p-3">
-                        <div className="flex gap-2">
-                          <Input
-                            placeholder="Nachricht schreiben..."
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                sendMessage();
-                              }
-                            }}
-                          />
-                          <Button size="icon" onClick={sendMessage} disabled={sending || !newMessage.trim()}>
-                            <Send className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    </>
+                <div className="pt-4 border-t space-y-2">
+                  {profile.contact_email && (
+                    <div className="flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">{profile.contact_email}</span>
+                    </div>
                   )}
-                </>
-              )}
+                  {profile.contact_phone && (
+                    <div className="flex items-center gap-2">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">{profile.contact_phone}</span>
+                    </div>
+                  )}
+                  {profile.website && (
+                    <div className="flex items-center gap-2">
+                      <Globe className="h-4 w-4 text-muted-foreground" />
+                      <a href={profile.website} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
+                        Website besuchen
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {profile.description && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Beschreibung</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">{profile.description}</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          {/* Additional Info */}
+          <div className="space-y-4">
+            {profile.offers && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Was wir anbieten</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">{profile.offers}</p>
+                </CardContent>
+              </Card>
+            )}
+
+            {profile.seeks && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Was wir suchen</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">{profile.seeks}</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Messages Section */}
+      <section className="space-y-4">
+        <div className="flex items-center gap-2">
+          <MessageCircle className="h-5 w-5 text-primary" />
+          <h2 className="text-2xl font-bold">Letzte Nachrichten</h2>
+        </div>
+
+        {conversations.length === 0 ? (
+          <Card className="text-center py-8">
+            <CardContent>
+              <MessageCircle className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
+              <p className="text-base font-medium mb-1">Keine Nachrichten</p>
+              <p className="text-sm text-muted-foreground">
+                Beginnen Sie Gespräche mit Ihren Partnern
+              </p>
             </CardContent>
           </Card>
-        </div>
-      </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {conversations.slice(0, 6).map((conv) => (
+              <Card 
+                key={conv.company_id} 
+                className="cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => openChat(conv.company_id)}
+              >
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center justify-between">
+                    <span className="truncate">{conv.company_name}</span>
+                    <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{conv.last_message}</p>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {new Date(conv.last_message_time).toLocaleDateString('de-DE')}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        {conversations.length > 6 && (
+          <div className="text-center">
+            <Button variant="outline" onClick={() => navigate("/messages")}>
+              Alle Nachrichten ansehen ({conversations.length})
+            </Button>
+          </div>
+        )}
+      </section>
+
+      <Separator />
 
       {/* Partners Section */}
-      <div className="mb-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <Heart className="h-5 w-5" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold">Meine Partner</h2>
-            <p className="text-sm text-muted-foreground">
-              {partners.length === 0 ? 'Noch keine Partner' : `${partners.length} Partner`}
-            </p>
-          </div>
+      <section className="space-y-4">
+        <div className="flex items-center gap-2">
+          <Heart className="h-5 w-5 text-primary" />
+          <h2 className="text-2xl font-bold">Meine Partner</h2>
+          <Badge variant="secondary" className="ml-2">
+            {partners.length}
+          </Badge>
         </div>
 
         {partners.length === 0 ? (
-          <Card className="text-center py-12">
+          <Card className="text-center py-8">
             <CardContent>
-              <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-lg font-medium mb-2">Noch keine Partner</p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <Heart className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
+              <p className="text-base font-medium mb-1">Noch keine Partner</p>
+              <p className="text-sm text-muted-foreground mb-4">
                 Beginnen Sie Gespräche mit potenziellen Partnern
               </p>
               <Button onClick={() => navigate("/search")}>
@@ -787,54 +769,120 @@ const CompanyDashboard = () => {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {partners.slice(0, 6).map((partner) => (
-              <Card key={partner.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <span className="line-clamp-1">{partner.company_name}</span>
-                    {partner.verification_status === "verified" && (
-                      <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
-                    )}
-                  </CardTitle>
-                  <CardDescription className="line-clamp-2 text-sm">
-                    {partner.description || "Keine Beschreibung"}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Building2 className="h-4 w-4" />
-                      <span className="truncate">{partner.industry}</span>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {partners.slice(0, 6).map((partner) => (
+                <Card key={partner.id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <span className="line-clamp-1">{partner.company_name}</span>
+                      {partner.verification_status === "verified" && (
+                        <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                      )}
+                    </CardTitle>
+                    <CardDescription className="line-clamp-2 text-sm">
+                      {partner.description || "Keine Beschreibung"}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Building2 className="h-4 w-4" />
+                        <span className="truncate">{partner.industry}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <MapPin className="h-4 w-4" />
+                        <span className="truncate">{partner.firmensitz}, {partner.country}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="h-4 w-4" />
-                      <span className="truncate">{partner.firmensitz}, {partner.country}</span>
+                  </CardContent>
+                  <CardFooter className="flex gap-2">
+                    <Button size="sm" className="flex-1" onClick={() => openChat(partner.id)}>
+                      <MessageCircle className="mr-2 h-3 w-3" />
+                      Chat
+                    </Button>
+                    <Button size="sm" variant="outline" className="flex-1" onClick={() => navigate(`/partner/${partner.id}`)}>
+                      Profil
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+
+            {partners.length > 6 && (
+              <div className="text-center">
+                <Button variant="outline" onClick={() => navigate("/my-partners")}>
+                  Alle Partner ansehen ({partners.length})
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+      </section>
+
+      {/* Messages Sheet */}
+      <Sheet open={messagesSheetOpen} onOpenChange={setMessagesSheetOpen}>
+        <SheetContent className="w-full sm:max-w-lg">
+          <SheetHeader>
+            <SheetTitle className="flex items-center gap-2">
+              <MessageCircle className="h-5 w-5" />
+              {conversations.find((c) => c.company_id === selectedConversation)?.company_name}
+            </SheetTitle>
+            <SheetDescription>
+              Direktnachrichten mit diesem Partner
+            </SheetDescription>
+          </SheetHeader>
+
+          <div className="flex flex-col h-[calc(100vh-180px)] mt-6">
+            <ScrollArea className="flex-1 pr-4">
+              <div className="space-y-4">
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex ${msg.from_company_id === profile.id ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-[85%] rounded-lg px-4 py-2 ${
+                        msg.from_company_id === profile.id
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-muted'
+                      }`}
+                    >
+                      <p className="text-sm">{msg.content}</p>
+                      <p className="text-xs opacity-70 mt-1">
+                        {new Date(msg.created_at).toLocaleTimeString('de-DE', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
                     </div>
                   </div>
-                </CardContent>
-                <CardFooter className="flex gap-2">
-                  <Button size="sm" className="flex-1" onClick={() => setSelectedConversation(partner.id)}>
-                    <MessageCircle className="mr-2 h-3 w-3" />
-                    Chat
-                  </Button>
-                  <Button size="sm" variant="outline" className="flex-1" onClick={() => navigate(`/partner/${partner.id}`)}>
-                    Profil
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        )}
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+            </ScrollArea>
 
-        {partners.length > 6 && (
-          <div className="mt-4 text-center">
-            <Button variant="outline" onClick={() => navigate("/my-partners")}>
-              Alle Partner ansehen ({partners.length})
-            </Button>
+            <div className="pt-4 border-t mt-4">
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Nachricht schreiben..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      sendMessage();
+                    }
+                  }}
+                />
+                <Button size="icon" onClick={sendMessage} disabled={sending || !newMessage.trim()}>
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
+        </SheetContent>
+      </Sheet>
 
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
