@@ -14,19 +14,19 @@ import { useToast } from "@/hooks/use-toast";
 const companySizes = ["1", "2-10", "11-50", "51-250", "250+"] as const;
 
 const industries = [
-  "Technologie & IT",
-  "Produktion & Fertigung",
-  "Handel & E-Commerce",
-  "Dienstleistungen",
-  "Gesundheit & Medizin",
-  "Bauwesen & Immobilien",
-  "Finanzen & Versicherungen",
-  "Bildung & Forschung",
-  "Logistik & Transport",
-  "Lebensmittel & Getränke",
-  "Energie & Umwelt",
-  "Medien & Marketing",
-  "Sonstiges",
+  "Technology & IT",
+  "Manufacturing & Production",
+  "Retail & E-Commerce",
+  "Services",
+  "Healthcare & Medicine",
+  "Construction & Real Estate",
+  "Finance & Insurance",
+  "Education & Research",
+  "Logistics & Transportation",
+  "Food & Beverages",
+  "Energy & Environment",
+  "Media & Marketing",
+  "Other",
 ];
 
 const formSchema = z.object({
