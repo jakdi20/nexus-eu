@@ -18,7 +18,9 @@ import {
   MessageCircle,
   Heart,
   Send,
-  CheckCircle2
+  CheckCircle2,
+  Upload,
+  Camera
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -115,6 +117,7 @@ const CompanyDashboard = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [premiumDialogOpen, setPremiumDialogOpen] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   
   // Partners state
   const [partners, setPartners] = useState<PartnerProfile[]>([]);
@@ -170,6 +173,86 @@ const CompanyDashboard = () => {
   const openChat = (conversationId: string) => {
     setSelectedConversation(conversationId);
     setMessagesSheetOpen(true);
+  };
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        variant: "destructive",
+        title: "Fehler",
+        description: "Bitte wählen Sie eine Bilddatei aus.",
+      });
+      return;
+    }
+
+    // Validate file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      toast({
+        variant: "destructive",
+        title: "Fehler",
+        description: "Das Bild ist zu groß. Maximal 2MB erlaubt.",
+      });
+      return;
+    }
+
+    setUploadingLogo(true);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/logo.${fileExt}`;
+
+      // Delete old logo if exists
+      if (profile.logo_url) {
+        const oldPath = profile.logo_url.split('/').pop();
+        if (oldPath) {
+          await supabase.storage
+            .from('company-logos')
+            .remove([`${user.id}/${oldPath}`]);
+        }
+      }
+
+      // Upload new logo
+      const { error: uploadError } = await supabase.storage
+        .from('company-logos')
+        .upload(fileName, file, { upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('company-logos')
+        .getPublicUrl(fileName);
+
+      // Update profile
+      const { error: updateError } = await supabase
+        .from('company_profiles')
+        .update({ logo_url: urlData.publicUrl })
+        .eq('id', profile.id);
+
+      if (updateError) throw updateError;
+
+      setProfile({ ...profile, logo_url: urlData.publicUrl });
+      
+      toast({
+        title: "Logo hochgeladen",
+        description: "Ihr Unternehmenslogo wurde erfolgreich aktualisiert.",
+      });
+
+      await loadUserData();
+    } catch (error: any) {
+      console.error('Logo upload error:', error);
+      toast({
+        variant: "destructive",
+        title: "Fehler",
+        description: "Logo konnte nicht hochgeladen werden.",
+      });
+    } finally {
+      setUploadingLogo(false);
+    }
   };
 
   useEffect(() => {
@@ -534,10 +617,40 @@ const CompanyDashboard = () => {
       {/* Header Section */}
       <section>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-              <Building2 className="h-6 w-6" />
+          <div className="flex items-center gap-4">
+            {/* Logo */}
+            <div className="relative group">
+              <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg overflow-hidden">
+                {profile.logo_url ? (
+                  <img 
+                    src={profile.logo_url} 
+                    alt={`${profile.company_name} Logo`}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <Building2 className="h-10 w-10" />
+                )}
+              </div>
+              <label 
+                htmlFor="logo-upload" 
+                className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+              >
+                {uploadingLogo ? (
+                  <Loader2 className="h-6 w-6 text-white animate-spin" />
+                ) : (
+                  <Camera className="h-6 w-6 text-white" />
+                )}
+              </label>
+              <input
+                id="logo-upload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleLogoUpload}
+                disabled={uploadingLogo}
+              />
             </div>
+            
             <div>
               <h1 className="text-3xl font-bold text-foreground">Mein Unternehmen</h1>
               <p className="text-muted-foreground">{profile.company_name}</p>
