@@ -20,7 +20,8 @@ import {
   Send,
   CheckCircle2,
   Upload,
-  Camera
+  Camera,
+  Video
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +32,7 @@ import CompanyProfileForm from "@/components/CompanyProfileForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PremiumDialog } from "@/components/PremiumDialog";
 import { useUnreadMessages } from "@/hooks/use-unread-messages";
+import VideoCall from "@/components/VideoCall";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -131,6 +133,11 @@ const CompanyDashboard = () => {
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [messagesSheetOpen, setMessagesSheetOpen] = useState(false);
+  const [videoCallActive, setVideoCallActive] = useState(false);
+  const [videoCallData, setVideoCallData] = useState<{
+    roomId: string;
+    partnerCompanyId: string;
+  } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
 
@@ -593,6 +600,50 @@ const CompanyDashboard = () => {
     setSending(false);
   };
 
+  const startVideoCall = async (partnerCompanyId: string) => {
+    if (!profile?.id) return;
+
+    try {
+      const roomId = `${profile.id}-${partnerCompanyId}-${Date.now()}`;
+
+      // Create video call session in database
+      const { error } = await supabase
+        .from('video_call_sessions')
+        .insert({
+          room_id: roomId,
+          company_id_1: profile.id,
+          company_id_2: partnerCompanyId,
+          status: 'pending',
+        });
+
+      if (error) throw error;
+
+      // Start the video call
+      setVideoCallData({
+        roomId,
+        partnerCompanyId,
+      });
+      setVideoCallActive(true);
+
+      toast({
+        title: "Video Call Started",
+        description: "Connecting to your partner...",
+      });
+    } catch (error: any) {
+      console.error('Error starting video call:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not start video call.",
+      });
+    }
+  };
+
+  const handleCloseVideoCall = () => {
+    setVideoCallActive(false);
+    setVideoCallData(null);
+  };
+
 
   const handleProfileCreated = (newProfile: any) => {
     setProfile(newProfile);
@@ -862,8 +913,7 @@ const CompanyDashboard = () => {
                   {conversations.map((conv) => (
                     <div
                       key={conv.company_id}
-                      className="p-4 cursor-pointer hover:bg-accent border-b transition-colors"
-                      onClick={() => openChat(conv.company_id)}
+                      className="p-4 hover:bg-accent border-b transition-colors"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <p className="font-semibold text-sm">{conv.company_name}</p>
@@ -873,7 +923,25 @@ const CompanyDashboard = () => {
                               {conv.unread_count > 99 ? "99+" : conv.unread_count}
                             </Badge>
                           )}
-                          <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              startVideoCall(conv.company_id);
+                            }}
+                          >
+                            <Video className="h-4 w-4 text-primary" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => openChat(conv.company_id)}
+                          >
+                            <MessageCircle className="h-4 w-4 text-muted-foreground" />
+                          </Button>
                         </div>
                       </div>
                       <p className="text-sm text-muted-foreground line-clamp-2 mb-1">
@@ -1332,6 +1400,25 @@ const CompanyDashboard = () => {
         sponsoredUntil={profile.sponsored_until}
         onUpdate={loadUserData}
       />
+
+      {/* Video Call Dialog */}
+      {videoCallActive && videoCallData && (
+        <Dialog open={videoCallActive} onOpenChange={handleCloseVideoCall}>
+          <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 overflow-hidden">
+            <DialogTitle className="sr-only">Video Call</DialogTitle>
+            <DialogDescription className="sr-only">
+              Real-time video call with your partner company
+            </DialogDescription>
+            <VideoCall
+              roomId={videoCallData.roomId}
+              myCompanyId={profile.id}
+              partnerCompanyId={videoCallData.partnerCompanyId}
+              isInitiator={true}
+              onClose={handleCloseVideoCall}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
