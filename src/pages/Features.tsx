@@ -183,7 +183,7 @@ const Features = () => {
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
             <Link to="/" className="flex items-center">
-              <img src={euroConnectLogo} alt="EuroConnect" className="h-10 w-auto" />
+              <img src={euroConnectLogo} alt="EuroConnect" className="h-9 w-auto" />
             </Link>
             <div className="flex items-center gap-4">
               <Link to="/">
