@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Building2, Globe, TrendingUp, Users, Search, Sparkles, MessageSquare, Video, CheckCircle2, Star, Zap, Shield, MessageCircle, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import euroConnectLogo from "@/assets/euroconnect-logo.png";
 
 const Index = () => {
   const navigate = useNavigate();

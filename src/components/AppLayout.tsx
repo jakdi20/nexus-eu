@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Building2, Search, MessageCircle, LogOut, Menu, X, Users, Languages, Moon, Sun } from "lucide-react";
+import euroConnectLogo from "@/assets/euroconnect-logo.png";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -54,14 +55,9 @@ const AppLayout = ({ children }: AppLayoutProps) => {
             {/* Logo */}
             <button 
               onClick={() => navigate("/company")}
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+              className="flex items-center hover:opacity-80 transition-opacity cursor-pointer"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-                <Building2 className="h-5 w-5" />
-              </div>
-              <div className="hidden md:block">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">EuroConnect</h1>
-              </div>
+              <img src={euroConnectLogo} alt="EuroConnect" className="h-10 md:h-12 w-auto" />
             </button>
 
             {/* Desktop Navigation */}
