@@ -671,15 +671,18 @@ const CompanyDashboard = () => {
 
       <Separator />
 
-      {/* Company Overview Section */}
-      <section className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Building2 className="h-5 w-5 text-primary" />
-          <h2 className="text-2xl font-bold">Unternehmensübersicht</h2>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Main Info */}
-          <div className="space-y-4">
+      {/* Company Info + Messages Section */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Company Overview - 2 columns */}
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex items-center gap-2 mb-4">
+            <Building2 className="h-5 w-5 text-primary" />
+            <h2 className="text-2xl font-bold">Unternehmensübersicht</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Main Info */}
+            <div className="space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -776,84 +779,89 @@ const CompanyDashboard = () => {
             )}
           </div>
 
-          {/* Additional Info */}
-          <div className="space-y-4">
-            {profile.offers && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Was wir anbieten</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{profile.offers}</p>
-                </CardContent>
-              </Card>
-            )}
+            {/* Additional Info */}
+            <div className="space-y-4">
+              {profile.offers && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Was wir anbieten</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{profile.offers}</p>
+                  </CardContent>
+                </Card>
+              )}
 
-            {profile.seeks && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Was wir suchen</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{profile.seeks}</p>
-                </CardContent>
-              </Card>
-            )}
+              {profile.seeks && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Was wir suchen</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{profile.seeks}</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
           </div>
         </div>
-      </section>
 
-      <Separator />
+        {/* Messages Section - 1 column */}
+        <div className="lg:col-span-1 space-y-4">
+          <div className="flex items-center gap-2 mb-4">
+            <MessageCircle className="h-5 w-5 text-primary" />
+            <h2 className="text-2xl font-bold">Nachrichten</h2>
+          </div>
 
-      {/* Messages Section */}
-      <section className="space-y-4">
-        <div className="flex items-center gap-2">
-          <MessageCircle className="h-5 w-5 text-primary" />
-          <h2 className="text-2xl font-bold">Letzte Nachrichten</h2>
+          {conversations.length === 0 ? (
+            <Card className="text-center py-12">
+              <CardContent>
+                <MessageCircle className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
+                <p className="text-base font-medium mb-1">Keine Nachrichten</p>
+                <p className="text-sm text-muted-foreground">
+                  Beginnen Sie Gespräche mit Ihren Partnern
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card>
+              <CardContent className="p-0">
+                <ScrollArea className="h-[600px]">
+                  {conversations.map((conv) => (
+                    <div
+                      key={conv.company_id}
+                      className="p-4 cursor-pointer hover:bg-accent border-b transition-colors"
+                      onClick={() => openChat(conv.company_id)}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <p className="font-semibold text-sm">{conv.company_name}</p>
+                        <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2 mb-1">
+                        {conv.last_message}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(conv.last_message_time).toLocaleDateString('de-DE', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  ))}
+                </ScrollArea>
+              </CardContent>
+            </Card>
+          )}
+
+          {conversations.length > 6 && (
+            <div className="text-center">
+              <Button variant="outline" onClick={() => navigate("/messages")}>
+                Alle ansehen ({conversations.length})
+              </Button>
+            </div>
+          )}
         </div>
-
-        {conversations.length === 0 ? (
-          <Card className="text-center py-8">
-            <CardContent>
-              <MessageCircle className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
-              <p className="text-base font-medium mb-1">Keine Nachrichten</p>
-              <p className="text-sm text-muted-foreground">
-                Beginnen Sie Gespräche mit Ihren Partnern
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {conversations.slice(0, 6).map((conv) => (
-              <Card 
-                key={conv.company_id} 
-                className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => openChat(conv.company_id)}
-              >
-                <CardHeader>
-                  <CardTitle className="text-base flex items-center justify-between">
-                    <span className="truncate">{conv.company_name}</span>
-                    <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{conv.last_message}</p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {new Date(conv.last_message_time).toLocaleDateString('de-DE')}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-
-        {conversations.length > 6 && (
-          <div className="text-center">
-            <Button variant="outline" onClick={() => navigate("/messages")}>
-              Alle Nachrichten ansehen ({conversations.length})
-            </Button>
-          </div>
-        )}
       </section>
 
       <Separator />
