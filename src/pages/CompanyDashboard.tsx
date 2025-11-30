@@ -689,7 +689,7 @@ const CompanyDashboard = () => {
                   {profile.is_sponsored && (
                     <Badge variant="default" className="gap-1 text-xs">
                       <TrendingUp className="h-3 w-3" />
-                      Sponsored
+                      Gesponsert
                     </Badge>
                   )}
                   {profile.is_premium && (
@@ -882,7 +882,7 @@ const CompanyDashboard = () => {
                   <CardFooter className="flex gap-2">
                     <Button size="sm" className="flex-1" onClick={() => openChat(partner.id)}>
                       <MessageCircle className="mr-2 h-3 w-3" />
-                      Chat
+                      Nachricht
                     </Button>
                     <Button size="sm" variant="outline" className="flex-1" onClick={() => navigate(`/partner/${partner.id}`)}>
                       Profil
