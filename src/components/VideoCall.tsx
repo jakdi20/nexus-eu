@@ -119,6 +119,14 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     }
   }, [localStream]);
 
+  // Keep remote video element in sync with stream
+  useEffect(() => {
+    if (remoteVideoRef.current && remoteStream) {
+      console.log('Setting remote video srcObject:', remoteStream.id);
+      remoteVideoRef.current.srcObject = remoteStream;
+    }
+  }, [remoteStream]);
+
   // Monitor session status for call ending (database fallback)
   useEffect(() => {
     const channel = supabase
