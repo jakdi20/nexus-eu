@@ -680,9 +680,8 @@ const CompanyDashboard = () => {
             <h2 className="text-2xl font-bold">Unternehmensübersicht</h2>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {/* Main Info */}
-            <div className="space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -702,45 +701,45 @@ const CompanyDashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3">
-                  <Building2 className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">Branche</p>
-                    <p className="font-medium">{profile.industry}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Users className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">Mitarbeiter</p>
-                    <p className="font-medium">{profile.company_size}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">Standort</p>
-                    <p className="font-medium">{profile.firmensitz}, {profile.country}</p>
-                  </div>
-                </div>
-                {profile.founded_year && (
+                <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-3">
-                    <Calendar className="h-5 w-5 text-muted-foreground" />
+                    <Building2 className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Gegründet</p>
-                      <p className="font-medium">{profile.founded_year}</p>
+                      <p className="text-sm text-muted-foreground">Branche</p>
+                      <p className="font-medium">{profile.industry}</p>
                     </div>
                   </div>
-                )}
-              </div>
-
-              {profile.description && (
-                <div className="pt-4 border-t">
-                  <p className="text-sm text-muted-foreground mb-1">Beschreibung</p>
-                  <p className="text-sm">{profile.description}</p>
+                  <div className="flex items-center gap-3">
+                    <Users className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Mitarbeiter</p>
+                      <p className="font-medium">{profile.company_size}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <MapPin className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Standort</p>
+                      <p className="font-medium">{profile.firmensitz}, {profile.country}</p>
+                    </div>
+                  </div>
+                  {profile.founded_year && (
+                    <div className="flex items-center gap-3">
+                      <Calendar className="h-5 w-5 text-muted-foreground" />
+                      <div>
+                        <p className="text-sm text-muted-foreground">Gegründet</p>
+                        <p className="font-medium">{profile.founded_year}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                {profile.description && (
+                  <div className="pt-4 border-t">
+                    <p className="text-sm text-muted-foreground mb-1">Beschreibung</p>
+                    <p className="text-sm">{profile.description}</p>
+                  </div>
+                )}
 
                 <div className="pt-4 border-t space-y-2">
                   {profile.contact_email && (
@@ -766,43 +765,6 @@ const CompanyDashboard = () => {
                 </div>
               </CardContent>
             </Card>
-
-            {profile.description && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Beschreibung</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{profile.description}</p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-
-            {/* Additional Info */}
-            <div className="space-y-4">
-              {profile.offers && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Was wir anbieten</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{profile.offers}</p>
-                  </CardContent>
-                </Card>
-              )}
-
-              {profile.seeks && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Was wir suchen</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{profile.seeks}</p>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
           </div>
         </div>
 
