@@ -42,10 +42,15 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
 
   useEffect(() => {
     let mounted = true;
+    let initStarted = false;
     
     const init = async () => {
+      if (!mounted || initStarted) return;
+      initStarted = true;
+      
+      console.log('Initializing video call...');
+      await initializeMedia();
       if (mounted) {
-        await initializeMedia();
         setupSignaling();
       }
     };
@@ -58,13 +63,15 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
     };
   }, [roomId]);
 
-  // Automatic connection effect
+  // Automatic connection effect - only trigger once when ready
   useEffect(() => {
-    if (!localStream || !signalingReady) return;
+    if (!localStream || !signalingReady || isReadyRef.current) return;
+    
+    isReadyRef.current = true;
 
     const autoConnect = async () => {
       if (isInitiator) {
-        console.log('Initiator: Auto-starting call...');
+        console.log('Initiator: Starting call...');
         setCallState('calling');
         await startCall();
       } else {
@@ -73,7 +80,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       }
     };
 
-    const timer = setTimeout(autoConnect, 500);
+    const timer = setTimeout(autoConnect, 1000);
     return () => clearTimeout(timer);
   }, [localStream, signalingReady, isInitiator]);
 
@@ -176,17 +183,11 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         if (!isInitiator) return;
         if (payload.to !== myCompanyId) return;
 
-        console.log('Callee is ready, restarting offer from initiator');
-        if (peerConnectionRef.current) {
-          try {
-            peerConnectionRef.current.close();
-          } catch (e) {
-            console.error('Error closing existing peer connection before restart', e);
-          }
-          peerConnectionRef.current = null;
+        console.log('Callee is ready, starting offer');
+        // Only start if we don't have a peer connection yet
+        if (!peerConnectionRef.current) {
+          await startCall();
         }
-        offerRetryCount.current = 0;
-        await startCall();
       })
       .on('broadcast', { event: 'call-ended' }, async ({ payload }) => {
         console.log('Received call-ended from:', payload.from);
@@ -322,8 +323,9 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
 
     // Prevent duplicate peer connections
     if (peerConnectionRef.current) {
-      console.log('Peer connection already exists, skipping duplicate creation');
-      return;
+      console.log('Peer connection already exists, closing it first');
+      peerConnectionRef.current.close();
+      peerConnectionRef.current = null;
     }
 
     console.log('Starting call with stream:', stream.id, 'tracks:', stream.getTracks().length);
@@ -339,7 +341,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
       console.log('Setting local description...');
       await pc.setLocalDescription(offer);
 
-      console.log('Sending offer (attempt', offerRetryCount.current + 1, ')...');
+      console.log('Sending offer...');
       await channelRef.current?.send({
         type: 'broadcast',
         event: 'offer',
@@ -357,17 +359,7 @@ export default function VideoCall({ roomId, myCompanyId, partnerCompanyId, isIni
         .update({ status: 'calling', started_at: new Date().toISOString() })
         .eq('room_id', roomId);
         
-      console.log('Call started successfully');
-      
-      // Retry mechanism: if no answer after 5 seconds, retry up to 3 times
-      setTimeout(() => {
-        if (pc.connectionState === 'new' && offerRetryCount.current < 3) {
-          console.log('No response to offer, retrying...');
-          offerRetryCount.current++;
-          peerConnectionRef.current = null; // Reset so we can recreate
-          startCall();
-        }
-      }, 5000);
+      console.log('Offer sent successfully');
     } catch (error) {
       console.error('Error starting call:', error);
       toast({
