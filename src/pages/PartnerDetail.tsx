@@ -92,7 +92,7 @@ const PartnerDetail = () => {
         <Card className="text-center p-8">
           <CardContent>
             <p className="text-lg">Profil nicht gefunden</p>
-            <Button onClick={() => navigate("/partners")} className="mt-4">
+            <Button onClick={() => navigate("/search")} className="mt-4">
               Zurück zur Suche
             </Button>
           </CardContent>
@@ -106,7 +106,7 @@ const PartnerDetail = () => {
       <div className="container mx-auto px-4 py-8">
         <Button
           variant="outline"
-          onClick={() => navigate("/partners")}
+          onClick={() => navigate("/search")}
           className="mb-6"
         >
           ← Zurück zur Suche
