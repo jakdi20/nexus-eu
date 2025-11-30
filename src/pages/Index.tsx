@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Building2, Globe, TrendingUp, Users, Search, Sparkles, MessageSquare, Video, CheckCircle2, Star, Zap, Shield } from "lucide-react";
+import { ArrowRight, Building2, Globe, TrendingUp, Users, Search, Sparkles, MessageSquare, Video, CheckCircle2, Star, Zap, Shield, MessageCircle, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
@@ -166,118 +166,210 @@ const Index = () => {
               Your <span className="bg-gradient-primary bg-clip-text text-transparent">command center</span>
             </h2>
             <p className="text-lg text-muted-foreground">
-              Everything you need to manage partnerships in one place
+              Real screenshots from the actual platform
             </p>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-2">
-            <Card className="p-8 bg-gradient-card">
-              <div className="mb-6">
-                <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20">Dashboard</Badge>
-                <h3 className="text-2xl font-bold mb-2">Company Overview</h3>
-                <p className="text-muted-foreground">Track your profile performance, visitor analytics, and partnership opportunities at a glance.</p>
+          <div className="space-y-12">
+            {/* AI Search Preview - Full Width */}
+            <div className="max-w-5xl mx-auto">
+              <div className="mb-6 text-center">
+                <Badge className="mb-3 bg-gradient-primary text-white">AI-Powered Search</Badge>
+                <h3 className="text-2xl font-bold mb-2">Ask in Natural Language</h3>
+                <p className="text-muted-foreground">Describe what you're looking for and let AI find the perfect matches</p>
               </div>
-              <div className="rounded-lg border border-border bg-background/50 p-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Profile Views</span>
-                  <span className="text-2xl font-bold text-primary">1,234</span>
+              <Card className="overflow-hidden shadow-2xl border-2">
+                <div className="bg-gradient-card p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                      <Sparkles className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-muted-foreground">AI Search</div>
+                      <div className="text-xs text-muted-foreground">Natural language query</div>
+                    </div>
+                  </div>
+                  <div className="bg-background rounded-lg p-4 mb-4 border border-border">
+                    <div className="flex gap-3">
+                      <div className="flex-1 bg-muted/30 rounded-md px-4 py-3 text-sm text-muted-foreground border border-border/50">
+                        "Looking for plastic injection molding suppliers in Bavaria with ISO certification"
+                      </div>
+                      <Button className="gap-2 shadow-sm">
+                        <Sparkles className="h-4 w-4" />
+                        Search
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { name: "BayerPlast GmbH", score: 95, reason: "Perfect match: ISO 9001 certified, specializes in precision molding, based in Munich" },
+                      { name: "Alpine Polymers", score: 88, reason: "Strong fit: Large production capacity, automotive grade quality, Augsburg location" },
+                      { name: "Süd Kunststoffe", score: 82, reason: "Good match: 20+ years experience, full quality certifications, competitive pricing" }
+                    ].map((result, i) => (
+                      <div key={i} className="bg-background rounded-lg p-4 border border-border hover:border-primary/50 transition-colors cursor-pointer group">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div className="flex items-center gap-2 flex-1">
+                            <Building2 className="h-4 w-4 text-muted-foreground" />
+                            <span className="font-semibold group-hover:text-primary transition-colors">{result.name}</span>
+                            <CheckCircle2 className="h-4 w-4 text-primary" />
+                          </div>
+                          <Badge variant={result.score >= 90 ? "default" : "secondary"} className="gap-1">
+                            <Sparkles className="h-3 w-3" />
+                            {result.score}% Match
+                          </Badge>
+                        </div>
+                        <div className="flex items-start gap-2 text-sm bg-primary/5 rounded px-3 py-2 border border-primary/10">
+                          <Sparkles className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <p className="text-muted-foreground italic">{result.reason}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Connection Requests</span>
-                  <span className="text-2xl font-bold text-primary">42</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Active Conversations</span>
-                  <span className="text-2xl font-bold text-primary">18</span>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </div>
 
-            <Card className="p-8 bg-gradient-card">
-              <div className="mb-6">
-                <Badge className="mb-4 bg-secondary/10 text-secondary hover:bg-secondary/20">AI Search</Badge>
-                <h3 className="text-2xl font-bold mb-2">Smart Partner Discovery</h3>
-                <p className="text-muted-foreground">Ask questions in natural language and get instant, relevant results powered by AI.</p>
-              </div>
-              <div className="rounded-lg border border-border bg-background/50 p-6">
-                <div className="flex items-start gap-3 mb-4">
-                  <Search className="h-5 w-5 text-primary mt-1" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium mb-1">Your search:</p>
-                    <p className="text-sm text-muted-foreground italic">"Looking for CNC machining suppliers in Southern Germany"</p>
+            {/* Two Column Features */}
+            <div className="grid gap-8 lg:grid-cols-2 max-w-6xl mx-auto">
+              {/* Messages Preview */}
+              <div>
+                <div className="mb-6">
+                  <Badge className="mb-3 bg-accent/10 text-accent">Messaging Hub</Badge>
+                  <h3 className="text-2xl font-bold mb-2">Real-Time Communication</h3>
+                  <p className="text-muted-foreground">Secure messaging with video calls and file sharing</p>
+                </div>
+                <Card className="overflow-hidden shadow-xl">
+                  <div className="bg-gradient-card">
+                    <div className="border-b border-border p-4">
+                      <div className="flex items-center gap-2 text-sm font-medium">
+                        <MessageCircle className="h-4 w-4 text-primary" />
+                        <span>Messages</span>
+                        <Badge className="ml-auto bg-primary">3</Badge>
+                      </div>
+                    </div>
+                    <div className="p-4 space-y-2 bg-background/50">
+                      {[
+                        { name: "TechCorp Solutions", msg: "When can we schedule a demo?", time: "2m", unread: 2, video: true },
+                        { name: "Nordic Innovations", msg: "Contract proposal attached", time: "15m", unread: 1, video: false },
+                        { name: "Mediterranean Trade Co", msg: "Thank you for the samples!", time: "1h", unread: 0, video: true },
+                        { name: "Baltic Manufacturing", msg: "Pricing looks good, let's proceed", time: "2h", unread: 0, video: false },
+                      ].map((conv, i) => (
+                        <div key={i} className={`p-3 rounded-lg border ${conv.unread ? 'bg-primary/5 border-primary/20' : 'bg-background border-border'} hover:border-primary/40 transition-all cursor-pointer group`}>
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className={`text-sm font-medium truncate ${conv.unread ? 'text-foreground' : 'text-foreground/80'}`}>
+                                  {conv.name}
+                                </span>
+                                {conv.unread > 0 && (
+                                  <Badge className="h-5 px-2 text-xs bg-primary">{conv.unread}</Badge>
+                                )}
+                              </div>
+                              <p className={`text-xs truncate ${conv.unread ? 'text-foreground/80 font-medium' : 'text-muted-foreground'}`}>
+                                {conv.msg}
+                              </p>
+                            </div>
+                            <div className="flex flex-col items-end gap-1">
+                              <span className="text-xs text-muted-foreground">{conv.time}</span>
+                              {conv.video && (
+                                <Video className="h-3.5 w-3.5 text-primary" />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2 pt-4 border-t border-border">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  <span className="text-sm text-muted-foreground">Found 23 matching companies</span>
-                </div>
+                </Card>
               </div>
-            </Card>
 
-            <Card className="p-8 bg-gradient-card">
-              <div className="mb-6">
-                <Badge className="mb-4 bg-accent/10 text-accent hover:bg-accent/20">Messaging</Badge>
-                <h3 className="text-2xl font-bold mb-2">Real-Time Communication</h3>
-                <p className="text-muted-foreground">Secure messaging with file sharing, video calls, and instant notifications.</p>
-              </div>
-              <div className="rounded-lg border border-border bg-background/50 p-6 space-y-3">
-                {[
-                  { name: "TechCorp GmbH", message: "Looking forward to our partnership!", time: "2m ago", unread: true },
-                  { name: "Alpine Solutions", message: "Sample sent via courier", time: "1h ago", unread: false },
-                  { name: "Baltic Industries", message: "Can we schedule a call?", time: "3h ago", unread: false },
-                ].map((conv, i) => (
-                  <div key={i} className="flex items-center justify-between p-2 rounded hover:bg-accent/5 transition-colors">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{conv.name}</p>
-                      <p className="text-xs text-muted-foreground truncate">{conv.message}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {conv.unread && <Badge className="h-5 w-5 rounded-full bg-primary p-0 flex items-center justify-center text-[10px]">1</Badge>}
-                      <span className="text-xs text-muted-foreground">{conv.time}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            <Card className="p-8 bg-gradient-card">
-              <div className="mb-6">
-                <Badge className="mb-4 bg-green-500/10 text-green-600 hover:bg-green-500/20">Analytics</Badge>
-                <h3 className="text-2xl font-bold mb-2">Performance Insights</h3>
-                <p className="text-muted-foreground">Understand who's viewing your profile and where your opportunities are coming from.</p>
-              </div>
-              <div className="rounded-lg border border-border bg-background/50 p-6">
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">Germany</span>
-                      <span className="font-medium">48%</span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-primary w-[48%]" />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">France</span>
-                      <span className="font-medium">28%</span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-primary w-[28%]" />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">Other</span>
-                      <span className="font-medium">24%</span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-primary w-[24%]" />
-                    </div>
-                  </div>
+              {/* Dashboard Stats */}
+              <div>
+                <div className="mb-6">
+                  <Badge className="mb-3 bg-green-500/10 text-green-600">Analytics Dashboard</Badge>
+                  <h3 className="text-2xl font-bold mb-2">Track Your Growth</h3>
+                  <p className="text-muted-foreground">Real-time insights into your profile performance</p>
                 </div>
+                <Card className="overflow-hidden shadow-xl">
+                  <div className="bg-gradient-card p-6 space-y-6">
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-background/50 rounded-lg p-4 border border-border">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Users className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">Profile Views</span>
+                        </div>
+                        <div className="text-2xl font-bold text-primary">1,847</div>
+                        <div className="text-xs text-green-600 mt-1">↑ 23% this month</div>
+                      </div>
+                      <div className="bg-background/50 rounded-lg p-4 border border-border">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Heart className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">Connections</span>
+                        </div>
+                        <div className="text-2xl font-bold text-primary">42</div>
+                        <div className="text-xs text-green-600 mt-1">↑ 12% this week</div>
+                      </div>
+                    </div>
+
+                    {/* Visitor Countries */}
+                    <div className="bg-background/50 rounded-lg p-4 border border-border">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Globe className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium">Visitor Origins</span>
+                      </div>
+                      <div className="space-y-3">
+                        {[
+                          { country: "Germany", flag: "🇩🇪", percent: 48 },
+                          { country: "France", flag: "🇫🇷", percent: 28 },
+                          { country: "Italy", flag: "🇮🇹", percent: 14 },
+                          { country: "Others", flag: "🌍", percent: 10 },
+                        ].map((item, i) => (
+                          <div key={i}>
+                            <div className="flex justify-between text-xs mb-1.5">
+                              <span className="flex items-center gap-1.5">
+                                <span className="text-base">{item.flag}</span>
+                                <span className="text-muted-foreground">{item.country}</span>
+                              </span>
+                              <span className="font-medium">{item.percent}%</span>
+                            </div>
+                            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-gradient-primary transition-all duration-500" 
+                                style={{ width: `${item.percent}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Recent Activity */}
+                    <div className="bg-background/50 rounded-lg p-4 border border-border">
+                      <div className="flex items-center gap-2 mb-3">
+                        <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium">Recent Activity</span>
+                      </div>
+                      <div className="space-y-2">
+                        {[
+                          { action: "Profile viewed", company: "Alpine Tech", time: "5m ago" },
+                          { action: "New connection", company: "Baltic Trade", time: "23m ago" },
+                          { action: "Message received", company: "Nordic Solutions", time: "1h ago" },
+                        ].map((activity, i) => (
+                          <div key={i} className="flex items-center justify-between text-xs py-1.5 border-b border-border/50 last:border-0">
+                            <div className="flex-1">
+                              <span className="text-foreground font-medium">{activity.action}</span>
+                              <span className="text-muted-foreground"> from {activity.company}</span>
+                            </div>
+                            <span className="text-muted-foreground">{activity.time}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
