@@ -54,24 +54,24 @@ export default function AIRecommendations() {
       setRecommendations(data?.recommendations || []);
     } catch (err: any) {
       console.error('Error loading recommendations:', err);
-      setError(err.message || 'Fehler beim Laden der Empfehlungen');
+      setError(err.message || 'Error loading recommendations');
       
       if (err.message?.includes('Rate limit')) {
         toast({
-          title: 'Ratenlimit erreicht',
-          description: 'Bitte versuchen Sie es später erneut.',
+          title: 'Rate Limit Reached',
+          description: 'Please try again later.',
           variant: 'destructive',
         });
       } else if (err.message?.includes('Payment required')) {
         toast({
-          title: 'Credits erforderlich',
-          description: 'Bitte fügen Sie Credits zu Ihrem Workspace hinzu.',
+          title: 'Credits Required',
+          description: 'Please add credits to your workspace.',
           variant: 'destructive',
         });
       } else {
         toast({
-          title: 'Fehler',
-          description: 'KI-Empfehlungen konnten nicht geladen werden.',
+          title: 'Error',
+          description: 'Could not load AI recommendations.',
           variant: 'destructive',
         });
       }
@@ -86,16 +86,16 @@ export default function AIRecommendations() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            <CardTitle>KI-Empfehlungen</CardTitle>
+            <CardTitle>AI Recommendations</CardTitle>
           </div>
           <CardDescription>
-            Unsere KI analysiert Ihr Profil für personalisierte Partnervorschläge
+            Our AI analyzes your profile for personalized partner suggestions
           </CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center py-12">
           <div className="text-center">
             <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
-            <p className="text-muted-foreground">KI analysiert passende Partner...</p>
+            <p className="text-muted-foreground">AI is analyzing matching partners...</p>
           </div>
         </CardContent>
       </Card>
@@ -108,14 +108,14 @@ export default function AIRecommendations() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            <CardTitle>KI-Empfehlungen</CardTitle>
+            <CardTitle>AI Recommendations</CardTitle>
           </div>
         </CardHeader>
         <CardContent>
           <div className="text-center py-6">
             <p className="text-muted-foreground mb-4">{error}</p>
             <Button onClick={loadRecommendations} variant="outline">
-              Erneut versuchen
+              Try Again
             </Button>
           </div>
         </CardContent>
@@ -133,14 +133,14 @@ export default function AIRecommendations() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-            <CardTitle>KI-Empfehlungen für Sie</CardTitle>
+            <CardTitle>AI Recommendations for You</CardTitle>
           </div>
           <Button onClick={loadRecommendations} variant="ghost" size="sm">
-            Aktualisieren
+            Refresh
           </Button>
         </div>
         <CardDescription>
-          Basierend auf Ihrem Profil und Ihrer Aktivität
+          Based on your profile and activity
         </CardDescription>
       </CardHeader>
       <CardContent>

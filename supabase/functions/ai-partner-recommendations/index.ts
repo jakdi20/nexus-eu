@@ -61,45 +61,45 @@ serve(async (req) => {
     }
 
     // Build AI prompt
-    const systemPrompt = `Du bist ein intelligenter Business-Matching-Assistent. 
-Analysiere das Unternehmensprofil und identifiziere die 5 besten Partner basierend auf:
-- Komplementären Angeboten und Bedürfnissen
-- Branchensynergien
-- Geografischer Nähe oder Expansionsmöglichkeiten
-- Unternehmensgröße und Partnerschaftstypen
+    const systemPrompt = `You are an intelligent business matching assistant. 
+Analyze the company profile and identify the 5 best partners based on:
+- Complementary offerings and needs
+- Industry synergies
+- Geographic proximity or expansion opportunities
+- Company size and partnership types
 
-Antworte NUR mit einem JSON-Array mit genau diesem Format:
+Respond ONLY with a JSON array in exactly this format:
 [
   {
     "company_id": "uuid",
     "company_name": "Name",
-    "reason": "Kurze prägnante Begründung in 1-2 Sätzen",
+    "reason": "Brief concise reasoning in 1-2 sentences",
     "match_score": 85
   }
 ]`;
 
-    const userPrompt = `Mein Unternehmensprofil:
+    const userPrompt = `My company profile:
 Name: ${myProfile.company_name}
-Branche: ${myProfile.industry || 'Keine'}
-Standort: ${myProfile.firmensitz}, ${myProfile.country}
-Größe: ${myProfile.company_size}
-Beschreibung: ${myProfile.description || 'Keine'}
-Angebote: ${myProfile.offers || 'Keine'}
-Sucht: ${myProfile.seeks || 'Nichts'}
+Industry: ${myProfile.industry || 'None'}
+Location: ${myProfile.firmensitz}, ${myProfile.country}
+Size: ${myProfile.company_size}
+Description: ${myProfile.description || 'None'}
+Offers: ${myProfile.offers || 'None'}
+Seeking: ${myProfile.seeks || 'Nothing'}
 
-Verfügbare Partner:
+Available partners:
 ${allProfiles.map(p => `
 ID: ${p.id}
 Name: ${p.company_name}
-Branche: ${p.industry || 'Keine'}
-Standort: ${p.firmensitz}, ${p.country}
-Größe: ${p.company_size}
-Beschreibung: ${p.description || 'Keine'}
-Angebote: ${p.offers || 'Keine'}
-Sucht: ${p.seeks || 'Nichts'}
+Industry: ${p.industry || 'None'}
+Location: ${p.firmensitz}, ${p.country}
+Size: ${p.company_size}
+Description: ${p.description || 'None'}
+Offers: ${p.offers || 'None'}
+Seeking: ${p.seeks || 'Nothing'}
 `).join('\n---\n')}
 
-Finde die 5 besten Matches.`;
+Find the 5 best matches.`;
 
     console.log('Sending request to Lovable AI...');
 
