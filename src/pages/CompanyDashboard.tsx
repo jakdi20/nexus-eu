@@ -183,8 +183,8 @@ const CompanyDashboard = () => {
     if (!file.type.startsWith('image/')) {
       toast({
         variant: "destructive",
-        title: "Fehler",
-        description: "Bitte wählen Sie eine Bilddatei aus.",
+        title: "Error",
+        description: "Please select an image file.",
       });
       return;
     }
@@ -193,8 +193,8 @@ const CompanyDashboard = () => {
     if (file.size > 2 * 1024 * 1024) {
       toast({
         variant: "destructive",
-        title: "Fehler",
-        description: "Das Bild ist zu groß. Maximal 2MB erlaubt.",
+        title: "Error",
+        description: "The image is too large. Maximum 2MB allowed.",
       });
       return;
     }
@@ -238,8 +238,8 @@ const CompanyDashboard = () => {
       setProfile({ ...profile, logo_url: urlData.publicUrl });
       
       toast({
-        title: "Logo hochgeladen",
-        description: "Ihr Unternehmenslogo wurde erfolgreich aktualisiert.",
+        title: "Logo uploaded",
+        description: "Your company logo has been successfully updated.",
       });
 
       await loadUserData();
@@ -247,8 +247,8 @@ const CompanyDashboard = () => {
       console.error('Logo upload error:', error);
       toast({
         variant: "destructive",
-        title: "Fehler",
-        description: "Logo konnte nicht hochgeladen werden.",
+        title: "Error",
+        description: "Logo could not be uploaded.",
       });
     } finally {
       setUploadingLogo(false);
@@ -355,8 +355,8 @@ const CompanyDashboard = () => {
       console.error("Error loading user data:", error);
       toast({
         variant: "destructive",
-        title: "Fehler",
-        description: "Profildaten konnten nicht geladen werden.",
+        title: "Error",
+        description: "Profile data could not be loaded.",
       });
     } finally {
       setLoading(false);
@@ -512,8 +512,8 @@ const CompanyDashboard = () => {
     if (error) {
       toast({
         variant: "destructive",
-        title: "Fehler",
-        description: "Nachricht konnte nicht gesendet werden.",
+        title: "Error",
+        description: "Message could not be sent.",
       });
     } else {
       setNewMessage('');
@@ -527,8 +527,8 @@ const CompanyDashboard = () => {
   const handleProfileCreated = (newProfile: any) => {
     setProfile(newProfile);
     toast({
-      title: "Profil erstellt!",
-      description: "Ihr Unternehmensprofil wurde erfolgreich angelegt.",
+      title: "Profile created!",
+      description: "Your company profile has been successfully created.",
     });
   };
 
@@ -564,8 +564,8 @@ const CompanyDashboard = () => {
       setEditDialogOpen(false);
       
       toast({
-        title: "Erfolgreich gespeichert",
-        description: "Ihr Profil wurde aktualisiert.",
+        title: "Successfully saved",
+        description: "Your profile has been updated.",
       });
 
       await loadUserData();
@@ -573,8 +573,8 @@ const CompanyDashboard = () => {
       console.error("Error updating profile:", error);
       toast({
         variant: "destructive",
-        title: "Fehler",
-        description: error.message || "Profil konnte nicht aktualisiert werden.",
+        title: "Error",
+        description: error.message || "Profile could not be updated.",
       });
     } finally {
       setSaving(false);
@@ -586,7 +586,7 @@ const CompanyDashboard = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="inline-block h-8 w-8 animate-spin text-primary" />
-          <p className="mt-4 text-muted-foreground">Wird geladen...</p>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
@@ -598,10 +598,10 @@ const CompanyDashboard = () => {
         <div className="mx-auto max-w-3xl">
           <div className="mb-8 text-center">
             <h2 className="mb-2 text-3xl font-bold text-foreground">
-              Willkommen bei EuroConnect!
+              Welcome to EuroConnect!
             </h2>
             <p className="text-lg text-muted-foreground">
-              Erstellen Sie Ihr Unternehmensprofil, um zu starten.
+              Create your company profile to get started.
             </p>
           </div>
           <CompanyProfileForm userId={user.id} onProfileCreated={handleProfileCreated} />
@@ -653,13 +653,13 @@ const CompanyDashboard = () => {
             
             <div>
               <h1 className="text-3xl font-bold text-foreground">{profile.company_name}</h1>
-              <p className="text-muted-foreground">Mein Unternehmen</p>
+              <p className="text-muted-foreground">My Company</p>
             </div>
           </div>
           <div className="flex gap-3">
             <Button onClick={() => setEditDialogOpen(true)} variant="outline" className="gap-2">
               <Edit className="h-4 w-4" />
-              Bearbeiten
+              Edit
             </Button>
             <Button onClick={() => setPremiumDialogOpen(true)} className="gap-2">
               <Sparkles className="h-4 w-4" />
@@ -677,7 +677,7 @@ const CompanyDashboard = () => {
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center gap-2 mb-4">
             <Building2 className="h-5 w-5 text-primary" />
-            <h2 className="text-2xl font-bold">Unternehmensübersicht</h2>
+            <h2 className="text-2xl font-bold">Company Overview</h2>
           </div>
           
           <div className="grid grid-cols-1 gap-4">
@@ -685,11 +685,11 @@ const CompanyDashboard = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  Basisinformationen
+                  Basic Information
                   {profile.is_sponsored && (
                     <Badge variant="default" className="gap-1 text-xs">
                       <TrendingUp className="h-3 w-3" />
-                      Gesponsert
+                      Sponsored
                     </Badge>
                   )}
                   {profile.is_premium && (
@@ -705,21 +705,21 @@ const CompanyDashboard = () => {
                   <div className="flex items-center gap-3">
                     <Building2 className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Branche</p>
+                      <p className="text-sm text-muted-foreground">Industry</p>
                       <p className="font-medium">{profile.industry}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Users className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Mitarbeiter</p>
+                      <p className="text-sm text-muted-foreground">Employees</p>
                       <p className="font-medium">{profile.company_size}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <MapPin className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Standort</p>
+                      <p className="text-sm text-muted-foreground">Location</p>
                       <p className="font-medium">{profile.firmensitz}, {profile.country}</p>
                     </div>
                   </div>
@@ -727,7 +727,7 @@ const CompanyDashboard = () => {
                     <div className="flex items-center gap-3">
                       <Calendar className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Gegründet</p>
+                        <p className="text-sm text-muted-foreground">Founded</p>
                         <p className="font-medium">{profile.founded_year}</p>
                       </div>
                     </div>
@@ -736,7 +736,7 @@ const CompanyDashboard = () => {
 
                 {profile.description && (
                   <div className="pt-4 border-t">
-                    <p className="text-sm text-muted-foreground mb-1">Beschreibung</p>
+                    <p className="text-sm text-muted-foreground mb-1">Description</p>
                     <p className="text-sm">{profile.description}</p>
                   </div>
                 )}
@@ -758,7 +758,7 @@ const CompanyDashboard = () => {
                     <div className="flex items-center gap-2">
                       <Globe className="h-4 w-4 text-muted-foreground" />
                       <a href={profile.website} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
-                        Website besuchen
+                        Visit Website
                       </a>
                     </div>
                   )}
@@ -772,16 +772,16 @@ const CompanyDashboard = () => {
         <div className="lg:col-span-1 space-y-4">
           <div className="flex items-center gap-2 mb-4">
             <MessageCircle className="h-5 w-5 text-primary" />
-            <h2 className="text-2xl font-bold">Nachrichten</h2>
+            <h2 className="text-2xl font-bold">Messages</h2>
           </div>
 
           {conversations.length === 0 ? (
             <Card className="text-center py-12">
               <CardContent>
                 <MessageCircle className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
-                <p className="text-base font-medium mb-1">Keine Nachrichten</p>
+                <p className="text-base font-medium mb-1">No Messages</p>
                 <p className="text-sm text-muted-foreground">
-                  Beginnen Sie Gespräche mit Ihren Partnern
+                  Start conversations with your partners
                 </p>
               </CardContent>
             </Card>
@@ -819,7 +819,7 @@ const CompanyDashboard = () => {
           {conversations.length > 6 && (
             <div className="text-center">
               <Button variant="outline" onClick={() => navigate("/messages")}>
-                Alle ansehen ({conversations.length})
+                View All ({conversations.length})
               </Button>
             </div>
           )}
@@ -832,7 +832,7 @@ const CompanyDashboard = () => {
       <section className="space-y-4">
         <div className="flex items-center gap-2">
           <Heart className="h-5 w-5 text-primary" />
-          <h2 className="text-2xl font-bold">Meine Partner</h2>
+          <h2 className="text-2xl font-bold">My Partners</h2>
           <Badge variant="secondary" className="ml-2">
             {partners.length}
           </Badge>
@@ -842,12 +842,12 @@ const CompanyDashboard = () => {
           <Card className="text-center py-8">
             <CardContent>
               <Heart className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
-              <p className="text-base font-medium mb-1">Noch keine Partner</p>
+              <p className="text-base font-medium mb-1">No Partners Yet</p>
               <p className="text-sm text-muted-foreground mb-4">
-                Beginnen Sie Gespräche mit potenziellen Partnern
+                Start conversations with potential partners
               </p>
               <Button onClick={() => navigate("/search")}>
-                Partner suchen
+                Search Partners
               </Button>
             </CardContent>
           </Card>
@@ -864,7 +864,7 @@ const CompanyDashboard = () => {
                       )}
                     </CardTitle>
                     <CardDescription className="line-clamp-2 text-sm">
-                      {partner.description || "Keine Beschreibung"}
+                      {partner.description || "No description"}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -882,10 +882,10 @@ const CompanyDashboard = () => {
                   <CardFooter className="flex gap-2">
                     <Button size="sm" className="flex-1" onClick={() => openChat(partner.id)}>
                       <MessageCircle className="mr-2 h-3 w-3" />
-                      Nachricht
+                      Message
                     </Button>
                     <Button size="sm" variant="outline" className="flex-1" onClick={() => navigate(`/partner/${partner.id}`)}>
-                      Profil
+                      Profile
                     </Button>
                   </CardFooter>
                 </Card>
@@ -895,7 +895,7 @@ const CompanyDashboard = () => {
             {partners.length > 6 && (
               <div className="text-center">
                 <Button variant="outline" onClick={() => navigate("/my-partners")}>
-                  Alle Partner ansehen ({partners.length})
+                  View All Partners ({partners.length})
                 </Button>
               </div>
             )}
@@ -912,7 +912,7 @@ const CompanyDashboard = () => {
               {conversations.find((c) => c.company_id === selectedConversation)?.company_name}
             </SheetTitle>
             <SheetDescription>
-              Direktnachrichten mit diesem Partner
+              Direct messages with this partner
             </SheetDescription>
           </SheetHeader>
 
@@ -948,7 +948,7 @@ const CompanyDashboard = () => {
             <div className="pt-4 border-t mt-4">
               <div className="flex gap-2">
                 <Input
-                  placeholder="Nachricht schreiben..."
+                  placeholder="Write a message..."
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyDown={(e) => {
@@ -971,23 +971,23 @@ const CompanyDashboard = () => {
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Profil bearbeiten</DialogTitle>
+            <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
-              Aktualisieren Sie Ihre Unternehmensinformationen
+              Update your company information
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Basisinformationen */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Basisinformationen</h3>
+                <h3 className="text-lg font-semibold">Basic Information</h3>
                 
                 <FormField
                   control={form.control}
                   name="company_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Firmenname *</FormLabel>
+                      <FormLabel>Company Name *</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -1001,9 +1001,9 @@ const CompanyDashboard = () => {
                   name="legal_form"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Rechtsform</FormLabel>
+                      <FormLabel>Legal Form</FormLabel>
                       <FormControl>
-                        <Input placeholder="z.B. GmbH, AG, UG" {...field} />
+                        <Input placeholder="e.g. GmbH, AG, UG" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1016,9 +1016,9 @@ const CompanyDashboard = () => {
                     name="country"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Land *</FormLabel>
+                        <FormLabel>Country *</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="z.B. Deutschland" />
+                          <Input {...field} placeholder="e.g. Germany" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1030,9 +1030,9 @@ const CompanyDashboard = () => {
                     name="firmensitz"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Firmensitz *</FormLabel>
+                        <FormLabel>Headquarters *</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="z.B. Berlin" />
+                          <Input {...field} placeholder="e.g. Berlin" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1043,18 +1043,18 @@ const CompanyDashboard = () => {
 
               {/* Unternehmensprofil */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Unternehmensprofil</h3>
+                <h3 className="text-lg font-semibold">Company Profile</h3>
                 
                 <FormField
                   control={form.control}
                   name="industry"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Hauptbranche *</FormLabel>
+                      <FormLabel>Main Industry *</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Branche wählen" />
+                            <SelectValue placeholder="Select industry" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -1076,7 +1076,7 @@ const CompanyDashboard = () => {
                     name="company_size"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Unternehmensgröße *</FormLabel>
+                        <FormLabel>Company Size *</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
@@ -1086,7 +1086,7 @@ const CompanyDashboard = () => {
                           <SelectContent>
                             {companySizes.map((size) => (
                               <SelectItem key={size} value={size}>
-                                {size} Mitarbeiter
+                                {size} Employees
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -1101,9 +1101,9 @@ const CompanyDashboard = () => {
                     name="founded_year"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Gründungsjahr</FormLabel>
+                        <FormLabel>Founding Year</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="z.B. 2020" maxLength={4} />
+                          <Input {...field} placeholder="e.g. 2020" maxLength={4} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1114,16 +1114,16 @@ const CompanyDashboard = () => {
 
               {/* Kontakt */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Kontakt</h3>
+                <h3 className="text-lg font-semibold">Contact</h3>
                 
                 <FormField
                   control={form.control}
                   name="contact_email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Kontakt E-Mail *</FormLabel>
+                      <FormLabel>Contact Email *</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="kontakt@firma.de" {...field} />
+                        <Input type="email" placeholder="contact@company.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1136,7 +1136,7 @@ const CompanyDashboard = () => {
                     name="contact_phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Telefon</FormLabel>
+                        <FormLabel>Phone</FormLabel>
                         <FormControl>
                           <Input placeholder="+49 123 456789" {...field} />
                         </FormControl>
@@ -1167,9 +1167,9 @@ const CompanyDashboard = () => {
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Adresse</FormLabel>
+                    <FormLabel>Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="Straße, Hausnummer, PLZ Ort" {...field} />
+                      <Input placeholder="Street, Number, Postal Code City" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1182,17 +1182,17 @@ const CompanyDashboard = () => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Kurzbeschreibung</FormLabel>
+                    <FormLabel>Brief Description</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
-                        placeholder="1-2 Sätze über Ihr Unternehmen..."
+                        placeholder="1-2 sentences about your company..."
                         className="min-h-[80px]"
                         maxLength={500}
                       />
                     </FormControl>
                     <FormDescription>
-                      {field.value?.length || 0}/500 Zeichen
+                      {field.value?.length || 0}/500 characters
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -1201,16 +1201,16 @@ const CompanyDashboard = () => {
 
               {/* Angebot & Nachfrage */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Angebot & Nachfrage</h3>
+                <h3 className="text-lg font-semibold">Supply & Demand</h3>
                 
                 <FormField
                   control={form.control}
                   name="offers"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Was bieten Sie an?</FormLabel>
+                      <FormLabel>What do you offer?</FormLabel>
                       <FormControl>
-                        <Textarea {...field} className="min-h-[80px]" placeholder="Beschreiben Sie Ihre Produkte und Services..." />
+                        <Textarea {...field} className="min-h-[80px]" placeholder="Describe your products and services..." />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1222,9 +1222,9 @@ const CompanyDashboard = () => {
                   name="seeks"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Was suchen Sie?</FormLabel>
+                      <FormLabel>What are you looking for?</FormLabel>
                       <FormControl>
-                        <Textarea {...field} className="min-h-[80px]" placeholder="Beschreiben Sie, was Sie suchen..." />
+                        <Textarea {...field} className="min-h-[80px]" placeholder="Describe what you're looking for..." />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1234,10 +1234,10 @@ const CompanyDashboard = () => {
 
               <div className="flex justify-end gap-3">
                 <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)}>
-                  Abbrechen
+                  Cancel
                 </Button>
                 <Button type="submit" disabled={saving}>
-                  {saving ? "Speichern..." : "Änderungen speichern"}
+                  {saving ? "Saving..." : "Save Changes"}
                 </Button>
               </div>
             </form>
