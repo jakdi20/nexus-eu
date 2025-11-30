@@ -36,7 +36,7 @@ export type Database = {
           seeks: string | null
           sponsored_until: string | null
           updated_at: string | null
-          user_id: string
+          user_id: string | null
           verification_badge_url: string | null
           verification_status: string | null
           verified: boolean | null
@@ -63,7 +63,7 @@ export type Database = {
           seeks?: string | null
           sponsored_until?: string | null
           updated_at?: string | null
-          user_id: string
+          user_id?: string | null
           verification_badge_url?: string | null
           verification_status?: string | null
           verified?: boolean | null
@@ -90,7 +90,7 @@ export type Database = {
           seeks?: string | null
           sponsored_until?: string | null
           updated_at?: string | null
-          user_id?: string
+          user_id?: string | null
           verification_badge_url?: string | null
           verification_status?: string | null
           verified?: boolean | null

@@ -13,6 +13,7 @@ import Search from "./pages/Search";
 import MyPartners from "./pages/MyPartners";
 import PartnerDetail from "./pages/PartnerDetail";
 import Messages from "./pages/Messages";
+import ImportCompanies from "./pages/ImportCompanies";
 import NotFound from "./pages/NotFound";
 import AppLayout from "./components/AppLayout";
 import GlobalVideoCallManager from "./components/GlobalVideoCallManager";
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/my-partners" element={<AppLayout><MyPartners /></AppLayout>} />
               <Route path="/messages" element={<AppLayout><Messages /></AppLayout>} />
               <Route path="/partner/:id" element={<AppLayout><PartnerDetail /></AppLayout>} />
+              <Route path="/import-companies" element={<AppLayout><ImportCompanies /></AppLayout>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

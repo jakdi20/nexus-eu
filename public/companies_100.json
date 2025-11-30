@@ -1,0 +1,4502 @@
+[
+  {
+    "company": {
+      "id": "d6bf96ac-91eb-4151-8fc7-4272e18768c4",
+      "user_id": "3c4b8d0f-2d75-473e-9ff1-4db670a075b7",
+      "company_name": "Urban Digital SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Toulouse",
+        "address": "100 Market Street, Toulouse, France"
+      },
+      "profile": {
+        "industry": "Biotechnology",
+        "company_size": "11-50",
+        "founded_year": 1955,
+        "description": "Urban Digital operates across Europe in the Renewable Energy sector."
+      },
+      "contact": {
+        "website": "https://www.urban-digital.fr",
+        "contact_email": "info@urban-digital.fr",
+        "contact_phone": "+433 186192630"
+      },
+      "matching": {
+        "offers": "Urban Digital offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.670222Z",
+        "updated_at": "2025-11-30T00:31:17.670232Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "c18202f9-17d7-49c7-ad1c-a6d7702ab0a7",
+      "user_id": "ac6718e3-21fc-435f-82e8-bf763f09d31d",
+      "company_name": "Nova Solutions Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Wroclaw",
+        "address": "150 Market Street, Wroclaw, Poland"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "11-50",
+        "founded_year": 1965,
+        "description": "Nova Solutions operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.nova-solutions.po",
+        "contact_email": "info@nova-solutions.po",
+        "contact_phone": "+146 192023293"
+      },
+      "matching": {
+        "offers": "Nova Solutions offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.670441Z",
+        "updated_at": "2025-11-30T00:31:17.670446Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "f215d160-8d55-4813-ac4b-ef3c04ea8629",
+      "user_id": "6f44c42d-69c4-408c-a83f-0256fbe184b0",
+      "company_name": "Atlas Consulting AB",
+      "legal_form": "AB",
+      "location": {
+        "country": "Sweden",
+        "firmensitz": "Gothenburg",
+        "address": "25 Market Street, Gothenburg, Sweden"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "201-500",
+        "founded_year": 1955,
+        "description": "Atlas Consulting operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-consulting.sw",
+        "contact_email": "info@atlas-consulting.sw",
+        "contact_phone": "+70 960782846"
+      },
+      "matching": {
+        "offers": "Atlas Consulting offers services in Logistics.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.670579Z",
+        "updated_at": "2025-11-30T00:31:17.670584Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "0261b694-d609-4a4f-9289-c79c3de86ab5",
+      "user_id": "5e2cf5c2-1139-4fb3-92cc-e2a1995267ed",
+      "company_name": "Urban Group SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Barcelona",
+        "address": "24 Market Street, Barcelona, Spain"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "501+",
+        "founded_year": 2002,
+        "description": "Urban Group operates across Europe in the Logistics sector."
+      },
+      "contact": {
+        "website": "https://www.urban-group.sp",
+        "contact_email": "info@urban-group.sp",
+        "contact_phone": "+463 625432314"
+      },
+      "matching": {
+        "offers": "Urban Group offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.670813Z",
+        "updated_at": "2025-11-30T00:31:17.670817Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "b2d9631d-d14e-4036-a403-d848b4f8bfab",
+      "user_id": "90f4d88a-bff6-42c4-9122-5a25dd8cfa9e",
+      "company_name": "Next Consulting S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Naples",
+        "address": "21 Market Street, Naples, Italy"
+      },
+      "profile": {
+        "industry": "Logistics",
+        "company_size": "11-50",
+        "founded_year": 1961,
+        "description": "Next Consulting operates across Europe in the Logistics sector."
+      },
+      "contact": {
+        "website": "https://www.next-consulting.it",
+        "contact_email": "info@next-consulting.it",
+        "contact_phone": "+300 142950411"
+      },
+      "matching": {
+        "offers": "Next Consulting offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671085Z",
+        "updated_at": "2025-11-30T00:31:17.671088Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "f6d243e4-019b-4b15-a6f3-a6d390501f46",
+      "user_id": "f5a922ad-3251-456e-aa49-16348cbf8204",
+      "company_name": "Green Digital SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Barcelona",
+        "address": "91 Market Street, Barcelona, Spain"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "201-500",
+        "founded_year": 2021,
+        "description": "Green Digital operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.green-digital.sp",
+        "contact_email": "info@green-digital.sp",
+        "contact_phone": "+478 156756303"
+      },
+      "matching": {
+        "offers": "Green Digital offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/green_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671386Z",
+        "updated_at": "2025-11-30T00:31:17.671390Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "6ff2b74f-b559-41c8-aeb2-42d4b2c2a4ef",
+      "user_id": "b7cd5d7f-437b-4589-9632-6cc1bf944c6a",
+      "company_name": "Atlas Consulting GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Frankfurt",
+        "address": "116 Market Street, Frankfurt, Germany"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "51-200",
+        "founded_year": 1952,
+        "description": "Atlas Consulting operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-consulting.ge",
+        "contact_email": "info@atlas-consulting.ge",
+        "contact_phone": "+166 634597857"
+      },
+      "matching": {
+        "offers": "Atlas Consulting offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671441Z",
+        "updated_at": "2025-11-30T00:31:17.671443Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "5914b391-376f-4a7e-a126-3e9007132831",
+      "user_id": "bfe482ec-894f-4c25-b580-0321b5d75080",
+      "company_name": "Atlas Group Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Krakow",
+        "address": "107 Market Street, Krakow, Poland"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "501+",
+        "founded_year": 1965,
+        "description": "Atlas Group operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-group.po",
+        "contact_email": "info@atlas-group.po",
+        "contact_phone": "+436 931298625"
+      },
+      "matching": {
+        "offers": "Atlas Group offers services in FinTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671489Z",
+        "updated_at": "2025-11-30T00:31:17.671491Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "2b9af1e8-9bd7-4e9f-afc3-f3d45c2cecd2",
+      "user_id": "845faed2-10d0-42bf-b557-3b0f15e0087d",
+      "company_name": "Prime Group AB",
+      "legal_form": "AB",
+      "location": {
+        "country": "Sweden",
+        "firmensitz": "Stockholm",
+        "address": "136 Market Street, Stockholm, Sweden"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "501+",
+        "founded_year": 2003,
+        "description": "Prime Group operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.prime-group.sw",
+        "contact_email": "info@prime-group.sw",
+        "contact_phone": "+224 745561486"
+      },
+      "matching": {
+        "offers": "Prime Group offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671536Z",
+        "updated_at": "2025-11-30T00:31:17.671538Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "b57c9469-3179-4535-af4d-6e91d1eee156",
+      "user_id": "fea7d62e-8fd8-47e1-a5ba-9406e2813617",
+      "company_name": "Euro Digital BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Eindhoven",
+        "address": "110 Market Street, Eindhoven, Netherlands"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "51-200",
+        "founded_year": 2017,
+        "description": "Euro Digital operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.euro-digital.ne",
+        "contact_email": "info@euro-digital.ne",
+        "contact_phone": "+430 291868617"
+      },
+      "matching": {
+        "offers": "Euro Digital offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671576Z",
+        "updated_at": "2025-11-30T00:31:17.671577Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "7637866e-8a0c-4797-accc-38868d02b085",
+      "user_id": "3f827bcf-739b-47f4-b93e-a1b269e8323a",
+      "company_name": "Urban Labs ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Aarhus",
+        "address": "102 Market Street, Aarhus, Denmark"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "1-10",
+        "founded_year": 2011,
+        "description": "Urban Labs operates across Europe in the Manufacturing sector."
+      },
+      "contact": {
+        "website": "https://www.urban-labs.de",
+        "contact_email": "info@urban-labs.de",
+        "contact_phone": "+244 644823511"
+      },
+      "matching": {
+        "offers": "Urban Labs offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671600Z",
+        "updated_at": "2025-11-30T00:31:17.671601Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "a65c498f-0640-496f-a086-1aeaeaf2572c",
+      "user_id": "4d801612-d4ce-46eb-9048-06f4c255dbf2",
+      "company_name": "Atlas Systems S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Naples",
+        "address": "193 Market Street, Naples, Italy"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "501+",
+        "founded_year": 1973,
+        "description": "Atlas Systems operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-systems.it",
+        "contact_email": "info@atlas-systems.it",
+        "contact_phone": "+457 992876877"
+      },
+      "matching": {
+        "offers": "Atlas Systems offers services in Logistics.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671628Z",
+        "updated_at": "2025-11-30T00:31:17.671629Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "4fdac49f-0b6e-45b1-bc1c-fcc6ca8e25a1",
+      "user_id": "e90c6a90-a04d-4e27-a104-c6e8b2833b98",
+      "company_name": "Future Group ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Aarhus",
+        "address": "130 Market Street, Aarhus, Denmark"
+      },
+      "profile": {
+        "industry": "Biotechnology",
+        "company_size": "501+",
+        "founded_year": 1964,
+        "description": "Future Group operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.future-group.de",
+        "contact_email": "info@future-group.de",
+        "contact_phone": "+405 742426827"
+      },
+      "matching": {
+        "offers": "Future Group offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671675Z",
+        "updated_at": "2025-11-30T00:31:17.671676Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "2dd360f3-a8d9-40b3-bf91-86dcd2e89977",
+      "user_id": "a8b00a4c-6a16-4c1d-8620-ad1c2ec5581c",
+      "company_name": "Next Consulting S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Turin",
+        "address": "54 Market Street, Turin, Italy"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "501+",
+        "founded_year": 1991,
+        "description": "Next Consulting operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.next-consulting.it",
+        "contact_email": "info@next-consulting.it",
+        "contact_phone": "+87 535801078"
+      },
+      "matching": {
+        "offers": "Next Consulting offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671706Z",
+        "updated_at": "2025-11-30T00:31:17.671707Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ae264812-02d8-4efc-bdbc-87184531903e",
+      "user_id": "c2208a6e-8b34-4dfc-ad39-eae2a16f0836",
+      "company_name": "Next Foods BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Rotterdam",
+        "address": "125 Market Street, Rotterdam, Netherlands"
+      },
+      "profile": {
+        "industry": "FinTech",
+        "company_size": "51-200",
+        "founded_year": 1981,
+        "description": "Next Foods operates across Europe in the FinTech sector."
+      },
+      "contact": {
+        "website": "https://www.next-foods.ne",
+        "contact_email": "info@next-foods.ne",
+        "contact_phone": "+243 263451582"
+      },
+      "matching": {
+        "offers": "Next Foods offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671729Z",
+        "updated_at": "2025-11-30T00:31:17.671730Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "06e81def-2372-41f1-9a65-37692f99ac42",
+      "user_id": "2b419d01-8f41-404b-9c3b-301c075f4fba",
+      "company_name": "Next Energy GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Cologne",
+        "address": "33 Market Street, Cologne, Germany"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "201-500",
+        "founded_year": 2009,
+        "description": "Next Energy operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.next-energy.ge",
+        "contact_email": "info@next-energy.ge",
+        "contact_phone": "+158 771199749"
+      },
+      "matching": {
+        "offers": "Next Energy offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671749Z",
+        "updated_at": "2025-11-30T00:31:17.671751Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "d94c1129-b99e-4d27-a473-d8e063b0099f",
+      "user_id": "54a1e891-40bd-458b-873f-80d1e404ed3d",
+      "company_name": "Urban Tech AB",
+      "legal_form": "AB",
+      "location": {
+        "country": "Sweden",
+        "firmensitz": "Gothenburg",
+        "address": "156 Market Street, Gothenburg, Sweden"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "201-500",
+        "founded_year": 1976,
+        "description": "Urban Tech operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.urban-tech.sw",
+        "contact_email": "info@urban-tech.sw",
+        "contact_phone": "+378 879868100"
+      },
+      "matching": {
+        "offers": "Urban Tech offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_tech.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671768Z",
+        "updated_at": "2025-11-30T00:31:17.671769Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "9a762980-3636-46a9-a382-d2384b798ccb",
+      "user_id": "11b2a8e0-85cd-448b-be11-86206d2faada",
+      "company_name": "Blue Foods SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Seville",
+        "address": "118 Market Street, Seville, Spain"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "1-10",
+        "founded_year": 2001,
+        "description": "Blue Foods operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.blue-foods.sp",
+        "contact_email": "info@blue-foods.sp",
+        "contact_phone": "+432 259503619"
+      },
+      "matching": {
+        "offers": "Blue Foods offers services in FinTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671788Z",
+        "updated_at": "2025-11-30T00:31:17.671790Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "92533a94-e2c9-4a43-a42d-0a33324db41c",
+      "user_id": "c58304ec-d5bb-48ad-8300-0a420c3a505e",
+      "company_name": "Next Solutions BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Rotterdam",
+        "address": "162 Market Street, Rotterdam, Netherlands"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "11-50",
+        "founded_year": 1953,
+        "description": "Next Solutions operates across Europe in the FinTech sector."
+      },
+      "contact": {
+        "website": "https://www.next-solutions.ne",
+        "contact_email": "info@next-solutions.ne",
+        "contact_phone": "+195 952620030"
+      },
+      "matching": {
+        "offers": "Next Solutions offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671807Z",
+        "updated_at": "2025-11-30T00:31:17.671809Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "3947c765-7a03-4880-8fff-de62ead6f514",
+      "user_id": "154040c6-937c-4e51-88ae-610d2f0102bd",
+      "company_name": "Urban Digital ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Copenhagen",
+        "address": "155 Market Street, Copenhagen, Denmark"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "11-50",
+        "founded_year": 1980,
+        "description": "Urban Digital operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.urban-digital.de",
+        "contact_email": "info@urban-digital.de",
+        "contact_phone": "+468 780134972"
+      },
+      "matching": {
+        "offers": "Urban Digital offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671832Z",
+        "updated_at": "2025-11-30T00:31:17.671833Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ce1c4e25-2660-41ea-9d53-dde8d74193c6",
+      "user_id": "5aa7ac00-7aa6-4adc-87b9-c29349558994",
+      "company_name": "Atlas Energy Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Warsaw",
+        "address": "30 Market Street, Warsaw, Poland"
+      },
+      "profile": {
+        "industry": "Logistics",
+        "company_size": "11-50",
+        "founded_year": 2020,
+        "description": "Atlas Energy operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-energy.po",
+        "contact_email": "info@atlas-energy.po",
+        "contact_phone": "+280 232362202"
+      },
+      "matching": {
+        "offers": "Atlas Energy offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671852Z",
+        "updated_at": "2025-11-30T00:31:17.671853Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "bee20447-83da-4d0b-b93c-24f43783a1f7",
+      "user_id": "e7b4d84c-513b-4be0-b93f-f7b441fbb04c",
+      "company_name": "Green Labs SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Lille",
+        "address": "110 Market Street, Lille, France"
+      },
+      "profile": {
+        "industry": "Logistics",
+        "company_size": "201-500",
+        "founded_year": 1956,
+        "description": "Green Labs operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.green-labs.fr",
+        "contact_email": "info@green-labs.fr",
+        "contact_phone": "+41 850357168"
+      },
+      "matching": {
+        "offers": "Green Labs offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/green_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671874Z",
+        "updated_at": "2025-11-30T00:31:17.671875Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "f67bd352-ad31-4bc8-817c-e8ea49dbe324",
+      "user_id": "5e62b3a7-12fc-4aa9-a6e7-276a6f8ffe58",
+      "company_name": "Euro Group AB",
+      "legal_form": "AB",
+      "location": {
+        "country": "Sweden",
+        "firmensitz": "Gothenburg",
+        "address": "170 Market Street, Gothenburg, Sweden"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "501+",
+        "founded_year": 1973,
+        "description": "Euro Group operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.euro-group.sw",
+        "contact_email": "info@euro-group.sw",
+        "contact_phone": "+81 559218110"
+      },
+      "matching": {
+        "offers": "Euro Group offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671894Z",
+        "updated_at": "2025-11-30T00:31:17.671896Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "a7ab366e-432e-401e-9796-77f86f31db2a",
+      "user_id": "b1f5ff9c-d1f8-4fe6-bd0c-12488ab8a561",
+      "company_name": "Prime Systems S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Milan",
+        "address": "91 Market Street, Milan, Italy"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "51-200",
+        "founded_year": 1967,
+        "description": "Prime Systems operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.prime-systems.it",
+        "contact_email": "info@prime-systems.it",
+        "contact_phone": "+243 357235990"
+      },
+      "matching": {
+        "offers": "Prime Systems offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671916Z",
+        "updated_at": "2025-11-30T00:31:17.671917Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "6aa10450-dc21-4e3c-b4fb-411e86f519cb",
+      "user_id": "a5c6b0da-133c-4f9e-9fbe-fe21ef620755",
+      "company_name": "Prime Consulting AB",
+      "legal_form": "AB",
+      "location": {
+        "country": "Sweden",
+        "firmensitz": "Gothenburg",
+        "address": "170 Market Street, Gothenburg, Sweden"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "51-200",
+        "founded_year": 1991,
+        "description": "Prime Consulting operates across Europe in the Renewable Energy sector."
+      },
+      "contact": {
+        "website": "https://www.prime-consulting.sw",
+        "contact_email": "info@prime-consulting.sw",
+        "contact_phone": "+313 214758045"
+      },
+      "matching": {
+        "offers": "Prime Consulting offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671939Z",
+        "updated_at": "2025-11-30T00:31:17.671940Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "cb1b7a00-8868-4dd1-9d61-2e9a4ef07654",
+      "user_id": "92a5bc15-46be-4102-8ded-8153aa8047a4",
+      "company_name": "Nova Foods ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Odense",
+        "address": "173 Market Street, Odense, Denmark"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "201-500",
+        "founded_year": 1976,
+        "description": "Nova Foods operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.nova-foods.de",
+        "contact_email": "info@nova-foods.de",
+        "contact_phone": "+473 425479333"
+      },
+      "matching": {
+        "offers": "Nova Foods offers services in Logistics.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671959Z",
+        "updated_at": "2025-11-30T00:31:17.671960Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "63b38d05-8e85-4a4f-ae7d-ceec92485e0d",
+      "user_id": "8ca12380-ffa8-48d1-8aab-1cd3a805684a",
+      "company_name": "Green Solutions Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Gdansk",
+        "address": "113 Market Street, Gdansk, Poland"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "1-10",
+        "founded_year": 1995,
+        "description": "Green Solutions operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.green-solutions.po",
+        "contact_email": "info@green-solutions.po",
+        "contact_phone": "+173 421613226"
+      },
+      "matching": {
+        "offers": "Green Solutions offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/green_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671979Z",
+        "updated_at": "2025-11-30T00:31:17.671980Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "42d918e1-4df6-431f-b3b1-130985e3229c",
+      "user_id": "c150ae42-e611-4b91-a244-fd53a6b635eb",
+      "company_name": "Future Labs BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Rotterdam",
+        "address": "18 Market Street, Rotterdam, Netherlands"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "201-500",
+        "founded_year": 1991,
+        "description": "Future Labs operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.future-labs.ne",
+        "contact_email": "info@future-labs.ne",
+        "contact_phone": "+57 964049453"
+      },
+      "matching": {
+        "offers": "Future Labs offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.671999Z",
+        "updated_at": "2025-11-30T00:31:17.672000Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "14ac2ec5-96e0-4567-acd3-55be696bddb0",
+      "user_id": "1cbcdbaf-d914-4262-b19a-763c8e4c711c",
+      "company_name": "Blue Solutions AB",
+      "legal_form": "AB",
+      "location": {
+        "country": "Sweden",
+        "firmensitz": "Malmo",
+        "address": "39 Market Street, Malmo, Sweden"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "201-500",
+        "founded_year": 1973,
+        "description": "Blue Solutions operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.blue-solutions.sw",
+        "contact_email": "info@blue-solutions.sw",
+        "contact_phone": "+165 760315054"
+      },
+      "matching": {
+        "offers": "Blue Solutions offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672018Z",
+        "updated_at": "2025-11-30T00:31:17.672019Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "28027649-f876-457e-8fe6-ef0fc4c9adeb",
+      "user_id": "5b3f44cc-e15e-4de2-ad59-9dfb285b637e",
+      "company_name": "Atlas Tech SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Valencia",
+        "address": "182 Market Street, Valencia, Spain"
+      },
+      "profile": {
+        "industry": "Biotechnology",
+        "company_size": "11-50",
+        "founded_year": 2013,
+        "description": "Atlas Tech operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-tech.sp",
+        "contact_email": "info@atlas-tech.sp",
+        "contact_phone": "+451 373108342"
+      },
+      "matching": {
+        "offers": "Atlas Tech offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_tech.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672038Z",
+        "updated_at": "2025-11-30T00:31:17.672039Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "282ddf54-b60c-4f2a-8314-61172255ab0b",
+      "user_id": "06c7a9ef-697c-4d20-bc77-ee337f2549ec",
+      "company_name": "Euro Systems ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Aarhus",
+        "address": "126 Market Street, Aarhus, Denmark"
+      },
+      "profile": {
+        "industry": "Logistics",
+        "company_size": "11-50",
+        "founded_year": 1996,
+        "description": "Euro Systems operates across Europe in the Logistics sector."
+      },
+      "contact": {
+        "website": "https://www.euro-systems.de",
+        "contact_email": "info@euro-systems.de",
+        "contact_phone": "+225 224081246"
+      },
+      "matching": {
+        "offers": "Euro Systems offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672058Z",
+        "updated_at": "2025-11-30T00:31:17.672059Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "c2e3d7d7-47ed-4f75-8eb9-1fd7383a2eba",
+      "user_id": "bc16aa9b-9784-41e3-9012-1d5d75615b49",
+      "company_name": "Euro Labs GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Hamburg",
+        "address": "4 Market Street, Hamburg, Germany"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "11-50",
+        "founded_year": 1983,
+        "description": "Euro Labs operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.euro-labs.ge",
+        "contact_email": "info@euro-labs.ge",
+        "contact_phone": "+479 373337748"
+      },
+      "matching": {
+        "offers": "Euro Labs offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672077Z",
+        "updated_at": "2025-11-30T00:31:17.672078Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "98a9b8b1-9b99-4246-bdde-43e7eaaa00d7",
+      "user_id": "2fa8db48-7e08-421e-a6db-b6b753aade64",
+      "company_name": "Euro Solutions SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Paris",
+        "address": "123 Market Street, Paris, France"
+      },
+      "profile": {
+        "industry": "FinTech",
+        "company_size": "201-500",
+        "founded_year": 2013,
+        "description": "Euro Solutions operates across Europe in the Manufacturing sector."
+      },
+      "contact": {
+        "website": "https://www.euro-solutions.fr",
+        "contact_email": "info@euro-solutions.fr",
+        "contact_phone": "+30 293282451"
+      },
+      "matching": {
+        "offers": "Euro Solutions offers services in FinTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672096Z",
+        "updated_at": "2025-11-30T00:31:17.672098Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "d4519d39-b8a3-4708-a40b-59873c9d6b1f",
+      "user_id": "83bd0e20-e9d5-4f5d-a917-f6454f602a5c",
+      "company_name": "Atlas Solutions AB",
+      "legal_form": "AB",
+      "location": {
+        "country": "Sweden",
+        "firmensitz": "Malmo",
+        "address": "141 Market Street, Malmo, Sweden"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "1-10",
+        "founded_year": 1970,
+        "description": "Atlas Solutions operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-solutions.sw",
+        "contact_email": "info@atlas-solutions.sw",
+        "contact_phone": "+469 375180894"
+      },
+      "matching": {
+        "offers": "Atlas Solutions offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672116Z",
+        "updated_at": "2025-11-30T00:31:17.672117Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "96adea26-6aa6-4c00-b9ed-b16bc6091e3d",
+      "user_id": "bc252603-0d47-4787-914c-680124a94855",
+      "company_name": "Future Energy S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Milan",
+        "address": "55 Market Street, Milan, Italy"
+      },
+      "profile": {
+        "industry": "Biotechnology",
+        "company_size": "201-500",
+        "founded_year": 1975,
+        "description": "Future Energy operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.future-energy.it",
+        "contact_email": "info@future-energy.it",
+        "contact_phone": "+158 273701367"
+      },
+      "matching": {
+        "offers": "Future Energy offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672135Z",
+        "updated_at": "2025-11-30T00:31:17.672137Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "e74d0d05-b364-44d2-b69c-3e65a662b184",
+      "user_id": "cbcae444-0fee-487a-b40d-e47d8ca43c8b",
+      "company_name": "Euro Group GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Berlin",
+        "address": "81 Market Street, Berlin, Germany"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "201-500",
+        "founded_year": 1950,
+        "description": "Euro Group operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.euro-group.ge",
+        "contact_email": "info@euro-group.ge",
+        "contact_phone": "+469 445373556"
+      },
+      "matching": {
+        "offers": "Euro Group offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672162Z",
+        "updated_at": "2025-11-30T00:31:17.672164Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "a96883ec-0467-43cd-9863-b3de778fbf24",
+      "user_id": "783ccc8c-988b-4290-a79e-69ad80d836cc",
+      "company_name": "Vertex Group S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Rome",
+        "address": "111 Market Street, Rome, Italy"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "501+",
+        "founded_year": 2005,
+        "description": "Vertex Group operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.vertex-group.it",
+        "contact_email": "info@vertex-group.it",
+        "contact_phone": "+467 176266893"
+      },
+      "matching": {
+        "offers": "Vertex Group offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/vertex_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672205Z",
+        "updated_at": "2025-11-30T00:31:17.672206Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ec3c237c-6b5d-4975-82fe-ed50d3cbb65d",
+      "user_id": "9962eee5-2de0-4f5a-bf95-3cd3abda0ad6",
+      "company_name": "Next Foods BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Amsterdam",
+        "address": "124 Market Street, Amsterdam, Netherlands"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "501+",
+        "founded_year": 2007,
+        "description": "Next Foods operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.next-foods.ne",
+        "contact_email": "info@next-foods.ne",
+        "contact_phone": "+67 139221712"
+      },
+      "matching": {
+        "offers": "Next Foods offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672225Z",
+        "updated_at": "2025-11-30T00:31:17.672227Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "24aae1a3-6a35-47b5-9f8b-d30352a8c7a8",
+      "user_id": "14701b4f-2f43-4bd3-9194-8d7ee8bda814",
+      "company_name": "Euro Solutions SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Marseille",
+        "address": "92 Market Street, Marseille, France"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "1-10",
+        "founded_year": 1980,
+        "description": "Euro Solutions operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.euro-solutions.fr",
+        "contact_email": "info@euro-solutions.fr",
+        "contact_phone": "+457 560456266"
+      },
+      "matching": {
+        "offers": "Euro Solutions offers services in FinTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672246Z",
+        "updated_at": "2025-11-30T00:31:17.672247Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "20137570-5fc9-4482-8c0d-c831292b9bd7",
+      "user_id": "740aa81e-2060-4217-8754-99386ca0ae3a",
+      "company_name": "Atlas Group SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Barcelona",
+        "address": "22 Market Street, Barcelona, Spain"
+      },
+      "profile": {
+        "industry": "FinTech",
+        "company_size": "1-10",
+        "founded_year": 2005,
+        "description": "Atlas Group operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-group.sp",
+        "contact_email": "info@atlas-group.sp",
+        "contact_phone": "+46 198210816"
+      },
+      "matching": {
+        "offers": "Atlas Group offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672266Z",
+        "updated_at": "2025-11-30T00:31:17.672267Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "6beeeeb9-a8f7-4e6c-85b5-37846fe9d8ff",
+      "user_id": "68b0e3df-1617-4fe0-9ccd-11a91bda3871",
+      "company_name": "Prime Group BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Utrecht",
+        "address": "87 Market Street, Utrecht, Netherlands"
+      },
+      "profile": {
+        "industry": "Biotechnology",
+        "company_size": "11-50",
+        "founded_year": 1972,
+        "description": "Prime Group operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.prime-group.ne",
+        "contact_email": "info@prime-group.ne",
+        "contact_phone": "+161 340329928"
+      },
+      "matching": {
+        "offers": "Prime Group offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672287Z",
+        "updated_at": "2025-11-30T00:31:17.672288Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "9c40f698-1f69-496e-a808-ed40955c6cf3",
+      "user_id": "404ad2f7-a07e-4711-84e6-7ee53a461dcd",
+      "company_name": "Blue Labs GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Cologne",
+        "address": "43 Market Street, Cologne, Germany"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "51-200",
+        "founded_year": 2013,
+        "description": "Blue Labs operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.blue-labs.ge",
+        "contact_email": "info@blue-labs.ge",
+        "contact_phone": "+347 637754814"
+      },
+      "matching": {
+        "offers": "Blue Labs offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672311Z",
+        "updated_at": "2025-11-30T00:31:17.672312Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "4e373353-5e1b-4a0c-89e0-3857ec92de14",
+      "user_id": "2382961c-1c5a-43d1-a223-1fb8f93dde26",
+      "company_name": "Prime Tech GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Hamburg",
+        "address": "142 Market Street, Hamburg, Germany"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "501+",
+        "founded_year": 1959,
+        "description": "Prime Tech operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.prime-tech.ge",
+        "contact_email": "info@prime-tech.ge",
+        "contact_phone": "+460 350020632"
+      },
+      "matching": {
+        "offers": "Prime Tech offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_tech.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672332Z",
+        "updated_at": "2025-11-30T00:31:17.672333Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "d0842107-67f6-45c5-885c-f078542fb591",
+      "user_id": "5e812783-a624-4940-9848-2c76cff0599a",
+      "company_name": "Atlas Solutions Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Warsaw",
+        "address": "124 Market Street, Warsaw, Poland"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "51-200",
+        "founded_year": 1989,
+        "description": "Atlas Solutions operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-solutions.po",
+        "contact_email": "info@atlas-solutions.po",
+        "contact_phone": "+470 412348171"
+      },
+      "matching": {
+        "offers": "Atlas Solutions offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672353Z",
+        "updated_at": "2025-11-30T00:31:17.672354Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "a4fff3fe-8095-4185-a0b5-ddab0da07264",
+      "user_id": "7809816a-9d6e-46ff-85ac-408182ae5574",
+      "company_name": "Nova Energy Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Warsaw",
+        "address": "29 Market Street, Warsaw, Poland"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "1-10",
+        "founded_year": 1980,
+        "description": "Nova Energy operates across Europe in the Renewable Energy sector."
+      },
+      "contact": {
+        "website": "https://www.nova-energy.po",
+        "contact_email": "info@nova-energy.po",
+        "contact_phone": "+94 460321164"
+      },
+      "matching": {
+        "offers": "Nova Energy offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672373Z",
+        "updated_at": "2025-11-30T00:31:17.672374Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "60622e5e-7b44-4ff8-ba5e-67561e1b2a8f",
+      "user_id": "80dac122-76bc-4aa6-87c9-574b03df4ad6",
+      "company_name": "Blue Systems S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Florence",
+        "address": "127 Market Street, Florence, Italy"
+      },
+      "profile": {
+        "industry": "Logistics",
+        "company_size": "501+",
+        "founded_year": 1964,
+        "description": "Blue Systems operates across Europe in the Logistics sector."
+      },
+      "contact": {
+        "website": "https://www.blue-systems.it",
+        "contact_email": "info@blue-systems.it",
+        "contact_phone": "+411 469932914"
+      },
+      "matching": {
+        "offers": "Blue Systems offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672393Z",
+        "updated_at": "2025-11-30T00:31:17.672395Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "021904d9-7720-41be-bf73-a1295f4e99a9",
+      "user_id": "bd06ff26-1444-4bba-a440-ac2be4d23e11",
+      "company_name": "Urban Consulting SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Valencia",
+        "address": "171 Market Street, Valencia, Spain"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "1-10",
+        "founded_year": 1998,
+        "description": "Urban Consulting operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.urban-consulting.sp",
+        "contact_email": "info@urban-consulting.sp",
+        "contact_phone": "+460 527505814"
+      },
+      "matching": {
+        "offers": "Urban Consulting offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672416Z",
+        "updated_at": "2025-11-30T00:31:17.672417Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "571060ce-be54-432a-a70b-6444fb615cee",
+      "user_id": "55c2853f-aee6-4ea2-a744-1e4618450a0f",
+      "company_name": "Urban Group S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Rome",
+        "address": "81 Market Street, Rome, Italy"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "11-50",
+        "founded_year": 1990,
+        "description": "Urban Group operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.urban-group.it",
+        "contact_email": "info@urban-group.it",
+        "contact_phone": "+104 984337689"
+      },
+      "matching": {
+        "offers": "Urban Group offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672436Z",
+        "updated_at": "2025-11-30T00:31:17.672437Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ecac1ab3-66db-4773-a51c-7d5fef2ead9f",
+      "user_id": "69463c21-8c4c-4784-9747-4eee1a017da4",
+      "company_name": "Green Systems SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Paris",
+        "address": "12 Market Street, Paris, France"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "1-10",
+        "founded_year": 2008,
+        "description": "Green Systems operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.green-systems.fr",
+        "contact_email": "info@green-systems.fr",
+        "contact_phone": "+226 598945018"
+      },
+      "matching": {
+        "offers": "Green Systems offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/green_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672455Z",
+        "updated_at": "2025-11-30T00:31:17.672456Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "99c9df14-3489-423f-99b9-3713a989598e",
+      "user_id": "33d2f36d-86f1-4b7a-8afc-11cb93c3d6dd",
+      "company_name": "Vertex Energy GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Berlin",
+        "address": "137 Market Street, Berlin, Germany"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "51-200",
+        "founded_year": 2009,
+        "description": "Vertex Energy operates across Europe in the FinTech sector."
+      },
+      "contact": {
+        "website": "https://www.vertex-energy.ge",
+        "contact_email": "info@vertex-energy.ge",
+        "contact_phone": "+473 674898815"
+      },
+      "matching": {
+        "offers": "Vertex Energy offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/vertex_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672475Z",
+        "updated_at": "2025-11-30T00:31:17.672476Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "6eed0c1d-932e-420b-9554-dc6ffd0d2fa0",
+      "user_id": "3ae70a87-62b3-4d14-b975-04748aea5698",
+      "company_name": "Urban Energy Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Gdansk",
+        "address": "117 Market Street, Gdansk, Poland"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "201-500",
+        "founded_year": 2002,
+        "description": "Urban Energy operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.urban-energy.po",
+        "contact_email": "info@urban-energy.po",
+        "contact_phone": "+189 718899097"
+      },
+      "matching": {
+        "offers": "Urban Energy offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672495Z",
+        "updated_at": "2025-11-30T00:31:17.672496Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "2a808bef-f8aa-42bc-9d7d-e349e0bbcb57",
+      "user_id": "c8de0935-7d1a-4c45-8d71-11abe5a2fc35",
+      "company_name": "Vertex Foods Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Krakow",
+        "address": "92 Market Street, Krakow, Poland"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "11-50",
+        "founded_year": 1958,
+        "description": "Vertex Foods operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.vertex-foods.po",
+        "contact_email": "info@vertex-foods.po",
+        "contact_phone": "+472 958831571"
+      },
+      "matching": {
+        "offers": "Vertex Foods offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/vertex_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672526Z",
+        "updated_at": "2025-11-30T00:31:17.672527Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "f6f514b2-8e64-4d0d-8027-7d6741e092d2",
+      "user_id": "1efbd1a1-49f1-4c2c-a740-d24cf2acd270",
+      "company_name": "Nova Systems ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Aarhus",
+        "address": "166 Market Street, Aarhus, Denmark"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "501+",
+        "founded_year": 2008,
+        "description": "Nova Systems operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.nova-systems.de",
+        "contact_email": "info@nova-systems.de",
+        "contact_phone": "+364 638634927"
+      },
+      "matching": {
+        "offers": "Nova Systems offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672611Z",
+        "updated_at": "2025-11-30T00:31:17.672612Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "f8470815-c5a5-49d2-8527-9445a6b067b7",
+      "user_id": "766ca9fb-bd4d-42a4-b4f0-1b7d5de30a09",
+      "company_name": "Urban Consulting BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Rotterdam",
+        "address": "169 Market Street, Rotterdam, Netherlands"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "501+",
+        "founded_year": 2020,
+        "description": "Urban Consulting operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.urban-consulting.ne",
+        "contact_email": "info@urban-consulting.ne",
+        "contact_phone": "+111 907742432"
+      },
+      "matching": {
+        "offers": "Urban Consulting offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672636Z",
+        "updated_at": "2025-11-30T00:31:17.672638Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "a530a60f-cb04-471a-8a0b-5d8f0169a6d3",
+      "user_id": "779bfca0-940f-44fe-a80a-a274ae7966e2",
+      "company_name": "Vertex Energy Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Gdansk",
+        "address": "169 Market Street, Gdansk, Poland"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "51-200",
+        "founded_year": 1986,
+        "description": "Vertex Energy operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.vertex-energy.po",
+        "contact_email": "info@vertex-energy.po",
+        "contact_phone": "+162 752371667"
+      },
+      "matching": {
+        "offers": "Vertex Energy offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/vertex_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672660Z",
+        "updated_at": "2025-11-30T00:31:17.672661Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "b1565825-7836-4a42-a5e6-4a52428b7e31",
+      "user_id": "ff37ab3f-c7ec-46d1-9084-d90a089d820f",
+      "company_name": "Atlas Group S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Naples",
+        "address": "122 Market Street, Naples, Italy"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "51-200",
+        "founded_year": 1991,
+        "description": "Atlas Group operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-group.it",
+        "contact_email": "info@atlas-group.it",
+        "contact_phone": "+123 834172961"
+      },
+      "matching": {
+        "offers": "Atlas Group offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672686Z",
+        "updated_at": "2025-11-30T00:31:17.672688Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "527862b6-2064-4497-b67b-8aae63ec7b1c",
+      "user_id": "b48c6ea2-26d7-40f2-b76c-1a6b5723abeb",
+      "company_name": "Future Consulting BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Utrecht",
+        "address": "76 Market Street, Utrecht, Netherlands"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "1-10",
+        "founded_year": 1980,
+        "description": "Future Consulting operates across Europe in the Manufacturing sector."
+      },
+      "contact": {
+        "website": "https://www.future-consulting.ne",
+        "contact_email": "info@future-consulting.ne",
+        "contact_phone": "+228 136534495"
+      },
+      "matching": {
+        "offers": "Future Consulting offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672723Z",
+        "updated_at": "2025-11-30T00:31:17.672724Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "d50dba48-10d8-4230-94f1-6e146dfd95ab",
+      "user_id": "b3b97405-46e3-4d33-ba49-8c462e2fc801",
+      "company_name": "Vertex Group SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Seville",
+        "address": "63 Market Street, Seville, Spain"
+      },
+      "profile": {
+        "industry": "Logistics",
+        "company_size": "501+",
+        "founded_year": 1989,
+        "description": "Vertex Group operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.vertex-group.sp",
+        "contact_email": "info@vertex-group.sp",
+        "contact_phone": "+96 521789471"
+      },
+      "matching": {
+        "offers": "Vertex Group offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/vertex_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672743Z",
+        "updated_at": "2025-11-30T00:31:17.672745Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "cbcb3400-2519-4470-8e7a-baf510443bbe",
+      "user_id": "d166a288-76ea-43ea-b4f0-bf834647c957",
+      "company_name": "Green Solutions ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Odense",
+        "address": "177 Market Street, Odense, Denmark"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "1-10",
+        "founded_year": 1975,
+        "description": "Green Solutions operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.green-solutions.de",
+        "contact_email": "info@green-solutions.de",
+        "contact_phone": "+400 307134317"
+      },
+      "matching": {
+        "offers": "Green Solutions offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/green_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672766Z",
+        "updated_at": "2025-11-30T00:31:17.672768Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "d8c35277-2099-42e7-be5f-92b636f70b52",
+      "user_id": "5584e01d-d6e8-42b4-9f77-b44f1fa5c77d",
+      "company_name": "Urban Consulting SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Barcelona",
+        "address": "132 Market Street, Barcelona, Spain"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "201-500",
+        "founded_year": 1986,
+        "description": "Urban Consulting operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.urban-consulting.sp",
+        "contact_email": "info@urban-consulting.sp",
+        "contact_phone": "+63 441494073"
+      },
+      "matching": {
+        "offers": "Urban Consulting offers services in Logistics.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672802Z",
+        "updated_at": "2025-11-30T00:31:17.672804Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ff89c07b-0e21-4e35-9bd7-2eb65ce7c9d5",
+      "user_id": "82215dc6-1a6c-48cf-9b9b-26a2f949686e",
+      "company_name": "Future Labs Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Warsaw",
+        "address": "7 Market Street, Warsaw, Poland"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "1-10",
+        "founded_year": 2001,
+        "description": "Future Labs operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.future-labs.po",
+        "contact_email": "info@future-labs.po",
+        "contact_phone": "+273 171355116"
+      },
+      "matching": {
+        "offers": "Future Labs offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672821Z",
+        "updated_at": "2025-11-30T00:31:17.672822Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "53dae3d6-be47-400a-ad59-085df0f43911",
+      "user_id": "785f835c-c734-4104-9676-d3f103488f3b",
+      "company_name": "Future Systems ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Copenhagen",
+        "address": "171 Market Street, Copenhagen, Denmark"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "501+",
+        "founded_year": 1990,
+        "description": "Future Systems operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.future-systems.de",
+        "contact_email": "info@future-systems.de",
+        "contact_phone": "+365 970626899"
+      },
+      "matching": {
+        "offers": "Future Systems offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672839Z",
+        "updated_at": "2025-11-30T00:31:17.672840Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ca8ca90d-2139-46c5-bb71-8753788e99cd",
+      "user_id": "d4052b3d-c1ca-4f73-9d41-f2a85ea5a4e8",
+      "company_name": "Future Foods ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Copenhagen",
+        "address": "186 Market Street, Copenhagen, Denmark"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "51-200",
+        "founded_year": 1954,
+        "description": "Future Foods operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.future-foods.de",
+        "contact_email": "info@future-foods.de",
+        "contact_phone": "+388 171279403"
+      },
+      "matching": {
+        "offers": "Future Foods offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672865Z",
+        "updated_at": "2025-11-30T00:31:17.672867Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ba6d47ce-c442-4ab0-921d-f372927503b5",
+      "user_id": "bbed1ec8-058e-49cf-bfb8-3f370cbc11d1",
+      "company_name": "Green Systems SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Lille",
+        "address": "36 Market Street, Lille, France"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "501+",
+        "founded_year": 1974,
+        "description": "Green Systems operates across Europe in the Renewable Energy sector."
+      },
+      "contact": {
+        "website": "https://www.green-systems.fr",
+        "contact_email": "info@green-systems.fr",
+        "contact_phone": "+292 667599259"
+      },
+      "matching": {
+        "offers": "Green Systems offers services in FinTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/green_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672911Z",
+        "updated_at": "2025-11-30T00:31:17.672913Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "edd4ea19-e18e-4086-80b3-cbd8ba38131e",
+      "user_id": "e35b3fa6-99ef-4b6c-aad5-58003160ffc1",
+      "company_name": "Euro Foods BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Rotterdam",
+        "address": "37 Market Street, Rotterdam, Netherlands"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "1-10",
+        "founded_year": 2004,
+        "description": "Euro Foods operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.euro-foods.ne",
+        "contact_email": "info@euro-foods.ne",
+        "contact_phone": "+443 919768300"
+      },
+      "matching": {
+        "offers": "Euro Foods offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672948Z",
+        "updated_at": "2025-11-30T00:31:17.672949Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "c5d3f08e-1b1b-44f3-b4d7-a32e9c32e75a",
+      "user_id": "743d794c-92c5-4f61-9083-255a82dde67c",
+      "company_name": "Next Systems Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Gdansk",
+        "address": "175 Market Street, Gdansk, Poland"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "201-500",
+        "founded_year": 2004,
+        "description": "Next Systems operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.next-systems.po",
+        "contact_email": "info@next-systems.po",
+        "contact_phone": "+218 112380486"
+      },
+      "matching": {
+        "offers": "Next Systems offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672967Z",
+        "updated_at": "2025-11-30T00:31:17.672968Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "3b330c92-38b0-4d51-8f1b-63ad04f53c36",
+      "user_id": "a9548ca2-454a-4585-9ce2-bd31a6c8eb9e",
+      "company_name": "Euro Digital SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Seville",
+        "address": "128 Market Street, Seville, Spain"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "201-500",
+        "founded_year": 1962,
+        "description": "Euro Digital operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.euro-digital.sp",
+        "contact_email": "info@euro-digital.sp",
+        "contact_phone": "+74 137349066"
+      },
+      "matching": {
+        "offers": "Euro Digital offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.672987Z",
+        "updated_at": "2025-11-30T00:31:17.672988Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "fbbadcd1-c889-4dfb-a559-f75030d42a2e",
+      "user_id": "7df968af-2cfa-4f74-b94b-e0d7b16b225d",
+      "company_name": "Blue Systems GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Hamburg",
+        "address": "66 Market Street, Hamburg, Germany"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "1-10",
+        "founded_year": 1960,
+        "description": "Blue Systems operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.blue-systems.ge",
+        "contact_email": "info@blue-systems.ge",
+        "contact_phone": "+54 877219243"
+      },
+      "matching": {
+        "offers": "Blue Systems offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_systems.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673006Z",
+        "updated_at": "2025-11-30T00:31:17.673007Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "a95bea07-b72b-4b95-b4d8-d29cc504ab6c",
+      "user_id": "71a12ca3-6874-4c21-80b9-abfa54032fb2",
+      "company_name": "Nova Tech S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Milan",
+        "address": "25 Market Street, Milan, Italy"
+      },
+      "profile": {
+        "industry": "Biotechnology",
+        "company_size": "201-500",
+        "founded_year": 1956,
+        "description": "Nova Tech operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.nova-tech.it",
+        "contact_email": "info@nova-tech.it",
+        "contact_phone": "+341 218024433"
+      },
+      "matching": {
+        "offers": "Nova Tech offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_tech.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673024Z",
+        "updated_at": "2025-11-30T00:31:17.673025Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "8c3dc5f0-eea7-4bb7-80a4-5fe4cfd9353c",
+      "user_id": "f4929b5a-e4b0-4514-9946-ac4da25f3f14",
+      "company_name": "Blue Energy S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Naples",
+        "address": "12 Market Street, Naples, Italy"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "501+",
+        "founded_year": 1985,
+        "description": "Blue Energy operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.blue-energy.it",
+        "contact_email": "info@blue-energy.it",
+        "contact_phone": "+446 831114814"
+      },
+      "matching": {
+        "offers": "Blue Energy offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673045Z",
+        "updated_at": "2025-11-30T00:31:17.673046Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "9d89691d-f10b-490a-be26-6d6eea050300",
+      "user_id": "b50ee171-71c9-465b-acbe-8b81352221a5",
+      "company_name": "Prime Digital Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Warsaw",
+        "address": "1 Market Street, Warsaw, Poland"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "51-200",
+        "founded_year": 1964,
+        "description": "Prime Digital operates across Europe in the FinTech sector."
+      },
+      "contact": {
+        "website": "https://www.prime-digital.po",
+        "contact_email": "info@prime-digital.po",
+        "contact_phone": "+284 956691180"
+      },
+      "matching": {
+        "offers": "Prime Digital offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673064Z",
+        "updated_at": "2025-11-30T00:31:17.673065Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "a296032e-b1c8-4d3e-8438-2c84f2c9b518",
+      "user_id": "e092613a-9375-447b-ab72-11d29fca377a",
+      "company_name": "Blue Labs BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Eindhoven",
+        "address": "112 Market Street, Eindhoven, Netherlands"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "51-200",
+        "founded_year": 1980,
+        "description": "Blue Labs operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.blue-labs.ne",
+        "contact_email": "info@blue-labs.ne",
+        "contact_phone": "+388 401455103"
+      },
+      "matching": {
+        "offers": "Blue Labs offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673082Z",
+        "updated_at": "2025-11-30T00:31:17.673084Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "b0d5b56f-09ba-40ca-aff9-f8d0f88059d3",
+      "user_id": "e5a3f461-b757-47aa-9642-bd6c0193c721",
+      "company_name": "Atlas Group S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Turin",
+        "address": "129 Market Street, Turin, Italy"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "1-10",
+        "founded_year": 1962,
+        "description": "Atlas Group operates across Europe in the Manufacturing sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-group.it",
+        "contact_email": "info@atlas-group.it",
+        "contact_phone": "+361 237416451"
+      },
+      "matching": {
+        "offers": "Atlas Group offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673100Z",
+        "updated_at": "2025-11-30T00:31:17.673101Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "f754b142-7a72-4dd2-b7b0-ee707483831e",
+      "user_id": "39f81db7-1bf5-427e-8f25-c06a5d0da5bc",
+      "company_name": "Green Foods SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Seville",
+        "address": "198 Market Street, Seville, Spain"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "1-10",
+        "founded_year": 1951,
+        "description": "Green Foods operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.green-foods.sp",
+        "contact_email": "info@green-foods.sp",
+        "contact_phone": "+432 642350714"
+      },
+      "matching": {
+        "offers": "Green Foods offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/green_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673122Z",
+        "updated_at": "2025-11-30T00:31:17.673123Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "6662ea5d-ac08-4a41-8ac8-a64ca7b0d92d",
+      "user_id": "488ba08f-4b34-42d4-b958-c130e0b38b18",
+      "company_name": "Prime Energy S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Naples",
+        "address": "48 Market Street, Naples, Italy"
+      },
+      "profile": {
+        "industry": "FinTech",
+        "company_size": "51-200",
+        "founded_year": 2001,
+        "description": "Prime Energy operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.prime-energy.it",
+        "contact_email": "info@prime-energy.it",
+        "contact_phone": "+364 130169684"
+      },
+      "matching": {
+        "offers": "Prime Energy offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673142Z",
+        "updated_at": "2025-11-30T00:31:17.673143Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "85e50088-db7a-437e-85f6-a69bb602a366",
+      "user_id": "ccf69e62-ed2c-4484-9ae1-33a38c49a784",
+      "company_name": "Future Group ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Copenhagen",
+        "address": "152 Market Street, Copenhagen, Denmark"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "501+",
+        "founded_year": 2004,
+        "description": "Future Group operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.future-group.de",
+        "contact_email": "info@future-group.de",
+        "contact_phone": "+195 610441420"
+      },
+      "matching": {
+        "offers": "Future Group offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673162Z",
+        "updated_at": "2025-11-30T00:31:17.673163Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "12216d8c-0bdd-4258-8407-339b30f11222",
+      "user_id": "8ca962e6-af84-41e0-9ba6-909da00579b7",
+      "company_name": "Nova Consulting GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Stuttgart",
+        "address": "66 Market Street, Stuttgart, Germany"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "51-200",
+        "founded_year": 1981,
+        "description": "Nova Consulting operates across Europe in the Manufacturing sector."
+      },
+      "contact": {
+        "website": "https://www.nova-consulting.ge",
+        "contact_email": "info@nova-consulting.ge",
+        "contact_phone": "+454 898617309"
+      },
+      "matching": {
+        "offers": "Nova Consulting offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673182Z",
+        "updated_at": "2025-11-30T00:31:17.673184Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "1ae2bee4-5dc0-4b08-b818-61799e395d13",
+      "user_id": "9b0e77da-11cd-440d-b3a8-a7bd89c48e94",
+      "company_name": "Atlas Group SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Toulouse",
+        "address": "114 Market Street, Toulouse, France"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "11-50",
+        "founded_year": 2022,
+        "description": "Atlas Group operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-group.fr",
+        "contact_email": "info@atlas-group.fr",
+        "contact_phone": "+110 160712090"
+      },
+      "matching": {
+        "offers": "Atlas Group offers services in FinTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673202Z",
+        "updated_at": "2025-11-30T00:31:17.673203Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "c4c93f62-00ae-42a3-807b-2b3c7bfd720b",
+      "user_id": "bee557d5-7e9f-4fe7-83dd-769d9cb83830",
+      "company_name": "Atlas Digital GmbH",
+      "legal_form": "GmbH",
+      "location": {
+        "country": "Germany",
+        "firmensitz": "Cologne",
+        "address": "45 Market Street, Cologne, Germany"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "11-50",
+        "founded_year": 1975,
+        "description": "Atlas Digital operates across Europe in the Logistics sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-digital.ge",
+        "contact_email": "info@atlas-digital.ge",
+        "contact_phone": "+119 506212746"
+      },
+      "matching": {
+        "offers": "Atlas Digital offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673228Z",
+        "updated_at": "2025-11-30T00:31:17.673229Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "6c0ee01e-db88-4b9c-a9f9-67ab7cf06e72",
+      "user_id": "9c53ab18-d956-4f4b-b830-f7d851998ddd",
+      "company_name": "Urban Foods SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Paris",
+        "address": "190 Market Street, Paris, France"
+      },
+      "profile": {
+        "industry": "FinTech",
+        "company_size": "51-200",
+        "founded_year": 1960,
+        "description": "Urban Foods operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.urban-foods.fr",
+        "contact_email": "info@urban-foods.fr",
+        "contact_phone": "+198 385064994"
+      },
+      "matching": {
+        "offers": "Urban Foods offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673275Z",
+        "updated_at": "2025-11-30T00:31:17.673277Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "02f95435-6dda-4dfe-854b-17ad504afd44",
+      "user_id": "e0c0194c-959d-4242-9520-5d086e6a8f01",
+      "company_name": "Atlas Labs S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Rome",
+        "address": "120 Market Street, Rome, Italy"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "501+",
+        "founded_year": 2019,
+        "description": "Atlas Labs operates across Europe in the Food & Beverage sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-labs.it",
+        "contact_email": "info@atlas-labs.it",
+        "contact_phone": "+40 742173597"
+      },
+      "matching": {
+        "offers": "Atlas Labs offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673295Z",
+        "updated_at": "2025-11-30T00:31:17.673297Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "51550278-796b-4d23-bc68-264db83c8da7",
+      "user_id": "e42800e7-97eb-4b95-aeb7-097fdd4120ca",
+      "company_name": "Nova Labs SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Lille",
+        "address": "194 Market Street, Lille, France"
+      },
+      "profile": {
+        "industry": "Biotechnology",
+        "company_size": "1-10",
+        "founded_year": 1987,
+        "description": "Nova Labs operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.nova-labs.fr",
+        "contact_email": "info@nova-labs.fr",
+        "contact_phone": "+243 834627286"
+      },
+      "matching": {
+        "offers": "Nova Labs offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_labs.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673315Z",
+        "updated_at": "2025-11-30T00:31:17.673316Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "acd95528-14fe-4653-8259-fd37df400de4",
+      "user_id": "e942ed29-41b0-4785-984e-5548d0ba64b6",
+      "company_name": "Prime Solutions Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Gdansk",
+        "address": "36 Market Street, Gdansk, Poland"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "11-50",
+        "founded_year": 1953,
+        "description": "Prime Solutions operates across Europe in the Renewable Energy sector."
+      },
+      "contact": {
+        "website": "https://www.prime-solutions.po",
+        "contact_email": "info@prime-solutions.po",
+        "contact_phone": "+453 232608031"
+      },
+      "matching": {
+        "offers": "Prime Solutions offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/prime_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673333Z",
+        "updated_at": "2025-11-30T00:31:17.673334Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "04df9e84-0832-45ce-8aad-1db4c4310677",
+      "user_id": "d120aea8-7131-4939-94a3-8de561b1de5d",
+      "company_name": "Blue Consulting ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Copenhagen",
+        "address": "130 Market Street, Copenhagen, Denmark"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "51-200",
+        "founded_year": 1982,
+        "description": "Blue Consulting operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.blue-consulting.de",
+        "contact_email": "info@blue-consulting.de",
+        "contact_phone": "+375 251368903"
+      },
+      "matching": {
+        "offers": "Blue Consulting offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673352Z",
+        "updated_at": "2025-11-30T00:31:17.673353Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "ae02bd2e-f491-4e3a-8a2c-338663049749",
+      "user_id": "d6ab2b2d-bb97-46eb-9c17-afcc43838017",
+      "company_name": "Euro Digital BV",
+      "legal_form": "BV",
+      "location": {
+        "country": "Netherlands",
+        "firmensitz": "Utrecht",
+        "address": "63 Market Street, Utrecht, Netherlands"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "51-200",
+        "founded_year": 1978,
+        "description": "Euro Digital operates across Europe in the Logistics sector."
+      },
+      "contact": {
+        "website": "https://www.euro-digital.ne",
+        "contact_email": "info@euro-digital.ne",
+        "contact_phone": "+472 542977576"
+      },
+      "matching": {
+        "offers": "Euro Digital offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/euro_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673372Z",
+        "updated_at": "2025-11-30T00:31:17.673374Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "03bf2fc6-2a87-4f5b-b08f-24a6368cbdcb",
+      "user_id": "220c4731-5f19-4d76-bdb8-a0f5bae65e26",
+      "company_name": "Nova Digital S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Milan",
+        "address": "11 Market Street, Milan, Italy"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "1-10",
+        "founded_year": 2008,
+        "description": "Nova Digital operates across Europe in the FinTech sector."
+      },
+      "contact": {
+        "website": "https://www.nova-digital.it",
+        "contact_email": "info@nova-digital.it",
+        "contact_phone": "+238 510175418"
+      },
+      "matching": {
+        "offers": "Nova Digital offers services in Manufacturing.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673392Z",
+        "updated_at": "2025-11-30T00:31:17.673394Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "5801285a-1f42-411d-9442-17439881391d",
+      "user_id": "97344bfa-a3f1-48ba-a1ff-7fed63013bfe",
+      "company_name": "Blue Consulting ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Copenhagen",
+        "address": "87 Market Street, Copenhagen, Denmark"
+      },
+      "profile": {
+        "industry": "Renewable Energy",
+        "company_size": "1-10",
+        "founded_year": 1988,
+        "description": "Blue Consulting operates across Europe in the Biotechnology sector."
+      },
+      "contact": {
+        "website": "https://www.blue-consulting.de",
+        "contact_email": "info@blue-consulting.de",
+        "contact_phone": "+125 435551033"
+      },
+      "matching": {
+        "offers": "Blue Consulting offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673413Z",
+        "updated_at": "2025-11-30T00:31:17.673414Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "1f76c259-d91f-435e-a443-dd24c7bd655c",
+      "user_id": "d53883a1-4f18-44a9-9d7b-16756da85b9c",
+      "company_name": "Urban Digital SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Paris",
+        "address": "19 Market Street, Paris, France"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "51-200",
+        "founded_year": 1955,
+        "description": "Urban Digital operates across Europe in the Renewable Energy sector."
+      },
+      "contact": {
+        "website": "https://www.urban-digital.fr",
+        "contact_email": "info@urban-digital.fr",
+        "contact_phone": "+42 234021045"
+      },
+      "matching": {
+        "offers": "Urban Digital offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/urban_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673431Z",
+        "updated_at": "2025-11-30T00:31:17.673433Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "fd4bc445-f066-4004-a8f7-4777db4f2812",
+      "user_id": "5e9ff048-69da-4f54-94ac-e1b7848ae7e9",
+      "company_name": "Future Foods ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Aarhus",
+        "address": "197 Market Street, Aarhus, Denmark"
+      },
+      "profile": {
+        "industry": "AI & Machine Learning",
+        "company_size": "51-200",
+        "founded_year": 2006,
+        "description": "Future Foods operates across Europe in the Renewable Energy sector."
+      },
+      "contact": {
+        "website": "https://www.future-foods.de",
+        "contact_email": "info@future-foods.de",
+        "contact_phone": "+424 938812955"
+      },
+      "matching": {
+        "offers": "Future Foods offers services in Biotechnology.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673449Z",
+        "updated_at": "2025-11-30T00:31:17.673451Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "899e30c5-a5a2-4ee3-a1e1-b02e762de4d6",
+      "user_id": "ff5c17e4-1025-45b3-950c-1abe7e9dd5b7",
+      "company_name": "Next Group Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Warsaw",
+        "address": "76 Market Street, Warsaw, Poland"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "1-10",
+        "founded_year": 1991,
+        "description": "Next Group operates across Europe in the Manufacturing sector."
+      },
+      "contact": {
+        "website": "https://www.next-group.po",
+        "contact_email": "info@next-group.po",
+        "contact_phone": "+213 578041068"
+      },
+      "matching": {
+        "offers": "Next Group offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673468Z",
+        "updated_at": "2025-11-30T00:31:17.673469Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "5c2db5bd-360b-4fb1-9ad5-4613a328a042",
+      "user_id": "d9c0f836-5003-42f6-9bf2-7a630b0f7c26",
+      "company_name": "Future Consulting ApS",
+      "legal_form": "ApS",
+      "location": {
+        "country": "Denmark",
+        "firmensitz": "Aarhus",
+        "address": "114 Market Street, Aarhus, Denmark"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "11-50",
+        "founded_year": 2021,
+        "description": "Future Consulting operates across Europe in the FinTech sector."
+      },
+      "contact": {
+        "website": "https://www.future-consulting.de",
+        "contact_email": "info@future-consulting.de",
+        "contact_phone": "+382 931931873"
+      },
+      "matching": {
+        "offers": "Future Consulting offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_consulting.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673488Z",
+        "updated_at": "2025-11-30T00:31:17.673489Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "32b2ed29-5899-4046-bf46-fc1281a47ee7",
+      "user_id": "8202adf2-790f-42ee-954a-b146b5f940f1",
+      "company_name": "Nova Tech SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Toulouse",
+        "address": "9 Market Street, Toulouse, France"
+      },
+      "profile": {
+        "industry": "Software",
+        "company_size": "11-50",
+        "founded_year": 2021,
+        "description": "Nova Tech operates across Europe in the Software sector."
+      },
+      "contact": {
+        "website": "https://www.nova-tech.fr",
+        "contact_email": "info@nova-tech.fr",
+        "contact_phone": "+142 933121980"
+      },
+      "matching": {
+        "offers": "Nova Tech offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_tech.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673509Z",
+        "updated_at": "2025-11-30T00:31:17.673510Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "b59ba901-4958-4731-b252-f0b7d91eeea1",
+      "user_id": "14c1aef9-a6e3-4f6c-9963-e66fc7e829ee",
+      "company_name": "Blue Digital SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Madrid",
+        "address": "53 Market Street, Madrid, Spain"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "201-500",
+        "founded_year": 1965,
+        "description": "Blue Digital operates across Europe in the Manufacturing sector."
+      },
+      "contact": {
+        "website": "https://www.blue-digital.sp",
+        "contact_email": "info@blue-digital.sp",
+        "contact_phone": "+263 629600204"
+      },
+      "matching": {
+        "offers": "Blue Digital offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_digital.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673532Z",
+        "updated_at": "2025-11-30T00:31:17.673533Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "adf4d7be-3854-4993-b59e-2daa4e647edc",
+      "user_id": "5ee9357f-e348-4643-8b9c-4e2670bb494e",
+      "company_name": "Vertex Solutions S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Naples",
+        "address": "95 Market Street, Naples, Italy"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "11-50",
+        "founded_year": 2016,
+        "description": "Vertex Solutions operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.vertex-solutions.it",
+        "contact_email": "info@vertex-solutions.it",
+        "contact_phone": "+143 578113050"
+      },
+      "matching": {
+        "offers": "Vertex Solutions offers services in AI & Machine Learning.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/vertex_solutions.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673551Z",
+        "updated_at": "2025-11-30T00:31:17.673552Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "8b5c67f4-5590-4ec6-9f9d-5d1c84577c96",
+      "user_id": "9bc45bc4-be96-4792-b678-d684970f592e",
+      "company_name": "Atlas Foods Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Krakow",
+        "address": "130 Market Street, Krakow, Poland"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "51-200",
+        "founded_year": 1963,
+        "description": "Atlas Foods operates across Europe in the FinTech sector."
+      },
+      "contact": {
+        "website": "https://www.atlas-foods.po",
+        "contact_email": "info@atlas-foods.po",
+        "contact_phone": "+262 439425433"
+      },
+      "matching": {
+        "offers": "Atlas Foods offers services in Renewable Energy.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/atlas_foods.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673569Z",
+        "updated_at": "2025-11-30T00:31:17.673571Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "e15d9da0-73f6-4fc6-ade9-640570d72619",
+      "user_id": "6baca991-a884-4ef6-a977-e9700d46c499",
+      "company_name": "Future Group Sp. z o.o.",
+      "legal_form": "Sp. z o.o.",
+      "location": {
+        "country": "Poland",
+        "firmensitz": "Wroclaw",
+        "address": "163 Market Street, Wroclaw, Poland"
+      },
+      "profile": {
+        "industry": "Consulting",
+        "company_size": "501+",
+        "founded_year": 1970,
+        "description": "Future Group operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.future-group.po",
+        "contact_email": "info@future-group.po",
+        "contact_phone": "+198 722349429"
+      },
+      "matching": {
+        "offers": "Future Group offers services in Food & Beverage.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_group.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673600Z",
+        "updated_at": "2025-11-30T00:31:17.673601Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "0a82744b-f2a3-4e4e-83a0-d0a4714b3f68",
+      "user_id": "e80ac127-d735-4b2d-bfa3-ccd53660add3",
+      "company_name": "Next Energy S.r.l.",
+      "legal_form": "S.r.l.",
+      "location": {
+        "country": "Italy",
+        "firmensitz": "Rome",
+        "address": "121 Market Street, Rome, Italy"
+      },
+      "profile": {
+        "industry": "Manufacturing",
+        "company_size": "51-200",
+        "founded_year": 2007,
+        "description": "Next Energy operates across Europe in the EdTech sector."
+      },
+      "contact": {
+        "website": "https://www.next-energy.it",
+        "contact_email": "info@next-energy.it",
+        "contact_phone": "+102 961962257"
+      },
+      "matching": {
+        "offers": "Next Energy offers services in Logistics.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/next_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673619Z",
+        "updated_at": "2025-11-30T00:31:17.673620Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "f7e248d7-a185-415a-9f0f-24f0775d98e1",
+      "user_id": "0a7cdeae-d922-47cb-9fe9-12065aa9b4c9",
+      "company_name": "Future Energy SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Valencia",
+        "address": "106 Market Street, Valencia, Spain"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "501+",
+        "founded_year": 1975,
+        "description": "Future Energy operates across Europe in the Logistics sector."
+      },
+      "contact": {
+        "website": "https://www.future-energy.sp",
+        "contact_email": "info@future-energy.sp",
+        "contact_phone": "+83 430130207"
+      },
+      "matching": {
+        "offers": "Future Energy offers services in Consulting.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/future_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": false,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673638Z",
+        "updated_at": "2025-11-30T00:31:17.673639Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "1e80f18f-48f4-4d3e-9544-cfa888b249ad",
+      "user_id": "1e247db7-735b-407f-8674-1a82831d74bc",
+      "company_name": "Blue Energy SL",
+      "legal_form": "SL",
+      "location": {
+        "country": "Spain",
+        "firmensitz": "Barcelona",
+        "address": "20 Market Street, Barcelona, Spain"
+      },
+      "profile": {
+        "industry": "EdTech",
+        "company_size": "1-10",
+        "founded_year": 1977,
+        "description": "Blue Energy operates across Europe in the Consulting sector."
+      },
+      "contact": {
+        "website": "https://www.blue-energy.sp",
+        "contact_email": "info@blue-energy.sp",
+        "contact_phone": "+32 190489577"
+      },
+      "matching": {
+        "offers": "Blue Energy offers services in Software.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/blue_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673656Z",
+        "updated_at": "2025-11-30T00:31:17.673657Z"
+      }
+    }
+  },
+  {
+    "company": {
+      "id": "3feb8a6b-4b32-4f3b-869e-5c7b87e46e8a",
+      "user_id": "b9aba43e-fa5b-4dba-81e5-132b7b18902c",
+      "company_name": "Nova Energy SARL",
+      "legal_form": "SARL",
+      "location": {
+        "country": "France",
+        "firmensitz": "Lille",
+        "address": "96 Market Street, Lille, France"
+      },
+      "profile": {
+        "industry": "Food & Beverage",
+        "company_size": "501+",
+        "founded_year": 2016,
+        "description": "Nova Energy operates across Europe in the AI & Machine Learning sector."
+      },
+      "contact": {
+        "website": "https://www.nova-energy.fr",
+        "contact_email": "info@nova-energy.fr",
+        "contact_phone": "+475 335601906"
+      },
+      "matching": {
+        "offers": "Nova Energy offers services in EdTech.",
+        "seeks": "Seeking EU partnerships, distributors, and technology collaborators."
+      },
+      "branding": {
+        "logo_url": "https://cdn.example.com/logos/nova_energy.png"
+      },
+      "verification": {
+        "verified": false,
+        "verification_status": "pending",
+        "verification_badge_url": ""
+      },
+      "monetization": {
+        "is_premium": true,
+        "is_sponsored": false,
+        "sponsored_until": null
+      },
+      "system": {
+        "created_at": "2025-11-30T00:31:17.673674Z",
+        "updated_at": "2025-11-30T00:31:17.673699Z"
+      }
+    }
+  }
+]
