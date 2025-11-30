@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Send, ArrowLeft, Paperclip, Video, Download, FileIcon, Languages, Lock } from 'lucide-react';
 import VideoCall from '@/components/VideoCall';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { useUnreadMessages } from '@/hooks/use-unread-messages';
+import { useUnreadMessagesContext } from '@/contexts/UnreadMessagesContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { usePremiumStatus } from '@/hooks/use-premium-status';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -40,7 +40,7 @@ function Messages() {
   const partnerId = searchParams.get('partnerId');
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { markAsRead, refreshUnreadCount } = useUnreadMessages();
+  const { markAsRead, refreshUnreadCount } = useUnreadMessagesContext();
   const { language, t } = useLanguage();
   const { isPremium } = usePremiumStatus();
   
