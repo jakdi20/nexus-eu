@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { 
   MapPin, 
   Building2, 
@@ -41,6 +42,7 @@ const PartnerDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [profile, setProfile] = useState<CompanyProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -61,8 +63,8 @@ const PartnerDetail = () => {
     } catch (error) {
       console.error("Error loading profile:", error);
       toast({
-        title: "Fehler",
-        description: "Profil konnte nicht geladen werden",
+        title: t("common.error"),
+        description: t("partnerDetail.loadError"),
         variant: "destructive",
       });
     } finally {
@@ -80,7 +82,7 @@ const PartnerDetail = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Lade Profil...</p>
+          <p className="text-muted-foreground">{t("partnerDetail.loadingProfile")}</p>
         </div>
       </div>
     );
@@ -91,9 +93,9 @@ const PartnerDetail = () => {
       <div className="min-h-screen flex items-center justify-center">
         <Card className="text-center p-8">
           <CardContent>
-            <p className="text-lg">Profil nicht gefunden</p>
+            <p className="text-lg">{t("partnerDetail.profileNotFound")}</p>
             <Button onClick={() => navigate("/search")} className="mt-4">
-              Zurück zur Suche
+              {t("partnerDetail.backToSearch")}
             </Button>
           </CardContent>
         </Card>
@@ -109,7 +111,7 @@ const PartnerDetail = () => {
           onClick={() => navigate("/search")}
           className="mb-6"
         >
-          ← Zurück zur Suche
+          ← {t("partnerDetail.backToSearch")}
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -132,9 +134,9 @@ const PartnerDetail = () => {
               </CardHeader>
             <CardContent className="space-y-6">
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Über das Unternehmen</h3>
+                  <h3 className="font-semibold text-lg mb-2">{t("partnerDetail.aboutCompany")}</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    {profile.description || "Keine Beschreibung verfügbar"}
+                    {profile.description || t("partnerDetail.noDescription")}
                   </p>
                 </div>
 
@@ -142,7 +144,7 @@ const PartnerDetail = () => {
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
                     <Building2 className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Branche</p>
+                      <p className="text-sm text-muted-foreground">{t("partnerDetail.industry")}</p>
                       <Badge variant="secondary" className="text-xs">{profile.industry}</Badge>
                     </div>
                   </div>
@@ -150,7 +152,7 @@ const PartnerDetail = () => {
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
                     <MapPin className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Standort</p>
+                      <p className="text-sm text-muted-foreground">{t("partnerDetail.location")}</p>
                       <p className="font-medium">{profile.firmensitz}, {profile.country}</p>
                     </div>
                   </div>
@@ -158,8 +160,8 @@ const PartnerDetail = () => {
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
                     <Users className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Unternehmensgröße</p>
-                      <p className="font-medium">{profile.company_size} Mitarbeiter</p>
+                      <p className="text-sm text-muted-foreground">{t("partnerDetail.companySize")}</p>
+                      <p className="font-medium">{profile.company_size} {t("partnerDetail.employees")}</p>
                     </div>
                   </div>
 
@@ -167,7 +169,7 @@ const PartnerDetail = () => {
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/20">
                       <Calendar className="h-5 w-5 text-primary" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Gegründet</p>
+                        <p className="text-sm text-muted-foreground">{t("partnerDetail.founded")}</p>
                         <p className="font-medium">{profile.founded_year}</p>
                       </div>
                     </div>
@@ -176,14 +178,14 @@ const PartnerDetail = () => {
 
                 {profile.offers && (
                   <div>
-                    <h3 className="font-semibold text-lg mb-3">Bietet an</h3>
+                    <h3 className="font-semibold text-lg mb-3">{t("partnerDetail.offers")}</h3>
                     <p className="text-muted-foreground">{profile.offers}</p>
                   </div>
                 )}
 
                 {profile.seeks && (
                   <div>
-                    <h3 className="font-semibold text-lg mb-3">Sucht</h3>
+                    <h3 className="font-semibold text-lg mb-3">{t("partnerDetail.lookingFor")}</h3>
                     <p className="text-muted-foreground">{profile.seeks}</p>
                   </div>
                 )}
@@ -193,7 +195,7 @@ const PartnerDetail = () => {
                     <Button variant="outline" asChild>
                       <a href={profile.website} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="h-4 w-4 mr-2" />
-                        Website besuchen
+                        {t("partnerDetail.visitWebsite")}
                       </a>
                     </Button>
                   )}
@@ -207,10 +209,10 @@ const PartnerDetail = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MessageCircle className="h-5 w-5" />
-                  Kontakt aufnehmen
+                  {t("partnerDetail.contactTitle")}
                 </CardTitle>
                 <CardDescription>
-                  Starten Sie einen Chat mit {profile.company_name}
+                  {t("partnerDetail.contactDescription", { companyName: profile.company_name })}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -220,7 +222,7 @@ const PartnerDetail = () => {
                   size="lg"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Chat starten
+                  {t("partnerDetail.startChat")}
                 </Button>
               </CardContent>
             </Card>
