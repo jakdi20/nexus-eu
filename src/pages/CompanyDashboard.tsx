@@ -652,8 +652,8 @@ const CompanyDashboard = () => {
             </div>
             
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Mein Unternehmen</h1>
-              <p className="text-muted-foreground">{profile.company_name}</p>
+              <h1 className="text-3xl font-bold text-foreground">{profile.company_name}</h1>
+              <p className="text-muted-foreground">Mein Unternehmen</p>
             </div>
           </div>
           <div className="flex gap-3">
