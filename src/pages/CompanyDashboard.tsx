@@ -788,7 +788,7 @@ const CompanyDashboard = () => {
           ) : (
             <Card>
               <CardContent className="p-0">
-                <ScrollArea className="h-[600px]">
+                <ScrollArea className="h-full max-h-[500px]">
                   {conversations.map((conv) => (
                     <div
                       key={conv.company_id}
