@@ -250,7 +250,7 @@ const Search = () => {
             {!isPremium && (
               <Badge variant="secondary" className="gap-1">
                 <Lock className="h-3 w-3" />
-                Premium
+                Premium-Feature
               </Badge>
             )}
           </div>
@@ -371,7 +371,7 @@ const Search = () => {
               </div>
               <Badge variant="secondary" className="gap-1">
                 <Lock className="h-3 w-3" />
-                Premium
+                Premium-Feature
               </Badge>
             </div>
             <CardDescription>
@@ -387,7 +387,7 @@ const Search = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <Badge variant="secondary" className="text-xs">#{i}</Badge>
-                          <Badge className="text-xs">95% Match</Badge>
+                          <Badge className="text-xs">95% Übereinstimmung</Badge>
                         </div>
                         <CardTitle className="text-base">Beispiel Unternehmen</CardTitle>
                       </div>
