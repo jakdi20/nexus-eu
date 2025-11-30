@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   Network
 } from "lucide-react";
+import euroConnectLogo from "@/assets/euroconnect-logo.png";
 
 const Features = () => {
   const features = [
@@ -181,11 +182,8 @@ const Features = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
-            <Link to="/" className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-primary text-white">
-                <Building2 className="h-6 w-6" />
-              </div>
-              <h1 className="text-xl font-bold text-foreground">EuroConnect</h1>
+            <Link to="/" className="flex items-center">
+              <img src={euroConnectLogo} alt="EuroConnect" className="h-10 w-auto" />
             </Link>
             <div className="flex items-center gap-4">
               <Link to="/">
