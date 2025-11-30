@@ -42,6 +42,8 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const navItems = [
     { path: "/company", label: t("nav.company"), icon: Building2 },
     { path: "/search", label: t("nav.search"), icon: Search },
+    { path: "/my-partners", label: t("nav.myPartners"), icon: Heart },
+    { path: "/messages", label: t("nav.messages"), icon: MessageCircle },
   ];
 
   return (
@@ -89,22 +91,6 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-3">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => navigate("/messages")}
-                className="relative"
-              >
-                <MessageCircle className="h-5 w-5" />
-                {unreadCount > 0 && (
-                  <Badge 
-                    variant="destructive" 
-                    className="absolute -top-1 -right-1 h-5 min-w-[20px] flex items-center justify-center p-0 text-xs"
-                  >
-                    {unreadCount > 99 ? "99+" : unreadCount}
-                  </Badge>
-                )}
-              </Button>
               <Button 
                 variant="ghost" 
                 size="icon" 

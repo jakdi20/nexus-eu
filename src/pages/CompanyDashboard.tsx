@@ -68,7 +68,7 @@ const CompanyDashboard = () => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [insightsDialogOpen, setInsightsDialogOpen] = useState(false);
   const [premiumDialogOpen, setPremiumDialogOpen] = useState(false);
@@ -189,7 +189,7 @@ const CompanyDashboard = () => {
       if (error) throw error;
 
       setProfile({ ...profile, ...updateData });
-      setIsEditing(false);
+      setEditDialogOpen(false);
       
       toast({
         title: "Erfolgreich gespeichert",
@@ -248,7 +248,7 @@ const CompanyDashboard = () => {
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-4xl font-bold text-foreground">
-                {profile.company_name}
+                Analytics Dashboard
               </h1>
               {profile.is_sponsored && (
                 <Badge variant="default" className="gap-1">
@@ -263,97 +263,50 @@ const CompanyDashboard = () => {
                 </Badge>
               )}
             </div>
-            <p className="text-muted-foreground">{profile.industry}</p>
+            <p className="text-muted-foreground">{profile.company_name}</p>
           </div>
           <div className="flex gap-3">
-            {!isEditing ? (
-              <>
-                <Button 
-                  onClick={() => setIsEditing(true)} 
-                  size="lg" 
-                  variant="outline"
-                  className="gap-2"
-                >
-                  <Edit className="h-5 w-5" />
-                  Bearbeiten
-                </Button>
-                <Button onClick={() => setPremiumDialogOpen(true)} size="lg" className="gap-2">
-                  <Sparkles className="h-5 w-5" />
-                  Premium
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button 
-                  type="button"
-                  onClick={() => {
-                    setIsEditing(false);
-                    loadUserData();
-                  }} 
-                  size="lg" 
-                  variant="outline"
-                >
-                  Abbrechen
-                </Button>
-                <Button 
-                  onClick={form.handleSubmit(onSubmit)}
-                  size="lg"
-                  disabled={saving}
-                >
-                  {saving ? "Speichern..." : "Speichern"}
-                </Button>
-              </>
-            )}
+            <Button 
+              onClick={() => setEditDialogOpen(true)} 
+              size="lg" 
+              variant="outline"
+              className="gap-2"
+            >
+              <Edit className="h-5 w-5" />
+              Profil bearbeiten
+            </Button>
+            <Button onClick={() => setPremiumDialogOpen(true)} size="lg" className="gap-2">
+              <Sparkles className="h-5 w-5" />
+              Premium
+            </Button>
           </div>
         </div>
+
       </div>
 
-      {/* Company Profile Form */}
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Basisinformationen */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Basisinformationen</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="company_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Firmenname *</FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled={!isEditing} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="legal_form"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Rechtsform</FormLabel>
-                    <FormControl>
-                      <Input placeholder="z.B. GmbH, AG, UG" {...field} disabled={!isEditing} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-2 gap-4">
+      {/* Edit Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Profil bearbeiten</DialogTitle>
+            <DialogDescription>
+              Aktualisieren Sie Ihre Unternehmensinformationen
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Basisinformationen */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Basisinformationen</h3>
+                
                 <FormField
                   control={form.control}
-                  name="country"
+                  name="company_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Land *</FormLabel>
+                      <FormLabel>Firmenname *</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="z.B. Deutschland" disabled={!isEditing} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -362,69 +315,69 @@ const CompanyDashboard = () => {
 
                 <FormField
                   control={form.control}
-                  name="firmensitz"
+                  name="legal_form"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Firmensitz *</FormLabel>
+                      <FormLabel>Rechtsform</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="z.B. Berlin" disabled={!isEditing} />
+                        <Input placeholder="z.B. GmbH, AG, UG" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Land *</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="z.B. Deutschland" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="firmensitz"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Firmensitz *</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="z.B. Berlin" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Unternehmensprofil */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Unternehmensprofil</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="industry"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hauptbranche *</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={!isEditing}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Branche wählen" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {industries.map((industry) => (
-                          <SelectItem key={industry} value={industry}>
-                            {industry}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-2 gap-4">
+              {/* Unternehmensprofil */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Unternehmensprofil</h3>
+                
                 <FormField
                   control={form.control}
-                  name="company_size"
+                  name="industry"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Unternehmensgröße *</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value} disabled={!isEditing}>
+                      <FormLabel>Hauptbranche *</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue />
+                            <SelectValue placeholder="Branche wählen" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {companySizes.map((size) => (
-                            <SelectItem key={size} value={size}>
-                              {size} Mitarbeiter
+                          {industries.map((industry) => (
+                            <SelectItem key={industry} value={industry}>
+                              {industry}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -434,73 +387,98 @@ const CompanyDashboard = () => {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="founded_year"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Gründungsjahr</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="z.B. 2020" maxLength={4} disabled={!isEditing} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </CardContent>
-          </Card>
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="company_size"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Unternehmensgröße *</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {companySizes.map((size) => (
+                              <SelectItem key={size} value={size}>
+                                {size} Mitarbeiter
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-          {/* Kontakt */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Kontakt</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="contact_email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Kontakt E-Mail *</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="kontakt@firma.de" {...field} disabled={!isEditing} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="contact_phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Telefon</FormLabel>
-                      <FormControl>
-                        <Input placeholder="+49 123 456789" {...field} disabled={!isEditing} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="website"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Website</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="https://..." type="url" disabled={!isEditing} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="founded_year"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Gründungsjahr</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="z.B. 2020" maxLength={4} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
+              {/* Kontakt */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Kontakt</h3>
+                
+                <FormField
+                  control={form.control}
+                  name="contact_email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kontakt E-Mail *</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="kontakt@firma.de" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="contact_phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Telefon</FormLabel>
+                        <FormControl>
+                          <Input placeholder="+49 123 456789" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="website"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Website</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="https://..." type="url" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Standort */}
               <FormField
                 control={form.control}
                 name="address"
@@ -508,21 +486,14 @@ const CompanyDashboard = () => {
                   <FormItem>
                     <FormLabel>Adresse</FormLabel>
                     <FormControl>
-                      <Input placeholder="Straße, Hausnummer, PLZ Ort" {...field} disabled={!isEditing} />
+                      <Input placeholder="Straße, Hausnummer, PLZ Ort" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </CardContent>
-          </Card>
 
-          {/* Kurzbeschreibung */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Über uns</CardTitle>
-            </CardHeader>
-            <CardContent>
+              {/* Kurzbeschreibung */}
               <FormField
                 control={form.control}
                 name="description"
@@ -535,7 +506,6 @@ const CompanyDashboard = () => {
                         placeholder="1-2 Sätze über Ihr Unternehmen..."
                         className="min-h-[80px]"
                         maxLength={500}
-                        disabled={!isEditing}
                       />
                     </FormControl>
                     <FormDescription>
@@ -545,46 +515,52 @@ const CompanyDashboard = () => {
                   </FormItem>
                 )}
               />
-            </CardContent>
-          </Card>
 
-          {/* Angebot & Nachfrage */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Angebot & Nachfrage</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="offers"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Was bieten Sie an?</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} className="min-h-[80px]" placeholder="Beschreiben Sie Ihre Produkte und Services..." disabled={!isEditing} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {/* Angebot & Nachfrage */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Angebot & Nachfrage</h3>
+                
+                <FormField
+                  control={form.control}
+                  name="offers"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Was bieten Sie an?</FormLabel>
+                      <FormControl>
+                        <Textarea {...field} className="min-h-[80px]" placeholder="Beschreiben Sie Ihre Produkte und Services..." />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="seeks"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Was suchen Sie?</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} className="min-h-[80px]" placeholder="Beschreiben Sie, was Sie suchen..." disabled={!isEditing} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-        </form>
-      </Form>
+                <FormField
+                  control={form.control}
+                  name="seeks"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Was suchen Sie?</FormLabel>
+                      <FormControl>
+                        <Textarea {...field} className="min-h-[80px]" placeholder="Beschreiben Sie, was Sie suchen..." />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)}>
+                  Abbrechen
+                </Button>
+                <Button type="submit" disabled={saving}>
+                  {saving ? "Speichern..." : "Änderungen speichern"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
 
       {/* Insights Dialog */}
       <Dialog open={insightsDialogOpen} onOpenChange={setInsightsDialogOpen}>
