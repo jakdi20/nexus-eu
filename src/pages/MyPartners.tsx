@@ -11,17 +11,20 @@ import { Heart, MessageCircle, Building2, MapPin, TrendingUp, CheckCircle2, Load
 interface PartnerProfile {
   id: string;
   company_name: string;
-  company_description: string;
-  industry: string[];
+  legal_form?: string;
+  description?: string;
+  industry: string;
   country: string;
-  city: string;
+  firmensitz: string;
   company_size: string;
-  cooperation_type: string[];
-  offers: string;
-  looking_for: string;
-  website: string;
-  verification_status: string;
-  founded_year: number;
+  offers?: string;
+  seeks?: string;
+  website?: string;
+  contact_email: string;
+  contact_phone?: string;
+  address?: string;
+  verification_status?: string;
+  founded_year?: number;
   last_message_time?: string;
   message_count?: number;
 }
@@ -208,19 +211,19 @@ const MyPartners = () => {
                   </CardTitle>
                 </div>
                 <CardDescription className="line-clamp-2 min-h-[40px]">
-                  {partner.company_description || t("common.noDescription")}
+                  {partner.description || t("common.noDescription")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Building2 className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{partner.industry?.join(", ")}</span>
+                    <span className="truncate">{partner.industry}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <MapPin className="h-4 w-4 flex-shrink-0" />
                     <span className="truncate">
-                      {partner.city}, {partner.country}
+                      {partner.firmensitz}, {partner.country}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -240,16 +243,6 @@ const MyPartners = () => {
                           <span className="text-xs">{partner.message_count} {t("messages.messagesCount")}</span>
                         </div>
                       )}
-                    </div>
-                  )}
-
-                  {partner.cooperation_type && partner.cooperation_type.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {partner.cooperation_type.slice(0, 2).map((type, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {type}
-                        </Badge>
-                      ))}
                     </div>
                   )}
                 </div>
