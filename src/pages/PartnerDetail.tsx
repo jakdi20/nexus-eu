@@ -20,18 +20,21 @@ import {
 interface CompanyProfile {
   id: string;
   company_name: string;
-  company_description: string;
-  industry: string[];
+  legal_form?: string;
+  description?: string;
+  industry: string;
   country: string;
-  city: string;
+  firmensitz: string;
   company_size: string;
-  cooperation_type: string[];
-  offers: string;
-  looking_for: string;
-  website: string;
-  verified: boolean;
-  verification_status: string;
-  founded_year: number;
+  offers?: string;
+  seeks?: string;
+  website?: string;
+  contact_email: string;
+  contact_phone?: string;
+  address?: string;
+  verified?: boolean;
+  verification_status?: string;
+  founded_year?: number;
 }
 
 const PartnerDetail = () => {
@@ -131,7 +134,7 @@ const PartnerDetail = () => {
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Über das Unternehmen</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    {profile.company_description || "Keine Beschreibung verfügbar"}
+                    {profile.description || "Keine Beschreibung verfügbar"}
                   </p>
                 </div>
 
@@ -140,11 +143,7 @@ const PartnerDetail = () => {
                     <Building2 className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">Branche</p>
-                      <div className="flex flex-wrap gap-1">
-                        {profile.industry?.map((ind: string, idx: number) => (
-                          <Badge key={idx} variant="secondary" className="text-xs">{ind}</Badge>
-                        ))}
-                      </div>
+                      <Badge variant="secondary" className="text-xs">{profile.industry}</Badge>
                     </div>
                   </div>
 
@@ -152,7 +151,7 @@ const PartnerDetail = () => {
                     <MapPin className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">Standort</p>
-                      <p className="font-medium">{profile.city}, {profile.country}</p>
+                      <p className="font-medium">{profile.firmensitz}, {profile.country}</p>
                     </div>
                   </div>
 
@@ -175,19 +174,6 @@ const PartnerDetail = () => {
                   )}
                 </div>
 
-                {profile.cooperation_type && profile.cooperation_type.length > 0 && (
-                  <div>
-                    <h3 className="font-semibold text-lg mb-3">Kooperationsarten</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {profile.cooperation_type.map((type, index) => (
-                        <Badge key={index} variant="outline" className="text-sm px-3 py-1">
-                          {type}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 {profile.offers && (
                   <div>
                     <h3 className="font-semibold text-lg mb-3">Bietet an</h3>
@@ -195,10 +181,10 @@ const PartnerDetail = () => {
                   </div>
                 )}
 
-                {profile.looking_for && (
+                {profile.seeks && (
                   <div>
                     <h3 className="font-semibold text-lg mb-3">Sucht</h3>
-                    <p className="text-muted-foreground">{profile.looking_for}</p>
+                    <p className="text-muted-foreground">{profile.seeks}</p>
                   </div>
                 )}
 

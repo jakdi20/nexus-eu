@@ -16,22 +16,24 @@ export type Database = {
     Tables: {
       company_profiles: {
         Row: {
-          city: string
-          company_description: string | null
+          address: string | null
           company_name: string
           company_size: Database["public"]["Enums"]["company_size"]
-          cooperation_type: string[] | null
+          contact_email: string | null
+          contact_phone: string | null
           country: string
           created_at: string | null
+          description: string | null
+          firmensitz: string
           founded_year: number | null
           id: string
-          industry: string[]
+          industry: string
           is_premium: boolean | null
           is_sponsored: boolean | null
+          legal_form: string | null
           logo_url: string | null
-          looking_for: string | null
           offers: string | null
-          slogan: string | null
+          seeks: string | null
           sponsored_until: string | null
           updated_at: string | null
           user_id: string
@@ -41,22 +43,24 @@ export type Database = {
           website: string | null
         }
         Insert: {
-          city: string
-          company_description?: string | null
+          address?: string | null
           company_name: string
           company_size?: Database["public"]["Enums"]["company_size"]
-          cooperation_type?: string[] | null
+          contact_email?: string | null
+          contact_phone?: string | null
           country: string
           created_at?: string | null
+          description?: string | null
+          firmensitz: string
           founded_year?: number | null
           id?: string
-          industry: string[]
+          industry: string
           is_premium?: boolean | null
           is_sponsored?: boolean | null
+          legal_form?: string | null
           logo_url?: string | null
-          looking_for?: string | null
           offers?: string | null
-          slogan?: string | null
+          seeks?: string | null
           sponsored_until?: string | null
           updated_at?: string | null
           user_id: string
@@ -66,22 +70,24 @@ export type Database = {
           website?: string | null
         }
         Update: {
-          city?: string
-          company_description?: string | null
+          address?: string | null
           company_name?: string
           company_size?: Database["public"]["Enums"]["company_size"]
-          cooperation_type?: string[] | null
+          contact_email?: string | null
+          contact_phone?: string | null
           country?: string
           created_at?: string | null
+          description?: string | null
+          firmensitz?: string
           founded_year?: number | null
           id?: string
-          industry?: string[]
+          industry?: string
           is_premium?: boolean | null
           is_sponsored?: boolean | null
+          legal_form?: string | null
           logo_url?: string | null
-          looking_for?: string | null
           offers?: string | null
-          slogan?: string | null
+          seeks?: string | null
           sponsored_until?: string | null
           updated_at?: string | null
           user_id?: string

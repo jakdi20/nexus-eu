@@ -24,18 +24,21 @@ import AIRecommendations from "@/components/AIRecommendations";
 interface CompanyProfile {
   id: string;
   company_name: string;
-  company_description: string;
-  industry: string[];
+  legal_form?: string;
+  description?: string;
+  industry: string;
   country: string;
-  city: string;
+  firmensitz: string;
   company_size: string;
-  cooperation_type: string[];
-  offers: string;
-  looking_for: string;
-  website: string;
-  verified: boolean;
-  verification_status: string;
-  founded_year: number;
+  offers?: string;
+  seeks?: string;
+  website?: string;
+  contact_email: string;
+  contact_phone?: string;
+  address?: string;
+  verified?: boolean;
+  verification_status?: string;
+  founded_year?: number;
   is_sponsored: boolean;
   sponsored_until: string;
 }
@@ -43,15 +46,18 @@ interface CompanyProfile {
 interface AISearchResult {
   id: string;
   company_name: string;
-  company_description: string;
-  industry: string[];
+  legal_form?: string;
+  description?: string;
+  industry: string;
   country: string;
-  city: string;
+  firmensitz: string;
   company_size: string;
-  cooperation_type: string[];
-  offers: string;
-  looking_for: string;
-  verification_status: string;
+  offers?: string;
+  seeks?: string;
+  contact_email: string;
+  contact_phone?: string;
+  address?: string;
+  verification_status?: string;
   ai_score: number;
   ai_reason: string;
 }
@@ -118,8 +124,8 @@ const Search = () => {
       filtered = filtered.filter(
         (p) =>
           p.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.company_description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.industry?.some(ind => ind.toLowerCase().includes(searchTerm.toLowerCase()))
+          p.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.industry?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -332,15 +338,15 @@ const Search = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground line-clamp-2 mb-4">{company.company_description}</p>
+                  <p className="text-muted-foreground line-clamp-2 mb-4">{company.description}</p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div className="flex items-center gap-2 text-sm">
                       <Building2 className="h-4 w-4 text-muted-foreground" />
-                      <span className="truncate">{company.industry?.join(", ")}</span>
+                      <span className="truncate">{company.industry}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span>{company.city}, {company.country}</span>
+                      <span>{company.firmensitz}, {company.country}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <TrendingUp className="h-4 w-4 text-muted-foreground" />
@@ -488,18 +494,18 @@ const Search = () => {
                   )}
                 </div>
               <CardDescription className="line-clamp-2">
-                {profile.company_description || t("common.noDescription")}
+                {profile.description || t("common.noDescription")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Building2 className="h-4 w-4" />
-                  <span className="truncate">{profile.industry?.join(", ")}</span>
+                  <span className="truncate">{profile.industry}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4" />
-                  <span>{profile.city}, {profile.country}</span>
+                  <span>{profile.firmensitz}, {profile.country}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <TrendingUp className="h-4 w-4" />
